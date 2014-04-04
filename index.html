@@ -88,7 +88,7 @@
 
 <p>简单记下架设的过程，也顺便熟悉下Octopress用法。</p>
 
-<h3>安装Octopress</h3>
+<h2>安装Octopress</h2>
 
 <p>注意需要Ruby 1.9.3及以上版本</p>
 
@@ -122,13 +122,39 @@ $ rake generate
 
 <p>在浏览器地址栏输入<code>localhost:4000</code>就能看到</p>
 
-<h3>向Github User/Organization pages部署Octopress</h3>
+<h2>向Github User/Organization pages部署Octopress</h2>
 
 <p>在github上添加一个repo, 并用 <code>username.github.io</code> 这种格式命名。其中username是你在github上的用户名或组织名。</p>
 
 <p>Github User/Organization pages会把你rope的master分支用作在<code>http://username.github.io</code>发布的内容，相应的我们可以把source 分支作为我们源码的分支。Octopress已经提供了一个内建的rake task来帮我们搞定上述操作。</p>
 
 <pre><code>$ rake setup_github_pages
+</code></pre>
+
+<p>这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： git@github.com:algo31031/algo31031.github.io.git）</p>
+
+<p>之后只要执行</p>
+
+<pre><code>$ rake generate
+$ rake deploy
+</code></pre>
+
+<p>就可以把我们的blog提交到github repo的master分支下，过段时间就可以在<a href="http://username.github.io%E7%9C%8B%E5%88%B0blog%E5%B7%B2%E7%BB%8F%E9%83%A8%E7%BD%B2%E6%88%90%E5%8A%9F%E3%80%82">http://username.github.io%E7%9C%8B%E5%88%B0blog%E5%B7%B2%E7%BB%8F%E9%83%A8%E7%BD%B2%E6%88%90%E5%8A%9F%E3%80%82</a></p>
+
+<p>之后可以通过以下操作把源码也一起放到github</p>
+
+<pre><code>$ git add .
+$ git commit -m 'your message'
+$ git push origin source
+</code></pre>
+
+<h2>使用自己的域名</h2>
+
+<p>在source目录下创建一个CNAME文件，在里面添加如下内容</p>
+
+<pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
+# OR
+echo 'www.your-domain.com' &gt;&gt; source/CNAME
 </code></pre>
 </div>
   
