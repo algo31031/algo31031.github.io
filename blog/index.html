@@ -129,7 +129,7 @@ $ rake generate
 <pre><code>$ rake setup_github_pages
 </code></pre>
 
-<p>这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： git@github.com:algo31031/algo31031.github.io.git）</p>
+<p>这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： <code>git@github.com:algo31031/algo31031.github.io.git</code>）</p>
 
 <p>之后只要执行</p>
 
@@ -137,7 +137,7 @@ $ rake generate
 $ rake deploy
 </code></pre>
 
-<p>就可以把我们的blog提交到github repo的master分支下，过段时间就可以在<a href="http://username.github.io%E7%9C%8B%E5%88%B0blog%E5%B7%B2%E7%BB%8F%E9%83%A8%E7%BD%B2%E6%88%90%E5%8A%9F%E3%80%82">http://username.github.io%E7%9C%8B%E5%88%B0blog%E5%B7%B2%E7%BB%8F%E9%83%A8%E7%BD%B2%E6%88%90%E5%8A%9F%E3%80%82</a></p>
+<p>就可以把我们的blog提交到github repo的master分支下，过段时间就可以在<code>http://username.github.io</code>看到blog已经部署成功。</p>
 
 <p>之后可以通过以下操作把源码也一起放到github</p>
 
@@ -148,12 +148,14 @@ $ git push origin source
 
 <h2>使用自己的域名</h2>
 
-<p>在source目录下创建一个CNAME文件，在里面添加如下内容</p>
+<p>在source目录下创建一个名字是<code>CNAME</code>的文件，在里面添加如下内容(二者择一即可)</p>
 
 <pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
 # OR
 echo 'www.your-domain.com' &gt;&gt; source/CNAME
 </code></pre>
+
+<p>然后去DSN服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
 </div>
   
   
