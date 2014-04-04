@@ -13,7 +13,7 @@ categories: [部署 Octopress]
 
 简单记下架设的过程，也顺便熟悉下Octopress用法。
 
-###安装Octopress
+##安装Octopress
 
 注意需要Ruby 1.9.3及以上版本    
 
@@ -43,7 +43,7 @@ categories: [部署 Octopress]
 
 在浏览器地址栏输入`localhost:4000`就能看到        
   
-###向Github User/Organization pages部署Octopress
+##向Github User/Organization pages部署Octopress
 
 在github上添加一个repo, 并用 `username.github.io` 这种格式命名。其中username是你在github上的用户名或组织名。
 
@@ -51,4 +51,27 @@ Github User/Organization pages会把你rope的master分支用作在`http://usern
 
     $ rake setup_github_pages
 
+这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： `git@github.com:algo31031/algo31031.github.io.git`）
 
+之后想要发表blog只要执行
+
+    $ rake generate
+    $ rake deploy
+
+就可以把我们的blog提交到github repo的master分支下，过段时间就可以在`http://username.github.io`看到blog已经部署成功。
+
+不要忘记把源码也一起放到github
+
+    $ git add .
+    $ git commit -m 'your message'
+    $ git push origin source
+
+##使用自己的域名
+
+在source目录下创建一个名字是`CNAME`的文件，然后向CNAME里添加记录(二者择一即可, 或者干脆自己打开CNAME文件把`your-domain.com`或者`www.your-domain.com`考进去)
+
+    $ echo 'your-domain.com' >> source/CNAME
+    # OR
+    $ echo 'www.your-domain.com' >> source/CNAME
+
+然后去DSN服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向`http://username.github.io`。如果是主域名则需要A记录然后指定ip。
