@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://algo31031.github.io/atom.xml" rel="self"/>
-  <link href="http://algo31031.github.io/"/>
-  <updated>2014-04-04T16:53:46+08:00</updated>
-  <id>http://algo31031.github.io/</id>
+  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2014-04-04T16:59:07+08:00</updated>
+  <id>http://yoursite.com/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[架设Octopress Blog]]></title>
-    <link href="http://algo31031.github.io/blog/2014/04/04/jia-she-octopress-blog/"/>
+    <link href="http://yoursite.com/blog/2014/04/04/jia-she-octopress-blog/"/>
     <updated>2014-04-04T15:48:39+08:00</updated>
-    <id>http://algo31031.github.io/blog/2014/04/04/jia-she-octopress-blog</id>
+    <id>http://yoursite.com/blog/2014/04/04/jia-she-octopress-blog</id>
     <content type="html"><![CDATA[<p>一直想弄个Blog整理些资料, 单靠胡乱的记到文件里放在Ubuntu One上， 既混乱查找起来也不方便。</p>
 
 <p>碰巧前段时间因为工作需要开始研究AWS，遂去Godaddy注册了个域名，反正也不贵， AWS可以“免费”体验一年， 而Godaddy的.com域名一年只要56人民币，支持支付宝付款。 反正只是个blog不用考虑备案的诸多麻烦。</p>
@@ -88,7 +88,7 @@ $ git push origin source
 
 <h2>使用自己的域名</h2>
 
-<p>在source目录下创建一个名字是<code>CNAME</code>的文件，在里面添加如下内容(二者择一即可)</p>
+<p>在source目录下创建一个名字是<code>CNAME</code>的文件，然后向CNAME里添加记录(二者择一即可)</p>
 
 <pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
 # OR
@@ -101,9 +101,9 @@ echo 'www.your-domain.com' &gt;&gt; source/CNAME
   
   <entry>
     <title type="html"><![CDATA[Tywin Lannister Quote]]></title>
-    <link href="http://algo31031.github.io/blog/2013/06/15/tywin-lannister-quote/"/>
+    <link href="http://yoursite.com/blog/2013/06/15/tywin-lannister-quote/"/>
     <updated>2013-06-15T09:28:00+08:00</updated>
-    <id>http://algo31031.github.io/blog/2013/06/15/tywin-lannister-quote</id>
+    <id>http://yoursite.com/blog/2013/06/15/tywin-lannister-quote</id>
     <content type="html"><![CDATA[<p>A nice quote by Tywin Lannister taken from <em>A Storm of Sword</em> book.</p>
 
 <blockquote><p>The greatest fools are ofttimes more clever then the men who laugh at them.</p><footer><strong>Tywin Lannister</strong> <cite>A Storm of Swords</cite></footer></blockquote>
