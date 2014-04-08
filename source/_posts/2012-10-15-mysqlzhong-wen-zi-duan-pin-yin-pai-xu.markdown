@@ -6,8 +6,9 @@ comments: true
 categories: MySQL
 ---
 不想改变表定义及默认编码的情况，将字段先转换成gbk编码再排序：
-
-    SELECT * FROM table ORDER BY CONVERT( chinese_field USING gbk ) ;
+{% codeblock lang:sql %}
+SELECT * FROM table ORDER BY CONVERT( chinese_field USING gbk ) ;
+{% endcodeblock %}
 
 前提是在安装mysql时安装了gbk字符集，不然会报错：
 

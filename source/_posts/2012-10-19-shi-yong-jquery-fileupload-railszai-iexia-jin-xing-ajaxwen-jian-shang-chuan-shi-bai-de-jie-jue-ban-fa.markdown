@@ -11,23 +11,29 @@ categories: rails
 
 解决：
 
-    <script>
-          $('#fileupload').fileupload();
-    </script>
-    <!--[if IE]>
-      <script>
-        $('#fileupload').bind('fileuploadsend', function(event, data) {
-          auth_token = $('meta[name="csrf-token"]').attr('content');
-          data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
-          $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
-        });
-      </script>
-    <![endif]-->
+在View层添加：
 
- 同时在controller里：
+{% codeblock lang:js+erb  %}
+  <script>
+        $('#fileupload').fileupload();
+  </script>
+  <!--[if IE]>
+    <script>
+      $('#fileupload').bind('fileuploadsend', function(event, data) {
+        auth_token = $('meta[name="csrf-token"]').attr('content');
+        data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
+        $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
+      });
+    </script>
+  <![endif]-->
+{% endcodeblock %}
+
+ 同时在controller里添加：
  
-    format.html {                                         
-      render :json => [@episode.to_jq_upload].to_json,
-      :content_type => 'text/plain',
-      :layout => false
-    }
+{% codeblock lang:ruby %}
+  format.html {                                         
+    render :json => [@episode.to_jq_upload].to_json,
+    :content_type => 'text/plain',
+    :layout => false
+  }
+{% endcodeblock %}
