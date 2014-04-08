@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 部署 Octopress | My Octopress Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/bu-shu-octopress/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2014-04-04T17:05:16+08:00</updated>
-  <id>http://yoursite.com/</id>
+  <title><![CDATA[Category: 部署 Octopress | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/bu-shu-octopress/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-08T14:08:52+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[banban]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[架设Octopress Blog]]></title>
-    <link href="http://yoursite.com/blog/2014/04/04/jia-she-octopress-blog/"/>
+    <link href="http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog/"/>
     <updated>2014-04-04T15:48:39+08:00</updated>
-    <id>http://yoursite.com/blog/2014/04/04/jia-she-octopress-blog</id>
+    <id>http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog</id>
     <content type="html"><![CDATA[<p>一直想弄个Blog整理些资料, 单靠胡乱的记到文件里放在Ubuntu One上， 既混乱查找起来也不方便。</p>
 
 <p>碰巧前段时间因为工作需要开始研究AWS，遂去Godaddy注册了个域名，反正也不贵， AWS可以“免费”体验一年， 而Godaddy的.com域名一年只要56人民币，支持支付宝付款。 反正只是个blog不用考虑备案的诸多麻烦。</p>
@@ -95,7 +95,7 @@ $ git push origin source
 $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
 </code></pre>
 
-<p>然后去DSN服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
+<p>然后去DNS服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
 ]]></content>
   </entry>
   
