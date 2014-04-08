@@ -102,7 +102,54 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-08T16:32:34+08:00" pubdate data-updated="true">Apr 8<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/">把以前网易博客的部分内容转过来</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>好吧，其实是以很不程序员的方式，手动逐篇粘过来的。。。</p>
+
+<p>翻了下以前写的东西，能挪过来的还真寥寥。</p>
+
+<p>算是正式搬家了吧。</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-04T15:48:39+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/04/jia-she-octopress-blog/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog/">Comments</a>
         
       </p>
     
@@ -197,11 +244,422 @@ $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
 
         </article>
       
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-12-26T13:28:41+08:00" pubdate data-updated="true">Dec 26<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/">Ubuntu 12.04下安装 RMagick 报错Can&#8217;t Install RMagick 2.12.2. Can&#8217;t Find Magick-config</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>报错</p>
+
+<pre><code>checking for Magick-config... no
+Can't install RMagick 2.12.2. Can't find Magick-config in /home/hanbing/.rvm/gems/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/gems/ruby-1.9.3-p125@global/bin:/home/hanbing/.rvm/rubies/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/bin::/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/hanbing/.rvm/bin
+</code></pre>
+
+<p>ImageMagick正确安装后还需要安装相应的dev包：</p>
+
+<pre><code>$ sudo apt-get install libmagickwand-dev 
+</code></pre>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-10-19T09:29:55+08:00" pubdate data-updated="true">Oct 19<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/">使用jquery-fileupload-rails在IE下进行AJAX文件上传失败的解决办法</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>症状：提示“illegal character”错误,上传失败</p>
+
+<p>原因：Chrome, Firefox, Safari等浏览器本身支持XHR形式的文件上传，但IE不支持，于是Jquery-Fileupload自动在页面添加隐藏的iframe,于是在上传文件时造成 CSRF token 无法传递。</p>
+
+<p>解决：</p>
+
+<pre><code>&lt;script&gt;
+      $('#fileupload').fileupload();
+&lt;/script&gt;
+&lt;!--[if IE]&gt;
+  &lt;script&gt;
+    $('#fileupload').bind('fileuploadsend', function(event, data) {
+      auth_token = $('meta[name="csrf-token"]').attr('content');
+      data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
+      $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
+    });
+  &lt;/script&gt;
+&lt;![endif]--&gt;
+</code></pre>
+
+<p> 同时在controller里：</p>
+
+<pre><code>format.html {                                         
+  render :json =&gt; [@episode.to_jq_upload].to_json,
+  :content_type =&gt; 'text/plain',
+  :layout =&gt; false
+}
+</code></pre>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-10-16T09:23:13+08:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/10/16/copyleftbiao-zhi/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/10/16/copyleftbiao-zhi/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/16/copyleftbiao-zhi/">Copyleft标志</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><pre><code>&lt;!--[if lte IE 8]&gt;&lt;span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;"&gt;&lt;![endif]--&gt; &lt;span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;"&gt;     &amp;copy; &lt;/span&gt; &lt;!--[if lte IE 8]&gt;&lt;/span&gt;&lt;![endif]--&gt;
+</code></pre>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-10-15T09:47:43+08:00" pubdate data-updated="true">Oct 15<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/">MySQL中文字段拼音排序</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>不想改变表定义及默认编码的情况，将字段先转换成gbk编码再排序：</p>
+
+<pre><code>SELECT * FROM table ORDER BY CONVERT( chinese_field USING gbk ) ;
+</code></pre>
+
+<p>前提是在安装mysql时安装了gbk字符集，不然会报错：</p>
+
+<pre><code>#1115 - Unknown character set: 'gbk'
+</code></pre>
+
+<p>在编译源码时加上gbk编码即可，如果已经安装好了，重新编译再安装，重新编译安装一般不会影响mysql的已有设置，包括数据都不会受到影响。</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-04-09T10:56:15+08:00" pubdate data-updated="true">Apr 9<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/04/09/pluralizeyu-i18nde-pei-he/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/09/pluralizeyu-i18nde-pei-he/">Pluralize与i18n的配合</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p><a href="http://ruby-taiwan.org/topics/142">原文出处</a></p>
+
+<p>locales文件</p>
+
+<pre><code>en.yml :en   :nights     :one =&gt; '1 night',     :other =&gt; '%{count} nights' 
+zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} 晚' 
+</code></pre>
+
+<p>view层</p>
+
+<pre><code>view &lt;%= t( ".nights", count: @nights ) %&gt; 
+</code></pre>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-04-06T11:46:21+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">安装rmagick出错</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>报错信息</p>
+
+<pre><code>Building native extensions.  This could take a while...
+ERROR:  Error installing rmagick:
+ERROR: Failed to build gem native extension.
+</code></pre>
+
+<hr />
+
+<p>解决办法</p>
+
+<pre><code>$ sudo apt-get install libmagick9-dev
+</code></pre>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-27T01:27:06+08:00" pubdate data-updated="true">Mar 27<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">database.yml里password如果全部为数字需要加&#8221;</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>database.yml里面密码采用全数字时，加 &lsquo; &rsquo;, 否则运行rake时报错： can&rsquo;t convert Fixnum into String</p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-26T23:10:18+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/">设置gem源，解决下载慢的问题</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><h3>问题解决的最好方法方法</h3>
+
+<p>使用google的DNS 8.8.8.8 / 8.8.4.4</p>
+
+<h3>另一种解决方式</h3>
+
+<p>修改rubygems的source源</p>
+
+<p>删除原有gem source</p>
+
+<pre><code>$ gem source -r http://rubygems.org/ 
+$ gem source -r http://production.s3.rubygems.org/ 
+</code></pre>
+
+<p>增加新source源</p>
+
+<pre><code>$ gem source -a http://production.s3.ru
+</code></pre>
+
+<h3>如果使用Bundler</h3>
+
+<p>修改你的 Gemfile 将 <code>http://rubygems.org</code> 改为 <code>http://ruby.taobao.org/</code></p>
+</div>
+  
+  
+
+
+        </article>
+      
     </div>
 
     <ul class="pager">
       
-        <li class="previous disabled"><a href="#">&larr;&nbsp;Older</a></li>
+        <li class="previous"><a href="/blog/page/2/">&larr;&nbsp;Older</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
@@ -220,7 +678,15 @@ $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/">把以前网易博客的部分内容转过来</a>
+    
     <a class="list-group-item " href="/blog/2014/04/04/jia-she-octopress-blog/">架设Octopress Blog</a>
+    
+    <a class="list-group-item " href="/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/">Ubuntu 12.04下安装 RMagick 报错Can&#8217;t Install RMagick 2.12.2. Can&#8217;t Find Magick-config</a>
+    
+    <a class="list-group-item " href="/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/">使用jquery-fileupload-rails在IE下进行AJAX文件上传失败的解决办法</a>
+    
+    <a class="list-group-item " href="/blog/2012/10/16/copyleftbiao-zhi/">Copyleft标志</a>
     
   </div>
 </section>
@@ -234,7 +700,7 @@ $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
   </div>
   
     <div class="gh-profile-link pull-right text-muted">
-      <a href="https://github.com/algo31031@gmail.com">@algo31031@gmail.com</a> on GitHub
+      <a href="https://github.com/algo31031">@algo31031</a> on GitHub
     </div>
   
   <script type="text/javascript">
@@ -248,7 +714,7 @@ $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
         }
 
         github.showRepos({
-            user: 'algo31031@gmail.com',
+            user: 'algo31031',
             count: 0,
             skip_forks: true,
             target: '#gh_repos'
@@ -285,6 +751,19 @@ $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
     <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/javascripts/modernizr-2.0.js"></script>
 
+
+<script type="text/javascript">
+      var disqus_shortname = 'banban';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
