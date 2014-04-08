@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-08T16:35:30+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用jquery-fileupload-rails在IE下进行AJAX文件上传失败的解决办法]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/"/>
+    <updated>2012-10-19T09:29:55+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa</id>
+    <content type="html"><![CDATA[<p>症状：提示“illegal character”错误,上传失败</p>
+
+<p>原因：Chrome, Firefox, Safari等浏览器本身支持XHR形式的文件上传，但IE不支持，于是Jquery-Fileupload自动在页面添加隐藏的iframe,于是在上传文件时造成 CSRF token 无法传递。</p>
+
+<p>解决：</p>
+
+<pre><code>&lt;script&gt;
+      $('#fileupload').fileupload();
+&lt;/script&gt;
+&lt;!--[if IE]&gt;
+  &lt;script&gt;
+    $('#fileupload').bind('fileuploadsend', function(event, data) {
+      auth_token = $('meta[name="csrf-token"]').attr('content');
+      data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
+      $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
+    });
+  &lt;/script&gt;
+&lt;![endif]--&gt;
+</code></pre>
+
+<p> 同时在controller里：</p>
+
+<pre><code>format.html {                                         
+  render :json =&gt; [@episode.to_jq_upload].to_json,
+  :content_type =&gt; 'text/plain',
+  :layout =&gt; false
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[pluralize与i18n的配合]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he/"/>
+    <updated>2012-04-09T10:56:15+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he</id>
+    <content type="html"><![CDATA[<p><a href="http://ruby-taiwan.org/topics/142">原文出处</a></p>
+
+<p>locales文件</p>
+
+<pre><code>en.yml :en   :nights     :one =&gt; '1 night',     :other =&gt; '%{count} nights' 
+zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} 晚' 
+</code></pre>
+
+<p>view层</p>
+
+<pre><code>view &lt;%= t( ".nights", count: @nights ) %&gt; 
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[database.yml里password如果全部为数字需要加'']]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/"/>
+    <updated>2012-03-27T01:27:06+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia</id>
+    <content type="html"><![CDATA[<p>database.yml里面密码采用全数字时，加 &lsquo; &rsquo;, 否则运行rake时报错： can&rsquo;t convert Fixnum into String</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[设置gem源，解决下载慢的问题]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/"/>
+    <updated>2012-03-26T23:10:18+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-,jie-jue-xia-zai-man-de-wen-ti</id>
+    <content type="html"><![CDATA[<h3>问题解决的最好方法方法</h3>
+
+<p>使用google的DNS 8.8.8.8 / 8.8.4.4</p>
+
+<h3>另一种解决方式</h3>
+
+<p>修改rubygems的source源</p>
+
+<p>删除原有gem source</p>
+
+<pre><code>$ gem source -r http://rubygems.org/ 
+$ gem source -r http://production.s3.rubygems.org/ 
+</code></pre>
+
+<p>增加新source源</p>
+
+<pre><code>$ gem source -a http://production.s3.ru
+</code></pre>
+
+<h3>如果使用Bundler</h3>
+
+<p>修改你的 Gemfile 将 <code>http://rubygems.org</code> 改为 <code>http://ruby.taobao.org/</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RVM is not a function]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/03/26/rvm-is-not-a-function/"/>
+    <updated>2012-03-26T10:47:59+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/03/26/rvm-is-not-a-function</id>
+    <content type="html"><![CDATA[<p>在主文件夹<code>.bashrc</code>中加入一行</p>
+
+<pre><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm"
+</code></pre>
+
+<p>如果终端设置成<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a>，则修改<code>.bash_profile</code></p>
+
+<p>重启终端</p>
+]]></content>
+  </entry>
+  
+</feed>
