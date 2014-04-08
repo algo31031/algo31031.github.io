@@ -7,12 +7,15 @@ categories: ubuntu
 ---
 报错信息
 
-    Building native extensions.  This could take a while...
-    ERROR:  Error installing rmagick:
-    ERROR: Failed to build gem native extension.
+{% codeblock %}
+Building native extensions.  This could take a while...
+ERROR:  Error installing rmagick:
+ERROR: Failed to build gem native extension.
+{% endcodeblock %}
 
-***
 
 解决办法
 
-    $ sudo apt-get install libmagick9-dev
+{% codeblock lang:bash %}
+$ sudo apt-get install libmagick9-dev
+{% endcodeblock %}

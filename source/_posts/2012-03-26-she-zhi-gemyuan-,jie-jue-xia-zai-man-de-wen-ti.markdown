@@ -15,12 +15,18 @@ categories: rails
 
 删除原有gem source 
 
-    $ gem source -r http://rubygems.org/ 
-    $ gem source -r http://production.s3.rubygems.org/ 
+{% codeblock lang:bash %}
+$ gem source -r http://rubygems.org/ 
+$ gem source -r http://production.s3.rubygems.org/ 
+{% endcodeblock %}
+
 
 增加新source源 
 
-    $ gem source -a http://production.s3.ru
+{% codeblock lang:bash %}
+$ gem source -a http://production.s3.ru
+{% endcodeblock %}
+
 
 ###如果使用Bundler
   
