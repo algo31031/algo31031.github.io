@@ -120,28 +120,49 @@
 
 <p>解决：</p>
 
-<pre><code>&lt;script&gt;
-      $('#fileupload').fileupload();
-&lt;/script&gt;
-&lt;!--[if IE]&gt;
-  &lt;script&gt;
-    $('#fileupload').bind('fileuploadsend', function(event, data) {
-      auth_token = $('meta[name="csrf-token"]').attr('content');
-      data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
-      $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
-    });
-  &lt;/script&gt;
-&lt;![endif]--&gt;
-</code></pre>
+<p>在View层添加：</p>
 
-<p> 同时在controller里：</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js+erb'><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">fileupload</span><span class="p">();</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="c">&lt;!--</span><span class="p">[</span><span class="k">if</span> <span class="nx">IE</span><span class="p">]</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;fileuploadsend&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">auth_token</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;csrf-token&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">+</span> <span class="s1">&#39;?authenticity_token=&#39;</span> <span class="o">+</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">auth_token</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">.</span><span class="nx">blueimpUI</span><span class="p">.</span><span class="nx">fileupload</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">send</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;!</span><span class="p">[</span><span class="nx">endif</span><span class="p">]</span><span class="o">--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>format.html {                                         
-  render :json =&gt; [@episode.to_jq_upload].to_json,
-  :content_type =&gt; 'text/plain',
-  :layout =&gt; false
-}
-</code></pre>
+
+<p> 同时在controller里添加：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="vi">@episode</span><span class="o">.</span><span class="n">to_jq_upload</span><span class="o">].</span><span class="n">to_json</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:content_type</span> <span class="o">=&gt;</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 

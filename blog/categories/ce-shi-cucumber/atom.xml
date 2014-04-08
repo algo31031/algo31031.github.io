@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 测试 cucumber | 老男孩的整理箱]]></title>
   <link href="http://blog.sns-simple.com/blog/categories/ce-shi-cucumber/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-08T16:35:30+08:00</updated>
+  <updated>2014-04-08T17:16:27+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -20,68 +20,103 @@
     <id>http://blog.sns-simple.com/blog/2011/01/27/shi-yong-cucumberpei-he-pickle</id>
     <content type="html"><![CDATA[<p>建立项目</p>
 
-<pre><code>$ rails -d mysql order test
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rails -d mysql order <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>添加脚手架</p>
 
-<pre><code>$ ruby script/generate scaffold books title:string
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate scaffold books title:string
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>创建数据库，建表</p>
 
 <p>修改<code>BooksController#index</code></p>
 
-<pre><code>@books = Book.find(:all,:order =&gt; "title DESC")
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>BooksController#index </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@books</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span><span class="ss">:order</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">title</span> <span class="no">DESC</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在项目下加载cucumber与capybara</p>
 
-<pre><code>ruby script/generate cucumber --capybara
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate cucumber &amp;mdash;capybara
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>添加pickle(path可选，加上之后会在paths.rb里面增加)</p>
 
-<pre><code>ruby script/generate pickle path    
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate pickle path  &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在相应books_steps.rb文件里加入</p>
 
-<pre><code>Then /^我应该(?:在"([^"]*)"中)?依次看到:$/ do |selector, table|
-  pattern = table.raw.flatten.collect(&amp;Regexp.method(:quote)).join('.*?')
-  regexp = Regexp.compile(pattern, Regexp::MULTILINE)
-  with_scope(selector) do
-    page.should have_xpath('//*', :text =&gt; regexp)
-  end
-end
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>books_steps.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Then</span> <span class="sr">/^我应该(?:在&quot;([^&amp;ldquo;]&lt;em&gt;)&quot;中)?依次看到:$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">selector</span><span class="p">,</span> <span class="n">table</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">pattern</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">flatten</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="no">Regexp</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:quote</span><span class="p">))</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="o">.</span><span class="n">&lt;</span><span class="sr">/em&gt;?&amp;rsquo;)</span>
+</span><span class='line'><span class="sr">  regexp = Regexp.compile(pattern, Regexp::MULTILINE)</span>
+</span><span class='line'><span class="sr">  with_scope(selector) do&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_xpath</span><span class="p">(</span><span class="s1">&#39;//*&#39;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">regexp</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在feature中加入</p>
 
-<pre><code>Scenario: books in order
-Given the following books exist
-  | title   | id |
-  | aaa  | 1  |
-  | bbb  | 2  |
-  | ccc   | 3  |
-When I go to books
-Then I should see in that order:
-  | ccc    |
-  | bbb    | 
-  | aaa    | 
-And I should see "aaa" 
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Scenario:</span><span class="nf"> books in order</span>
+</span><span class='line'><span class="k">Given </span><span class="nf">the following books exist</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> title</span><span class="k">   |</span><span class="s"> id</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">  |</span><span class="s"> 1</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">  |</span><span class="s"> 2</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">   |</span><span class="s"> 3</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">When </span><span class="nf">I go to books</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I should see in that order:</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">And </span><span class="nf">I should see &amp;ldquo;aaa&amp;rdquo;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>在paths.rb中加入</p>
 
-<pre><code>when /books/
-  books_path
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>path.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">when</span> <span class="sr">/books/</span>
+</span><span class='line'>  <span class="n">books_path</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>运行</p>
-
-<pre><code>$ rake cucumber:all
-</code></pre>
+<p>运行
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake cucumber:all
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>等着看黄瓜变绿～～</p>
 ]]></content>
