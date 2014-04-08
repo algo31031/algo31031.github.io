@@ -74,4 +74,4 @@ Github User/Organization pages会把你rope的master分支用作在`http://usern
     # OR
     $ echo 'www.your-domain.com' >> source/CNAME
 
-然后去DSN服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向`http://username.github.io`。如果是主域名则需要A记录然后指定ip。
+然后去DNS服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向`http://username.github.io`。如果是主域名则需要A记录然后指定ip。
