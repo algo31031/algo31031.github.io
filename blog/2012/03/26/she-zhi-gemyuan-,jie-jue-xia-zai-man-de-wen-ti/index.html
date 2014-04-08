@@ -124,14 +124,19 @@
 
 <p>删除原有gem source</p>
 
-<pre><code>$ gem source -r http://rubygems.org/ 
-$ gem source -r http://production.s3.rubygems.org/ 
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://rubygems.org/
+</span><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://production.s3.rubygems.org/
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>增加新source源</p>
 
-<pre><code>$ gem source -a http://production.s3.ru
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -a http://production.s3.ru
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>如果使用Bundler</h3>
 

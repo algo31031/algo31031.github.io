@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | 老男孩的整理箱]]></title>
   <link href="http://blog.sns-simple.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-08T16:35:30+08:00</updated>
+  <updated>2014-04-08T17:16:27+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -24,28 +24,65 @@
 
 <p>解决：</p>
 
-<pre><code>&lt;script&gt;
-      $('#fileupload').fileupload();
-&lt;/script&gt;
-&lt;!--[if IE]&gt;
-  &lt;script&gt;
-    $('#fileupload').bind('fileuploadsend', function(event, data) {
-      auth_token = $('meta[name="csrf-token"]').attr('content');
-      data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
-      $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
-    });
-  &lt;/script&gt;
-&lt;![endif]--&gt;
-</code></pre>
+<p>在View层添加：</p>
 
-<p> 同时在controller里：</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='js+erb'><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">fileupload</span><span class="p">();</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="c">&lt;!--</span><span class="p">[</span><span class="k">if</span> <span class="nx">IE</span><span class="p">]</span><span class="o">&gt;&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="nx">script</span><span class="o">&amp;</span><span class="nx">gt</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;fileuploadsend&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">auth_token</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;csrf-token&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">+</span> <span class="s1">&#39;?authenticity_token=&#39;</span> <span class="o">+</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">auth_token</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">blueimpUI</span><span class="p">.</span><span class="nx">fileupload</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">send</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="err">/script&amp;gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span><span class="o">!</span><span class="p">[</span><span class="nx">endif</span><span class="p">]</span><span class="o">&amp;</span><span class="nx">mdash</span><span class="p">;</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<pre><code>format.html {                                         
-  render :json =&gt; [@episode.to_jq_upload].to_json,
-  :content_type =&gt; 'text/plain',
-  :layout =&gt; false
-}
-</code></pre>
+<p> 同时在controller里添加：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;render :json =&amp;gt; [@episode.to_jq_upload].to_json,</span>
+</span><span class='line'><span class="sr">:content_type =&amp;gt; &#39;text/</span><span class="n">plain</span><span class="err">&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:layout</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kp">false</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -54,18 +91,51 @@
     <link href="http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he/"/>
     <updated>2012-04-09T10:56:15+08:00</updated>
     <id>http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he</id>
-    <content type="html"><![CDATA[<p><a href="http://ruby-taiwan.org/topics/142">原文出处</a></p>
+    <content type="html"><![CDATA[<p>locales文件</p>
 
-<p>locales文件</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>en.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:en &lt;br/&gt;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;pre&gt;&lt;code&gt;:one =&amp;gt; &#39;1 night&#39;,</span>
+</span><span class='line'><span class="l-Scalar-Plain">:other =&amp;gt; &#39;%{count} nights&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<pre><code>en.yml :en   :nights     :one =&gt; '1 night',     :other =&gt; '%{count} nights' 
-zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} 晚' 
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>zh-TW.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">&lt;br/&gt;</span>
+</span><span class='line'><span class="l-Scalar-Plain">:zh-TW &lt;br/&gt;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights     :one =&gt; &amp;lsquo;1 晚&amp;rsquo;,     :other =&gt; &amp;lsquo;%{count} 晚&amp;rsquo;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>view层</p>
 
-<pre><code>view &lt;%= t( ".nights", count: @nights ) %&gt; 
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;pre&gt;&lt;code&gt;view &amp;lt;%= t( &quot;.nights&quot;, count: @nights ) %&amp;gt; </span>
+</span><span class='line'><span class="x">&lt;/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -93,14 +163,17 @@ zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} �
 
 <p>删除原有gem source</p>
 
-<pre><code>$ gem source -r http://rubygems.org/ 
-$ gem source -r http://production.s3.rubygems.org/ 
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://rubygems.org/&quot;</span>&gt;http://rubygems.org/&lt;/a&gt;
+</span><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://production.s3.rubygems.org/&quot;</span>&gt;http://production.s3.rubygems.org/&lt;/a&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>增加新source源</p>
 
-<pre><code>$ gem source -a http://production.s3.ru
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -a &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://production.s3.ru&quot;</span>&gt;http://production.s3.ru&lt;/a&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>如果使用Bundler</h3>
 

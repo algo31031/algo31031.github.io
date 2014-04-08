@@ -114,18 +114,38 @@
   </header>
 
 
-<div class="entry-content clearfix"><p><a href="http://ruby-taiwan.org/topics/142">原文出处</a></p>
+<div class="entry-content clearfix"><p>locales文件</p>
 
-<p>locales文件</p>
+<figure class='code'><figcaption><span>en.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:en</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">:one =&gt; &#39;1 night&#39;,</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">:other =&gt; &#39;%{count} nights&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>en.yml :en   :nights     :one =&gt; '1 night',     :other =&gt; '%{count} nights' 
-zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} 晚' 
-</code></pre>
+
+
+
+<figure class='code'><figcaption><span>zh-TW.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">:zh-TW</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights     :one =&gt; &#39;1 晚&#39;,     :other =&gt; &#39;%{count} 晚&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>view层</p>
 
-<pre><code>view &lt;%= t( ".nights", count: @nights ) %&gt; 
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">    view </span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span> <span class="s2">&quot;.nights&quot;</span><span class="p">,</span> <span class="ss">count</span><span class="p">:</span> <span class="vi">@nights</span> <span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> </span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 

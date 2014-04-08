@@ -171,16 +171,23 @@
 
 <p>注意需要Ruby 1.9.3及以上版本</p>
 
-<pre><code>$ git clone git://github.com/imathis/octopress.git octopress
-$ cd octopress
-$ gem install bundler
-$ bundle install
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
+</span><span class='line'><span class="nv">$ </span>gem install bundler
+</span><span class='line'><span class="nv">$ </span>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>安装默认主题</p>
 
-<pre><code>$ rake install
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake install
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>也可以在<a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">这里</a>找到其他主题</p>
 
@@ -188,16 +195,23 @@ $ bundle install
 
 <p>安装greyjoy主题</p>
 
-<pre><code>$ cd .themes
-$ git clone git://github.com/rezajatnika/greyjoy.git
-$ rake install[greyjoy]
-$ rake generate   
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> .themes
+</span><span class='line'><span class="nv">$ </span>git clone git://github.com/rezajatnika/greyjoy.git
+</span><span class='line'><span class="nv">$ </span>rake install<span class="o">[</span>greyjoy<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>rake generate
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>装完之后， 你就可以用<code>rake preview</code>预览下了</p>
 
-<pre><code>$ rake preview
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake preview
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>在浏览器地址栏输入<code>localhost:4000</code>就能看到</p>
 
@@ -207,34 +221,47 @@ $ rake generate
 
 <p>Github User/Organization pages会把你rope的master分支用作在<code>http://username.github.io</code>发布的内容，相应的我们可以把source 分支作为我们源码的分支。Octopress已经提供了一个内建的rake task来帮我们搞定上述操作。</p>
 
-<pre><code>$ rake setup_github_pages
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake setup_github_pages
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： <code>git@github.com:algo31031/algo31031.github.io.git</code>）</p>
 
 <p>之后想要发表blog只要执行</p>
 
-<pre><code>$ rake generate
-$ rake deploy
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>就可以把我们的blog提交到github repo的master分支下，过段时间就可以在<code>http://username.github.io</code>看到blog已经部署成功。</p>
 
 <p>不要忘记把源码也一起放到github</p>
 
-<pre><code>$ git add .
-$ git commit -m 'your message'
-$ git push origin source
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s1">&#39;your message&#39;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>使用自己的域名</h2>
 
 <p>在source目录下创建一个名字是<code>CNAME</code>的文件，然后向CNAME里添加记录(二者择一即可, 或者干脆自己打开CNAME文件把<code>your-domain.com</code>或者<code>www.your-domain.com</code>考进去)</p>
 
-<pre><code>$ echo 'your-domain.com' &gt;&gt; source/CNAME
-# OR
-$ echo 'www.your-domain.com' &gt;&gt; source/CNAME
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">&#39;your-domain.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
+</span><span class='line'><span class="c"># OR</span>
+</span><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">&#39;www.your-domain.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>然后去DNS服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
 </div>
@@ -276,16 +303,24 @@ $ echo 'www.your-domain.com' &gt;&gt; source/CNAME
   </header>
 
 
-  <div class="entry-content clearfix"><p>报错</p>
+  <div class="entry-content clearfix">
 
-<pre><code>checking for Magick-config... no
-Can't install RMagick 2.12.2. Can't find Magick-config in /home/hanbing/.rvm/gems/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/gems/ruby-1.9.3-p125@global/bin:/home/hanbing/.rvm/rubies/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/bin::/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/hanbing/.rvm/bin
-</code></pre>
+<figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>checking <span class="k">for </span>Magick-config... no
+</span><span class='line'>Can<span class="s1">&#39;t install RMagick 2.12.2. Can&#39;</span>t find Magick-config in /home/hanbing/.rvm/gems/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/gems/ruby-1.9.3-p125@global/bin:/home/hanbing/.rvm/rubies/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/bin::/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/hanbing/.rvm/bin
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>ImageMagick正确安装后还需要安装相应的dev包：</p>
 
-<pre><code>$ sudo apt-get install libmagickwand-dev 
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagickwand-dev
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
   
   
@@ -331,28 +366,49 @@ Can't install RMagick 2.12.2. Can't find Magick-config in /home/hanbing/.rvm/gem
 
 <p>解决：</p>
 
-<pre><code>&lt;script&gt;
-      $('#fileupload').fileupload();
-&lt;/script&gt;
-&lt;!--[if IE]&gt;
-  &lt;script&gt;
-    $('#fileupload').bind('fileuploadsend', function(event, data) {
-      auth_token = $('meta[name="csrf-token"]').attr('content');
-      data.url = data.url + '?authenticity_token=' + encodeURIComponent(auth_token); 
-      $.blueimpUI.fileupload.prototype.options.send.call(this, event, data);
-    });
-  &lt;/script&gt;
-&lt;![endif]--&gt;
-</code></pre>
+<p>在View层添加：</p>
 
-<p> 同时在controller里：</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js+erb'><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">fileupload</span><span class="p">();</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="c">&lt;!--</span><span class="p">[</span><span class="k">if</span> <span class="nx">IE</span><span class="p">]</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;fileuploadsend&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">auth_token</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;csrf-token&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">+</span> <span class="s1">&#39;?authenticity_token=&#39;</span> <span class="o">+</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">auth_token</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">.</span><span class="nx">blueimpUI</span><span class="p">.</span><span class="nx">fileupload</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">send</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;!</span><span class="p">[</span><span class="nx">endif</span><span class="p">]</span><span class="o">--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>format.html {                                         
-  render :json =&gt; [@episode.to_jq_upload].to_json,
-  :content_type =&gt; 'text/plain',
-  :layout =&gt; false
-}
-</code></pre>
+
+<p> 同时在controller里添加：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="vi">@episode</span><span class="o">.</span><span class="n">to_jq_upload</span><span class="o">].</span><span class="n">to_json</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:content_type</span> <span class="o">=&gt;</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -392,8 +448,12 @@ Can't install RMagick 2.12.2. Can't find Magick-config in /home/hanbing/.rvm/gem
   </header>
 
 
-  <div class="entry-content clearfix"><pre><code>&lt;!--[if lte IE 8]&gt;&lt;span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;"&gt;&lt;![endif]--&gt; &lt;span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;"&gt;     &amp;copy; &lt;/span&gt; &lt;!--[if lte IE 8]&gt;&lt;/span&gt;&lt;![endif]--&gt;
-</code></pre>
+  <div class="entry-content clearfix">
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--[if lte IE 8]&gt;&lt;span style=&quot;filter: FlipH; -ms-filter: &quot;FlipH&quot;; display: inline-block;&quot;&gt;&lt;![endif]--&gt;</span> <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;&quot;</span><span class="nt">&gt;</span>     <span class="ni">&amp;copy;</span> <span class="nt">&lt;/span&gt;</span> <span class="c">&lt;!--[if lte IE 8]&gt;&lt;/span&gt;&lt;![endif]--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -435,8 +495,10 @@ Can't install RMagick 2.12.2. Can't find Magick-config in /home/hanbing/.rvm/gem
 
   <div class="entry-content clearfix"><p>不想改变表定义及默认编码的情况，将字段先转换成gbk编码再排序：</p>
 
-<pre><code>SELECT * FROM table ORDER BY CONVERT( chinese_field USING gbk ) ;
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="k">table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">CONVERT</span><span class="p">(</span> <span class="n">chinese_field</span> <span class="k">USING</span> <span class="n">gbk</span> <span class="p">)</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>前提是在安装mysql时安装了gbk字符集，不然会报错：</p>
 
@@ -483,18 +545,38 @@ Can't install RMagick 2.12.2. Can't find Magick-config in /home/hanbing/.rvm/gem
   </header>
 
 
-  <div class="entry-content clearfix"><p><a href="http://ruby-taiwan.org/topics/142">原文出处</a></p>
+  <div class="entry-content clearfix"><p>locales文件</p>
 
-<p>locales文件</p>
+<figure class='code'><figcaption><span>en.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:en</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">:one =&gt; &#39;1 night&#39;,</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">:other =&gt; &#39;%{count} nights&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>en.yml :en   :nights     :one =&gt; '1 night',     :other =&gt; '%{count} nights' 
-zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} 晚' 
-</code></pre>
+
+
+
+<figure class='code'><figcaption><span>zh-TW.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">:zh-TW</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights     :one =&gt; &#39;1 晚&#39;,     :other =&gt; &#39;%{count} 晚&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>view层</p>
 
-<pre><code>view &lt;%= t( ".nights", count: @nights ) %&gt; 
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">    view </span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span> <span class="s2">&quot;.nights&quot;</span><span class="p">,</span> <span class="ss">count</span><span class="p">:</span> <span class="vi">@nights</span> <span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> </span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -536,17 +618,20 @@ zh-TW.yml :zh-TW   :nights     :one =&gt; '1 晚',     :other =&gt; '%{count} �
 
   <div class="entry-content clearfix"><p>报错信息</p>
 
-<pre><code>Building native extensions.  This could take a while...
-ERROR:  Error installing rmagick:
-ERROR: Failed to build gem native extension.
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while...
+</span><span class='line'>ERROR:  Error installing rmagick:
+</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure>
 
-<hr />
 
 <p>解决办法</p>
 
-<pre><code>$ sudo apt-get install libmagick9-dev
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -636,14 +721,19 @@ ERROR: Failed to build gem native extension.
 
 <p>删除原有gem source</p>
 
-<pre><code>$ gem source -r http://rubygems.org/ 
-$ gem source -r http://production.s3.rubygems.org/ 
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://rubygems.org/
+</span><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://production.s3.rubygems.org/
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>增加新source源</p>
 
-<pre><code>$ gem source -a http://production.s3.ru
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -a http://production.s3.ru
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>如果使用Bundler</h3>
 
