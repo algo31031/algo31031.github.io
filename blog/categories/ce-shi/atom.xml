@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 测试 cucumber | 老男孩的整理箱]]></title>
-  <link href="http://blog.sns-simple.com/blog/categories/ce-shi-cucumber/atom.xml" rel="self"/>
+  <title><![CDATA[Category: 测试 | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/ce-shi/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-08T17:16:27+08:00</updated>
+  <updated>2014-04-09T16:41:47+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
