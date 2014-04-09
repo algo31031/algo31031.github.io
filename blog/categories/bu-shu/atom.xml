@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 部署 | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/bu-shu/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-09T16:41:47+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[架设Octopress Blog]]></title>
+    <link href="http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog/"/>
+    <updated>2014-04-04T15:48:39+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog</id>
+    <content type="html"><![CDATA[<p>一直想弄个Blog整理些资料, 单靠胡乱的记到文件里放在Ubuntu One上， 既混乱查找起来也不方便。</p>
+
+<p>碰巧前段时间因为工作需要开始研究AWS，遂去Godaddy注册了个域名，反正也不贵， AWS可以“免费”体验一年， 而Godaddy的.com域名一年只要56人民币，支持支付宝付款。 反正只是个blog不用考虑备案的诸多麻烦。</p>
+
+<p>作为一个Rubist, 自然首选<a href="http://octopress.org/">Octrpress</a>。</p>
+
+<p>简单记下架设的过程，也顺便熟悉下Octopress用法。</p>
+
+<h2>安装Octopress</h2>
+
+<p>注意需要Ruby 1.9.3及以上版本</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
+</span><span class='line'><span class="nv">$ </span>gem install bundler
+</span><span class='line'><span class="nv">$ </span>bundle install
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>安装默认主题
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake install
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>也可以在<a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">这里</a>找到其他主题</p>
+
+<p>选了一番决定用<a href="https://github.com/rezajatnika/greyjoy">Greyjoy</a>, 从github页看作者想必也是《冰与火之歌》的粉丝（Named after the messed up Theon Greyjoy.）。</p>
+
+<p>安装greyjoy主题</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> .themes
+</span><span class='line'><span class="nv">$ </span>git clone git://github.com/rezajatnika/greyjoy.git
+</span><span class='line'><span class="nv">$ </span>rake install<span class="o">[</span>greyjoy<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>rake generate&lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>装完之后， 你就可以用<code>rake preview</code>预览下了</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake preview
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在浏览器地址栏输入<code>localhost:4000</code>就能看到</p>
+
+<h2>向Github User/Organization pages部署Octopress</h2>
+
+<p>在github上添加一个repo, 并用 <code>username.github.io</code> 这种格式命名。其中username是你在github上的用户名或组织名。</p>
+
+<p>Github User/Organization pages会把你rope的master分支用作在<code>http://username.github.io</code>发布的内容，相应的我们可以把source 分支作为我们源码的分支。Octopress已经提供了一个内建的rake task来帮我们搞定上述操作。</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake setup_github_pages
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： <code>git@github.com:algo31031/algo31031.github.io.git</code>）</p>
+
+<p>之后想要发表blog只要执行</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>就可以把我们的blog提交到github repo的master分支下，过段时间就可以在<code>http://username.github.io</code>看到blog已经部署成功。</p>
+
+<p>不要忘记把源码也一起放到github</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m &amp;lsquo;your message&amp;rsquo;
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>使用自己的域名</h2>
+
+<p>在source目录下创建一个名字是<code>CNAME</code>的文件，然后向CNAME里添加记录(二者择一即可, 或者干脆自己打开CNAME文件把<code>your-domain.com</code>或者<code>www.your-domain.com</code>考进去)</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">echo</span> &amp;lsquo;your-domain.com&amp;rsquo; &gt;&gt; <span class="nb">source</span>/CNAME&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;OR&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="nb">echo</span> &amp;lsquo;www.your-domain.com&amp;rsquo; &gt;&gt; <span class="nb">source</span>/CNAME
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>然后去DNS服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
+]]></content>
+  </entry>
+  
+</feed>

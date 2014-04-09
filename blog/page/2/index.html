@@ -98,6 +98,108 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-27T01:27:06+08:00" pubdate data-updated="true">Mar 27<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">database.yml里password如果全部为数字需要加&#8221;</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>database.yml里面密码采用全数字时，加 &lsquo; &rsquo;, 否则运行rake时报错： can&rsquo;t convert Fixnum into String</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-26T23:10:18+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/">设置gem源，解决下载慢的问题</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><h3>问题解决的最好方法方法</h3>
+
+<p>使用google的DNS 8.8.8.8 / 8.8.4.4</p>
+
+<h3>另一种解决方式</h3>
+
+<p>修改rubygems的source源</p>
+
+<p>删除原有gem source</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://rubygems.org/
+</span><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://production.s3.rubygems.org/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>增加新source源</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -a http://production.s3.ru
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果使用Bundler</h3>
+
+<p>修改你的 Gemfile 将 <code>http://rubygems.org</code> 改为 <code>http://ruby.taobao.org/</code></p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-26T10:47:59+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
         
            | <a href="/blog/2012/03/26/rvm-is-not-a-function/#disqus_thread"
@@ -474,245 +576,6 @@
 <p>依然觉得,喜剧演员的这段故事,是整部电影十数个段落中最感人的一出.浪漫到极致&hellip;</p>
 
 <p>在我眼中,浪漫便应如此.充满在生活的每一个角落里,只待同样浪漫的人去发现,而绝不应是人为雕琢而出.</p>
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2010-04-04T23:48:44+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2010</time>
-        
-           | <a href="/blog/2010/04/04/%3C%3Cniu-yue-%2Cwo-ai-ni-%3E%3E/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2010/04/04/%3C%3Cniu-yue-%2Cwo-ai-ni-%3E%3E/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2010/04/04/%3C%3Cniu-yue-%2Cwo-ai-ni-%3E%3E/">《纽约，我爱你!》</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p><img src="/images/20100404.jpg" alt="纽约，我爱你" /></p>
-
-<p>爱情究竟何为何物&hellip;恐怕,每个人都会给出不同的答案</p>
-
-<p>一次浪漫的邂逅,一段尘封的往事,一场酒后的出轨,又或许只是几句抱怨\一阵唠叨</p>
-
-<p>打情骂俏是爱,翻云覆雨是爱,嫣然一笑是爱,刻骨铭心也是爱</p>
-
-<p>既可爱的过雨云烟,转瞬即逝,亦可爱的海枯石烂,至死不渝</p>
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2008-12-04T13:41:56+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2008</time>
-        
-           | <a href="/blog/2008/12/04/mao-de-gu-shi/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2008/12/04/mao-de-gu-shi/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2008/12/04/mao-de-gu-shi/">猫的故事</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>有一只活了一百万次的猫，它死了一百万次，也活了一百万<br/>
-次。 但猫一直不喜欢任何人。<br/>
-有一次，猫是国王的猫，国王很喜欢猫，做了一个美丽的篮子，把猫放在里面。<br/>
-每次国王要打仗都把猫带在身边。不过猫很不快乐，有一次在打扙时，<br/>
-猫被箭打死了，国王抱著猫，哭得好伤心、好伤心，<br/>
-但是猫没有哭，猫不喜欢国王。</p>
-
-<p>有一次，猫是渔夫的猫，渔夫很喜欢猫，每次渔夫出海补鱼，都会带著猫，<br/>
-不过猫很不快乐，有一次在打渔时，猫掉进海里，<br/>
-渔夫赶紧拿网子把猫捞起来，不过猫已经死了。<br/>
-渔夫抱著它哭得好伤心、好伤心，但是猫并没有哭，猫不喜欢渔夫。</p>
-
-<p>有一次，猫是马戏团的猫。马戏团的魔术师喜欢表演一样魔术，就是把猫放在箱子里，</p>
-
-<p>把箱子和猫一起切开，<br/>
-然後再把箱子合起来，而猫又变回一只活蹦乱跳的猫，不过猫很不快乐。<br/>
-有一次魔术师在表演这一个魔术时，不小心将猫真的切成了两半，猫死了。<br/>
-魔术师抱著切成了两半的猫，哭得好伤心、好伤心，不过猫并没有哭，<br/>
-猫不喜欢马戏团。</p>
-
-<p>有一次，猫是老婆婆的猫，猫很不快乐，因为老婆婆喜欢静静的抱著猫，<br/>
-坐在窗前看著行人来来往往，就这样过了一天又一天、一年又一年。<br/>
-有一天，猫在老婆婆的怀里一动也不动，猫又死了，老婆婆抱著猫哭得好伤心、好伤心<br/>
-，但</p>
-
-<p>是猫并没有哭，猫不喜欢老婆婆。</p>
-
-<p>有一次，猫不是任何人的猫，猫是一只野猫，猫很快乐，每天猫有吃不完的鱼，<br/>
-每天都有母猫送鱼来给它吃。<br/>
-它的身旁总是围了一群美丽的母猫，不过猫并不喜欢它们。<br/>
-猫每次都是骄傲的说：「我可是一只活过一百万次的猫喔！」</p>
-
-<p>有一天，猫遇到了一只白猫，白猫看都不看猫一眼，<br/>
-猫很生气的走到白猫面前对白猫说我可是一只活过一百万次的猫喔！」<br/>
-白猫只是轻轻的「哼！」了一声，就把头转开了之後，猫每次遇到白猫，<br/>
-都会故意走到白猫面前说：「我可是一只活过一百万次的猫喔！」<br/>
-而白猫每次也都只是轻轻的「哼！」了一声，就把头转开。</p>
-
-<p>猫变得很不快乐，一天，猫又遇到白猫，刚开始，猫在白猫身边独自玩耍，後来<br/>
-渐渐的走到白猫身边，轻轻的问了一句话：「我们在一起好吗？」<br/>
-而白猫也轻轻的点了点头「嗯！」了一声，猫好高兴、好高兴，<br/>
-它们每天都在一起，白猫生了好多小猫，猫很用心的照顾小猫们，<br/>
-小猫长大了，一个个离开了。<br/>
-猫很骄傲，因为猫知道：小猫们是一只活过一百万次的猫的小孩！<br/>
-白猫老了，猫很细心的照顾著白猫，每天猫都抱著白猫说故事给白猫听，<br/>
-直到睡著。</p>
-
-<p>一天，白猫在猫的怀里一动也不动了，白猫死了。猫抱著白猫哭了，<br/>
-猫一直哭、一直哭、一直哭，直到有一天，猫不哭了，猫再也不动了，<br/>
-猫和白猫一起死了，猫也没有再活过来。</p>
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2008-10-02T20:47:00+08:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2008</time>
-        
-           | <a href="/blog/2008/10/02/da-hei-shan-gui-lai-dot-dot-dot-lei-dot-dot-dot/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2008/10/02/da-hei-shan-gui-lai-dot-dot-dot-lei-dot-dot-dot/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2008/10/02/da-hei-shan-gui-lai-dot-dot-dot-lei-dot-dot-dot/">大黑山归来&#8230;累&#8230;</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>从下面看还是挺矮的,海拔也的确不高,不过爬着并不轻松&hellip;再次倍感锻炼身体之迫切</p>
-
-<p>原本以为会是在林间小路中穿行,特意裹了厚重的外套.幸而一路都有石阶攀沿而上.通常陡峭之处边上还会有扶手.山路还是很窄,只能供两人并排前行.有两处坡度非常大,爬上去感觉很吃力,还要同时应付&#8221;千万不要掉下去&#8221;的心理负担..还好下山在我和老祝的一再坚持下,选择了条相对绕远但是更易行的车路,不过对体力又是严峻的考验&hellip;结果到最后大家也都没力气,瘫坐在路边,还好运气不错,打到了辆面包车代步&hellip;</p>
-
-<p>.人很多,也可能是因为路太窄,总之很难找到一块僻静之处.因为被开发过了,沿途的一切都有很浓重的雕琢过的味道.唯独下山时候路边的农家,还会透露出几分质朴的气息,但是很快就被连成片的小饭馆打散&hellip;整个爬山的过程没有太多亮点,满地是人,让人根本体会不到原本应该属于自然地幽静与安详&hellip;秋天的山,本该是深沉冷静的,却也不堪人类的烦扰,沾染了浮躁的脾性&hellip;</p>
-
-<p>本以为没拍几张照片,回来再看,却发现居然也过了百张,实属意料之外&hellip;所有照片几乎都是信手拈来,完全没有构图的美感,却比较符合我的特质,只可惜山下一片雾蒙蒙,从山顶拍的照片很是飘渺&hellip;刚上山没多久,看到一位奶奶下山,健步如飞动作丝毫不比年轻人逊色(对比我们下山时候走走停停的狼狈样子,更加崇拜她了&hellip;).头上还戴了一顶野花编制出的头环.可惜拿出相机那位奶奶已经擦身而过,只能捕捉到她的背影.其实年龄的增长并不可怕,只有当心也变得龙钟,才是真的老了&hellip;半山腰上有做寺庙,香火好像很旺,到处烟雾缭绕,佛乐飘飘,感觉好像进入了另一个世界.大殿上供着三尊如来,同学解释说是三世佛:前世,今世,来世.看到一位大师在替人释签,抑制不住好奇拍了一小段视频,被发现感觉自己也许有些冒昧,于是没在寺里再留任何影像记录&hellip;不过其实我并不相信神佛的&hellip;登顶的最后一段路程几乎消耗了全部的体力,下山没再拍什么照片&hellip;</p>
-
-<p>在山顶看到了下面的软件学院,心中无限感慨&hellip;然而一切过去了也就过去了,事已至此,悔亦何用&hellip;把握好现在的每一天才是最重要的</p>
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2008-10-01T16:26:22+08:00" pubdate data-updated="true">Oct 1<span>st</span>, 2008</time>
-        
-           | <a href="/blog/2008/10/01/sheng-wu-shi-de-kun-huo/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2008/10/01/sheng-wu-shi-de-kun-huo/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2008/10/01/sheng-wu-shi-de-kun-huo/">圣武士的困惑</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>这篇最早发在了bfclan上，时间应该远早于08年10月，毕竟是还有大把时间跑《博德之门》且还有心情吐槽的时候的东西。可惜bfclan早已不在，确切发表时间不可考，只好用挪到网易博客时候的时间。</p>
-
-<hr />
-
-<p>在D&amp;D里比较喜欢圣武士的职业，几次《博德之门》基本都是用的圣武士。感觉在游戏里做的每一件事也都符合圣武士的标准，所以队伍每次声望很快就能到 20。我喜欢那种为了荣誉光荣与正义而战的感觉，并把这当作我在《博得之门》里的唯一道德标准。但是发生在安姆克萨兰的一件事让我对一直用剑与魔法维护的 Justice，Glory&amp;Honour产生了质疑。</p>
-
-<p>初次与克罗相见是在一间小酒馆里。他神色慌张得像我求助并让我到它的家里与他会面。在克罗的家里我得知，原来克罗的一家被抑制名为冯郭特德巫妖追杀，他的妻子一死于巫妖之手，而他唯一的女儿也被巫妖夺取了灵魂生命垂危。于是我爽快的答应克罗杀掉巫妖为他妻子报仇并夺回他女儿的灵魂一次来拯救她的生命。</p>
-
-<p>但是当我见到巫妖的时候，却渐渐从巫妖口中得到一个与之前有很大出入的故事。20年前，克罗为了自己一时的欲望，与巫妖冯郭特达成协议：用自己的灵魂换取自己20年内的财富与地位。20年中，无妖没有食言，克罗已然成为在卡丽杉富甲一方的大商人，大人物。而20年后，当巫妖来完成协议的另一部分时，克罗却舍不得眼前的一切。于是克罗开始了他的逃亡生活。而且巫妖答应我只要克罗能够自愿献出灵魂他可以把克罗女儿的灵魂之石给我。</p>
-
-<p>我本来可以直接把巫妖杀掉，但是甭蒙在鼓里的感觉并不好，即便杀掉的是一只巫妖，而且我并不认为简单的杀掉他就可以夺回灵魂之石。为了弄清真相，我强忍住手刃巫妖的冲动，回去找了罗求证。当我告诉克罗我在巫妖那里听到的故事后，克罗的表情告诉我冯郭特并没有向我说谎。而克罗现在的情况可以说是已经一无所有。逃亡的生活早把克罗20年积蓄的财富耗尽，而妻子德斯更让他意识到女儿才是自己生命唯一的寄托。几经辗转之后，克罗决定和我一起去见巫妖冯郭特。</p>
-
-<p>在冯郭特的住处，克罗终于决定献出自己的灵魂。巫妖再一次信守了自己的承诺，在将克罗的灵魂抽取之前，先把克罗女儿的灵魂之石交到我的手中。“巫妖，现在灵魂之时已经在我的手中，你认命吧！”一个声音在我头脑中响起。我的剑在颤抖，我的呼吸变得急促，但是我的内心却出现了自从踏上圣武士之路以来从未有过的困惑。我可以杀掉冯郭特，这对于我一个曾经只身一人杀掉一头黑龙的圣武士来说，没有任何的难度，更何况我的身边还有5位和我一样身经百战的伙伴与挚友。可以说只要我想，我面前德巫妖就没有任何生还的可能。但是为什么要杀掉巫妖，我无法说服自己找出杀掉他的理由。克罗之所以弄到今天的田地，全是由于他20年前的财迷心窍。如果克罗能够自己奋发图强，也许20年里他的成就不会比巫妖承诺的小。为了一时的欲望，甚至能够出卖自己的灵魂，这种人死掉又有什么可惜。而再看看那只巫妖，几次的情况似乎都在表明它才是信守承诺的人，而单方面不遵守协议的人恰恰是克罗自己。但是转念再一想，但年会不会是巫妖向克罗施了法术才会有哪个灵魂换财富的协议。20年间，法术渐渐失效，而克罗也渐渐恢复了本性呢。在我不断的困惑之中，巫妖轻松的施展法术抽取了克罗的灵魂，并带着满意的笑容离去。而在这个短暂的过程中，只有明斯克的“超级宇宙密你大仓鼠”吱吱的叫了几声。</p>
-
-<p>当我回过神的时候，克罗的尸体就横在我的眼前，而巫妖早已不知所综。我，一个自诩为正义的守护着，一位圣武士，竟然如此轻易得让一个巫妖在我的鼻子底下杀掉了一位落魄的商人，而且巫妖自己居然能够全身而退。我所守护的正义何在，我的荣誉何在，我如何得到我的光荣。</p>
-
-<p>再回去克罗家的一路上，我的陷入了深深的自责与困惑中。究竟是什么让我犹豫不决，而克罗和冯郭特到底哪一个更该死去。。。我将灵魂宝石还给克罗的女儿，虽然这晶莹且微微范着蓝光的宝石本身也是件强大的魔法物品（智慧+1，体质+1，所有豁免+2，AC-1)，但我一点都不想再看它一眼。</p>
-
-<p>拥有了灵魂的少女渐渐从沉睡中苏醒。当得知双亲已经去世之后，她哭了，哭得很伤心。而我的心里也有一种说不清的隐隐的痛。在彻底的发泄之后，女孩来到我身边，感谢我救了她的命并告诉我自己将来的打算。从她坚强的双眼中，我多少得到了些安慰。在女孩临走前，我从自己的钱包里掏出5000枚金币，并谎称这是克罗留给她的遗产。女孩再一次向我表示感谢。相信神会原谅我这个善意的谎言，然而我很难原谅自己刚才做的一切。</p>
-
-<p>我不知道如果再有一次机会，我会不会杀那只巫妖。但我知道，在我的心里已经对我一直维护的正义产生了质疑。也许我该杀掉那只巫妖。这样起码他不会去再害其他人。想着想着，心里渐渐开始害怕。难道我已经开始凌驾不住体内谋杀之王巴尔的血液，难道身为巴儿子嗣的我注定只会踏上堕落圣武士的那条不归路。疑虑已在我心里产生，但我却无法找出答案。也许人定能胜天，也许，不能……</p>
-
-<p>I lost my honour……</p>
 </div>
   
   
