@@ -102,6 +102,128 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-10T09:54:28+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/">Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p><a href="http://simpleror.wordpress.com/2009/03/15/q-q-w-w-x-r-s/">原文地址</a></p>
+
+<h3>%Q</h3>
+
+<p>用于替代双引号的字符串. 当你需要在字符串里放入很多引号时候, 可以直接用下面方法而不需要在引号前逐个添加反斜杠 (\&ldquo;)</p>
+
+<pre><code>&gt;&gt; %Q(Joe said: "Frank said: "#{what_frank_said}"")
+=&gt; "Joe said: "Frank said: "Hello!"""
+</code></pre>
+
+<p><code>(</code>&hellip;<code>)</code>也可用其他非数字字母的符号或成对的符号代替, 诸如<code>[</code>&hellip;<code>]</code>, <code>!</code>&hellip;<code>!</code>, <code>+</code>&hellip;<code>+</code>,<code>{</code>&hellip;<code>}</code>, <code>&lt;</code>&hellip;<code>&gt;</code>等.<br/>
+以下写法全部与上面等效:</p>
+
+<pre><code>&gt;&gt; %Q!Joe said: "Frank said: "#{what_frank_said}""!
+&gt;&gt; %Q[Joe said: "Frank said: "#{what_frank_said}""]
+&gt;&gt; %Q+Joe said: "Frank said: "#{what_frank_said}""+     
+</code></pre>
+
+<p>除此之外还可省略<code>Q</code>写作:</p>
+
+<pre><code>&gt;&gt; %/Joe said: "Frank said: "#{what_frank_said}""/
+=&gt; "Joe said: "Frank said: "Hello!""" 
+</code></pre>
+
+<h3>%q</h3>
+
+<p>与<code>%Q</code>类似, 但是表示的是单引号字符串</p>
+
+<pre><code>&gt;&gt; %q(Joe said: 'Frank said: '#{what_frank_said} ' ')
+=&gt; "Joe said: 'Frank said: '\#{what_frank_said} ' '"    
+</code></pre>
+
+<h3>%W</h3>
+
+<p>语法近似于<code>%Q</code>, 用于表示其中元素被双引号括起的数组.</p>
+
+<pre><code>&gt;&gt; %W(#{foo} Bar Bar\ with\ space)
+=&gt; ["Foo", "Bar", "Bar with space"] 
+</code></pre>
+
+<h3>%w</h3>
+
+<p>用于表示其中元素被单引号括起的数组. 比较奇怪的是<code>\</code>(斜杠空格)会被转化成<code></code>(空格), 但是其他的内容不会.</p>
+
+<pre><code>&gt;&gt; %w(a b c\ d \#e #{1}f)
+=&gt; ["a", "b", "c d", "\\#e", "\#{1}f"]
+</code></pre>
+
+<h3>%x</h3>
+
+<p>使用&#8220;`方法执行一段shell脚本并返回标准输出内容.</p>
+
+<pre><code>&gt;&gt; %x(echo foo:#{foo})
+=&gt; "foo:Foo\n"    
+</code></pre>
+
+<h3>%r</h3>
+
+<p>语法近似于<code>%Q</code>, 用于正则表达式.</p>
+
+<pre><code>&gt;&gt; %r(/home/#{foo})
+=&gt; "/\\/home\\/Foo/"     
+</code></pre>
+
+<h3>%s</h3>
+
+<p>用于表示symble, 但是不会对其中表达式等内容进行转化</p>
+
+<pre><code>&gt;&gt; %s(foo)
+=&gt; :foo
+&gt;&gt; %s(foo bar)
+=&gt; :"foo bar"
+&gt;&gt; %s(#{foo} bar)
+=&gt; :"\#{foo} bar"
+</code></pre>
+
+<h3>%i</h3>
+
+<p>Ruby 2.0 之后引入的语法, 用于生成一个symble数组</p>
+
+<pre><code>2.0.0p247 :014 &gt; %i(a b c)
+=&gt; [:a, :b, :c] 
+</code></pre>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-08T16:32:34+08:00" pubdate data-updated="true">Apr 8<span>th</span>, 2014</time>
         
            | <a href="/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/#disqus_thread"
@@ -584,61 +706,6 @@
 
         </article>
       
-      
-        <article class="post">
-          
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-04-06T11:46:21+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
-        
-           | <a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">安装rmagick出错</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>报错信息</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while...
-</span><span class='line'>ERROR:  Error installing rmagick:
-</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决办法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-        </article>
-      
     </div>
 
     <ul class="pager">
@@ -662,6 +729,8 @@
   
   <div id="recent_posts" class="list-group">
     
+    <a class="list-group-item " href="/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/">Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i</a>
+    
     <a class="list-group-item " href="/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/">把以前网易博客的部分内容转过来</a>
     
     <a class="list-group-item " href="/blog/2014/04/04/jia-she-octopress-blog/">架设Octopress Blog</a>
@@ -669,8 +738,6 @@
     <a class="list-group-item " href="/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/">Ubuntu 12.04下安装 RMagick 报错Can&#8217;t Install RMagick 2.12.2. Can&#8217;t Find Magick-config</a>
     
     <a class="list-group-item " href="/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/">使用jquery-fileupload-rails在IE下进行AJAX文件上传失败的解决办法</a>
-    
-    <a class="list-group-item " href="/blog/2012/10/16/copyleftbiao-zhi/">Copyleft标志</a>
     
   </div>
 </section>
