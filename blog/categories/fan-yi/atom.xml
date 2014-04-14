@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 翻译 | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/fan-yi/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-10T10:58:55+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i]]></title>
+    <link href="http://blog.sns-simple.com/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/"/>
+    <updated>2014-04-10T09:54:28+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i</id>
+    <content type="html"><![CDATA[<p><a href="http://simpleror.wordpress.com/2009/03/15/q-q-w-w-x-r-s/">原文地址</a></p>
+
+<h3>%Q</h3>
+
+<p>用于替代双引号的字符串. 当你需要在字符串里放入很多引号时候, 可以直接用下面方法而不需要在引号前逐个添加反斜杠 (\&ldquo;)</p>
+
+<pre><code>&gt;&gt; %Q(Joe said: "Frank said: "#{what_frank_said}"")
+=&gt; "Joe said: "Frank said: "Hello!"""
+</code></pre>
+
+<p><code>(</code>&hellip;<code>)</code>也可用其他非数字字母的符号或成对的符号代替, 诸如<code>[</code>&hellip;<code>]</code>, <code>!</code>&hellip;<code>!</code>, <code>+</code>&hellip;<code>+</code>,<code>{</code>&hellip;<code>}</code>, <code>&lt;</code>&hellip;<code>&gt;</code>等.<br/>
+以下写法全部与上面等效:</p>
+
+<pre><code>&gt;&gt; %Q!Joe said: "Frank said: "#{what_frank_said}""!
+&gt;&gt; %Q[Joe said: "Frank said: "#{what_frank_said}""]
+&gt;&gt; %Q+Joe said: "Frank said: "#{what_frank_said}""+     
+</code></pre>
+
+<p>除此之外还可省略<code>Q</code>写作:</p>
+
+<pre><code>&gt;&gt; %/Joe said: "Frank said: "#{what_frank_said}""/
+=&gt; "Joe said: "Frank said: "Hello!""" 
+</code></pre>
+
+<h3>%q</h3>
+
+<p>与<code>%Q</code>类似, 但是表示的是单引号字符串</p>
+
+<pre><code>&gt;&gt; %q(Joe said: 'Frank said: '#{what_frank_said} ' ')
+=&gt; "Joe said: 'Frank said: '\#{what_frank_said} ' '"    
+</code></pre>
+
+<h3>%W</h3>
+
+<p>语法近似于<code>%Q</code>, 用于表示其中元素被双引号括起的数组.</p>
+
+<pre><code>&gt;&gt; %W(#{foo} Bar Bar\ with\ space)
+=&gt; ["Foo", "Bar", "Bar with space"] 
+</code></pre>
+
+<h3>%w</h3>
+
+<p>用于表示其中元素被单引号括起的数组. 比较奇怪的是<code>\</code>(斜杠空格)会被转化成<code></code>(空格), 但是其他的内容不会.</p>
+
+<pre><code>&gt;&gt; %w(a b c\ d \#e #{1}f)
+=&gt; ["a", "b", "c d", "\\#e", "\#{1}f"]
+</code></pre>
+
+<h3>%x</h3>
+
+<p>使用```方法执行一段shell脚本并返回标准输出内容.</p>
+
+<pre><code>&gt;&gt; %x(echo foo:#{foo})
+=&gt; "foo:Foo\n"    
+</code></pre>
+
+<h3>%r</h3>
+
+<p>语法近似于<code>%Q</code>, 用于正则表达式.</p>
+
+<pre><code>&gt;&gt; %r(/home/#{foo})
+=&gt; "/\\/home\\/Foo/"     
+</code></pre>
+
+<h3>%s</h3>
+
+<p>用于表示symble, 但是不会对其中表达式等内容进行转化</p>
+
+<pre><code>&gt;&gt; %s(foo)
+=&gt; :foo
+&gt;&gt; %s(foo bar)
+=&gt; :"foo bar"
+&gt;&gt; %s(#{foo} bar)
+=&gt; :"\#{foo} bar"
+</code></pre>
+
+<h3>%i</h3>
+
+<p>Ruby 2.0 之后引入的语法, 用于生成一个symble数组</p>
+
+<pre><code>2.0.0p247 :014 &gt; %i(a b c)
+=&gt; [:a, :b, :c] 
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
