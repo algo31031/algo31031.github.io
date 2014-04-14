@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ubuntu | 老男孩的整理箱]]></title>
   <link href="http://blog.sns-simple.com/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-10T10:58:55+08:00</updated>
+  <updated>2014-04-14T09:09:39+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -12,6 +12,401 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境]]></title>
+    <link href="http://blog.sns-simple.com/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/"/>
+    <updated>2014-04-12T19:21:22+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing</id>
+    <content type="html"><![CDATA[<h3>下载安装 Virtualbox</h3>
+
+<p>这里可以直接用ubuntu软件中心提供的版本  <br/>
+其他系统可以再下面找<br/>
+<a href="https://www.virtualbox.org/wiki/Downloads">下载Virtualbox</a></p>
+
+<h3>下载安装 vagrant</h3>
+
+<p><a href="https://www.vagrantup.com/downloads.html">点击进入下下载列表</a><br/>
+注意低版本的vagrant提供gem安装方式, 目前已不支持, 请不要采取此种方式, 详见<a href="http://mitchellh.com/abandoning-rubygems">此处</a></p>
+
+<h3>下载安装 vagrant 的 centos box</h3>
+
+<p><a href="http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box">点击下载box</a><br/>
+安装box</p>
+
+<pre><code>vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
+</code></pre>
+
+<p>可以在下面找到其他操作系统的box<br/>
+<a href="http://www.vagrantbox.es/">vagrantbox</a></p>
+
+<h3>配置vagrant</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/
+</span><span class='line'><span class="nv">$ </span>mkdir vagrant
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>vagrant
+</span><span class='line'><span class="nv">$ </span>vagrant init
+</span><span class='line'><span class="nv">$ </span>vi Vagrantfile
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>把下面内容添加到 <code>Vagrantfile</code></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">centos</span><span class="o">-</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">33</span><span class="o">.</span><span class="mi">10</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">oshost</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>设置共享文件夹(若不配置,默认把host的Vagrantfile所在目录共享到guest的/vagrant),<br/>
+第一个参数是host machine的待共享文件夹, 可以用相对路径. <br/>
+第二个参数是gues tmachine的共享文件夹, 必须为绝对路径, 若不存在会自动创建一个.  <br/>
+其他支持的options可以参看<a href="http://docs.vagrantup.com/v2/synced-folders/basic_usage.html">这里</a><br/>
+<code>config.vm.synced_folder "/home/hanbing", "/vagrant"</code></p>
+
+<p>有时默认的共享文件夹会有性能问题, 需要加参数nfs: true<br/>
+若要使用NFS文件夹, host machine需要安装了<code>nfsd</code><br/>
+另外注意在Windows下不支持NFS, 所以Windows会自动忽略nfs参数<br/>
+<code>config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true</code></p>
+
+<p>配置好后可以通过<code>vagrant up</code>启动vm<br/>
+<strong>Vagrant常用命令</strong></p>
+
+<blockquote><pre><code>$ vagrant up 开机 
+$ vagrant ssh 登⼊  
+$ vagrant suspend 暂停  
+$ vagrant halt 关机
+$ vagrant destroy 刪除 
+</code></pre></blockquote>
+
+<h3>插曲 启动时报错</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>hanbing@hanbing-System-Product-Name:~/vagrant<span class="nv">$ </span>vagrant up
+</span><span class='line'>Bringing machine &amp;lsquo;default&amp;rsquo; up with &amp;lsquo;virtualbox&amp;rsquo; provider&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>forwarded ports&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>network interfaces&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Preparing network interfaces based on configuration&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: Adapter 1: nat
+</span><span class='line'>default: Adapter 2: hostonly
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">==</span>&gt; default: Forwarding ports&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: <span class="nv">22</span> <span class="o">=</span>&amp;gt; 2222 <span class="o">(</span>adapter 1<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">==</span>&gt; default: Booting VM&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Waiting <span class="k">for </span>machine to boot. This may take a few minutes&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: SSH address: 127.0.0.1:2222
+</span><span class='line'>default: SSH username: vagrant
+</span><span class='line'>default: SSH auth method: private key
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:</p>
+
+<blockquote><pre><code>VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
+</code></pre></blockquote>
+
+<pre><code>请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
+</code></pre>
+
+<p>解决办法:<br/>
+(1)进入BIOS设置,把Virtualization设为为Enabled(一般会在高级设置里)<br/>
+(2)虚拟机设置 > 系统 > 硬件加速 > 启用VT-x/AMD-V<br/>
+(3)重新执行 <code>$ vargant up</code><br/>
+正常了^_^</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Bringing machine &amp;lsquo;default&amp;rsquo; up with &amp;lsquo;virtualbox&amp;rsquo; provider&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>network interfaces&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Preparing network interfaces based on configuration&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: Adapter 1: nat
+</span><span class='line'>default: Adapter 2: hostonly
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">==</span>&gt; default: Forwarding ports&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: <span class="nv">22</span> <span class="o">=</span>&amp;gt; 2222 <span class="o">(</span>adapter 1<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">==</span>&gt; default: Booting VM&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Waiting <span class="k">for </span>machine to boot. This may take a few minutes&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: SSH address: 127.0.0.1:2222
+</span><span class='line'>default: SSH username: vagrant
+</span><span class='line'>default: SSH auth method: private key
+</span><span class='line'>default: Error: Connection timout. Retrying...
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="o">==</span>&gt; default: Machine booted and ready!
+</span><span class='line'><span class="o">==</span>&gt; default: Checking <span class="k">for </span>guest additions in VM&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Configuring and enabling network interfaces&amp;hellip;
+</span><span class='line'><span class="o">==</span>&gt; default: Mounting shared folders&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;default: /vagrant <span class="o">=</span>&amp;gt; /home/hanbing/vagrant
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>PS:</strong>2013版Mac air下不存在这个问题</p>
+
+<h3>开始安装各个cookbook</h3>
+
+<p>执行<code>$ vagrant ssh-config --host oshost</code><br/>
+会出现类似下面内容:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Host oshost
+</span><span class='line'>  HostName 127.0.0.1
+</span><span class='line'>  User vagrant
+</span><span class='line'>  Port
+</span><span class='line'>  UserKnownHostsFile /dev/null
+</span><span class='line'>  StrictHostKeyChecking no
+</span><span class='line'>  PasswordAuthentication no
+</span><span class='line'>  IdentityFile /home/hanbing/.vagrant.d/insecure_private_key
+</span><span class='line'>  IdentitiesOnly yes
+</span><span class='line'>  LogLevel FATAL
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>将其加入<code>~/.ssh/config</code>内, 以后使用<code>$ ssh oshost</code>可以直接连入guest machine</p>
+
+<pre><code>$ vagrant ssh-config --host oshost &gt;&gt; ~/.ssh/config
+</code></pre>
+
+<p>除此以外，使用<code>vagrant ssh [主机名]</code>也可连入guest machine</p>
+
+<pre><code>$ vagrant ssh oshost
+</code></pre>
+
+<p><strong>创建kitchen, 下载cookbooks</strong></p>
+
+<pre><code>$ mkdir Cookbooks
+$ cd Cookbooks`  
+</code></pre>
+
+<p>在当前目录生成一个kitchen　　</p>
+
+<pre><code>knife solo init .
+</code></pre>
+
+<p>在kitchen里生成Cheffile</p>
+
+<pre><code>librarian-chef init  
+</code></pre>
+
+<p>编辑Cheffile添加需要的cookbooks<br/>
+下载Cheffile里要求的cookbooks到./cookbooks目录</p>
+
+<pre><code>librarian-chef install
+</code></pre>
+
+<p>之后执行以下操作开始装机过程
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install librarian-chef
+</span><span class='line'><span class="nv">$ </span>gem install knife-solo
+</span><span class='line'><span class="nv">$ </span>knife solo prepare oshost
+</span><span class='line'><span class="nv">$ </span>knife solo cook oshost
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>knifo-solo命令</strong></p>
+
+<pre><code>`knife solo init 目录`  新建一个符合chef结构的目录(kitchen)用以创建和储存recipes  
+`knife solo prepare user@host` 在给定的host安装chef
+`knife solo cook user@host [nodes/&lt;hostname&gt;.json]` 将kitchen上传到指定的host并执行chef-solo
+`knife solo bootstrap user@host`  perpare+cook
+</code></pre>
+
+<h3>配置多台 vm</h3>
+
+<p>修改<code>Vagrantfile</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:oshost</span> <span class="k">do</span> <span class="o">|</span><span class="n">oshost</span><span class="o">|&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;oshost.vm.box = &quot;centos-6.4&quot;</span>
+</span><span class='line'><span class="sr">oshost.vm.network :private_network, ip: &quot;192.168.33.10&quot;</span>
+</span><span class='line'><span class="sr">oshost.vm.host_name = &quot;oshost&quot;</span>
+</span><span class='line'><span class="sr">oshost.vm.provider &quot;virtualbox&quot; do |v|</span>
+</span><span class='line'><span class="sr">  v.name = &quot;oshost&quot;</span>
+</span><span class='line'><span class="sr">end        </span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:osdep01d</span> <span class="k">do</span> <span class="o">|</span><span class="n">osdep01d</span><span class="o">|&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;osdep01d.vm.box = &quot;centos-6.4&quot;</span>
+</span><span class='line'><span class="sr">osdep01d.vm.network :private_network, ip: &quot;192.168.33.11&quot;</span>
+</span><span class='line'><span class="sr">osdep01d.vm.host_name = &quot;osdep01d&quot;</span>
+</span><span class='line'><span class="sr">osdep01d.vm.provider &quot;virtualbox&quot; do |v|</span>
+</span><span class='line'><span class="sr">  v.name = &quot;osdep01d&quot;</span>
+</span><span class='line'><span class="sr">end        </span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end&lt;br/</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>启动vm</p>
+
+<pre><code>$ vagrant up osdep01d
+</code></pre>
+
+<p>添加ssh host</p>
+
+<pre><code>$ vagrant ssh-config --host osdep01d &gt;&gt; ~/.ssh/config
+</code></pre>
+
+<p>向<code>osdep01d</code>安装cookbooks</p>
+
+<pre><code>$ knife solo bootstrap osdep01d
+</code></pre>
+
+<h3>参考文章</h3>
+
+<p><a href="https://fak3r.com/2013/08/30/howto-get-started-with-chef-librarian-chef-and-vagrant/">HOWTO get started with chef, librarian-chef and vagrant</a><br/>
+<a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">[教學]使用Vagrant練習環境佈署</a><br/>
+<a href="http://gogojimmy.net/2013/06/01/Chef-Solo-Basic-with-Vagrant/">[Rails佈署實戰教學]使用Chef-Solo一鍵安裝機器</a><br/>
+<a href="http://tumblr.nrako.com/post/22320729770/vagrant-chef-librarian">Vagrant Provisioning, Chef solo and Librarian-chef</a></p>
+
+<h3>相关资源</h3>
+
+<p><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a><br/>
+<a href="http://www.vagrantbox.es/">vagrantbox</a><br/>
+<a href="http://community.opscode.com/cookbooks">cookbooks</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ubuntu 12.04下安装 RMagick 报错Can't install RMagick 2.12.2. Can't find Magick-config]]></title>

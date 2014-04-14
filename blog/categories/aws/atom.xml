@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: AWS | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-14T09:09:39+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[通过vagrant和knife-solo搭建AWS_EC2开发环境]]></title>
+    <link href="http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/"/>
+    <updated>2014-04-13T16:45:26+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing</id>
+    <content type="html"><![CDATA[<h4>安装vagrant-aws插件</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant plugin install vagrant-aws
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h4>配置vagrant</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir aws
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>aws
+</span><span class='line'><span class="nv">$ </span>vagrant init
+</span><span class='line'><span class="nv">$ </span>vi Vagrantfile
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>修改配置文件<code>Vagrantfile</code>, 添加下列内容:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:osapp01d</span> <span class="k">do</span> <span class="o">|</span><span class="n">osapp01d</span><span class="o">|&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  osapp01d.vm.provider :aws do |aws, override|&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">aws</span><span class="o">.</span><span class="n">access_key_id</span> <span class="o">=</span> <span class="err">您的</span><span class="n">aws</span> <span class="n">access</span> <span class="n">key</span> <span class="nb">id</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">secret_access_key</span> <span class="o">=</span> <span class="err">您的</span><span class="n">aws</span> <span class="n">secret</span> <span class="n">access</span> <span class="n">key</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">instance_type</span> <span class="o">=</span> <span class="err">您的</span><span class="no">EC2</span> <span class="n">instance</span><span class="err">类型</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">ami</span> <span class="o">=</span> <span class="s2">&quot;ami-9ffa709e&quot;</span> <span class="c1">#cent-os 6.4 64位</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;ap-northeast-1&quot;</span> <span class="c1">#东京主机</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">security_groups</span> <span class="o">=</span> <span class="err">您的</span><span class="n">security</span> <span class="n">group</span> <span class="nb">id</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">subnet_id</span> <span class="o">=</span> <span class="err">您的</span><span class="n">subnet</span> <span class="nb">id</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="s1">&#39;Name&#39;</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s2">&quot;osapp01d&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">elastic_ip</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1">#为EC2 instance绑定静态IP</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">keypair_name</span> <span class="o">=</span> <span class="err">您的</span><span class="n">key</span> <span class="n">pair</span> <span class="nb">name</span>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">private_key_path</span> <span class="o">=</span> <span class="o">.</span><span class="n">pem</span><span class="err">私钥的位置</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;dummy&quot;</span>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span> <span class="s2">&quot;/vagrant&quot;</span><span class="p">,</span> <span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>参数的含义和赋值请<a href="https://github.com/mitchellh/vagrant-aws">参考这里</a> <br/>
+请把相关参数替换成您的实际值</p>
+
+<p>PS:关于各linux发行版的默认user</p>
+
+<p>For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.</p>
+
+<h4>创建 EC2 instance 并启动</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up &amp;mdash;provider<span class="o">=</span>aws osapp01d
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>如果您使用的是gnome-terminal, 请注意要设置为<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a><br/>
+<code>Edit &gt; Profile Preferences &gt; Title and Command &gt; Run command as a login shell</code></p>
+
+<h4>登录EC2 instance, 添加vagrant用户</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant ssh osapp01d
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>以下代码在EC2 inscatnce里执行</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>groupadd admin
+</span><span class='line'><span class="nv">$ </span>useradd -g admin vagrant
+</span><span class='line'><span class="nv">$ </span>passwd vagrant
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>设置vagrant用户的密码
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>visudo
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在最末添加一行:</p>
+
+<p><code>%admin ALL=(ALL:ALL) ALL</code></p>
+
+<p>如需使用同步文件夹，需将<code>Defaults    requiretty</code>这行注释掉<br/>
+保存退出</p>
+
+<h4>向EC2 instance安装cookbooks</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir Cookbooks
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>Cookbooks
+</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#118;&amp;#97;&amp;#103;&amp;#x72;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&quot;</span>&gt;&amp;#118;&amp;#x61;&amp;#x67;&amp;#x72;&amp;#x61;&amp;#110;&amp;#x74;&amp;#x40;&amp;#120;&amp;#x78;&amp;#46;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#118;&amp;#97;&amp;#x67;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#46;&amp;#120;&amp;#x78;&amp;#46;&amp;#120;&amp;#120;&quot;</span>&gt;&amp;#x76;&amp;#97;&amp;#x67;&amp;#x72;&amp;#97;&amp;#x6e;&amp;#116;&amp;#x40;&amp;#120;&amp;#120;&amp;#46;&amp;#120;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span> nodes/osapp01d,json
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h4>关于文件夹同步</h4>
+
+<p>如果您希望使用同步文件夹,<br/>
+请将Vagrantfile里的<code>override.vm.synced_folder "./", "/vagrant", disabled: true</code>注释掉<br/>
+并且重启EC2 instance
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant reload osapp01d
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>请注意这一步要在<strong>EC2 instance创建</strong>完成后,<br/>
+并且您已经将<code>Defaults    requiretty</code>注释掉后才可执行. <br/>
+否则会发生问题vagrant无法正常启动, <a href="https://github.com/mitchellh/vagrant/issues/1659">详情见这里</a></p>
+]]></content>
+  </entry>
+  
+</feed>

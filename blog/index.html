@@ -98,6 +98,574 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-13T16:45:26+08:00" pubdate data-updated="true">Apr 13<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/">通过vagrant和knife-solo搭建AWS_EC2开发环境</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><h4>安装vagrant-aws插件</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant plugin install vagrant-aws
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>配置vagrant</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir aws
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>aws
+</span><span class='line'><span class="nv">$ </span>vagrant init
+</span><span class='line'><span class="nv">$ </span>vi Vagrantfile
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改配置文件<code>Vagrantfile</code>, 添加下列内容:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:osapp01d</span> <span class="k">do</span> <span class="o">|</span><span class="n">osapp01d</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">osapp01d</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="ss">:aws</span> <span class="k">do</span> <span class="o">|</span><span class="n">aws</span><span class="p">,</span> <span class="n">override</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">access_key_id</span> <span class="o">=</span> <span class="err">您的</span><span class="n">aws</span> <span class="n">access</span> <span class="n">key</span> <span class="nb">id</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">secret_access_key</span> <span class="o">=</span> <span class="err">您的</span><span class="n">aws</span> <span class="n">secret</span> <span class="n">access</span> <span class="n">key</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">instance_type</span> <span class="o">=</span> <span class="err">您的</span><span class="no">EC2</span> <span class="n">instance</span><span class="err">类型</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">ami</span> <span class="o">=</span> <span class="s2">&quot;ami-9ffa709e&quot;</span> <span class="c1">#cent-os 6.4 64位</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;ap-northeast-1&quot;</span> <span class="c1">#东京主机</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">security_groups</span> <span class="o">=</span> <span class="err">您的</span><span class="n">security</span> <span class="n">group</span> <span class="nb">id</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">subnet_id</span> <span class="o">=</span> <span class="err">您的</span><span class="n">subnet</span> <span class="nb">id</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="s1">&#39;Name&#39;</span> <span class="o">=&gt;</span> <span class="s2">&quot;osapp01d&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">elastic_ip</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1">#为EC2 instance绑定静态IP</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span>
+</span><span class='line'>    <span class="n">aws</span><span class="o">.</span><span class="n">keypair_name</span> <span class="o">=</span> <span class="err">您的</span><span class="n">key</span> <span class="n">pair</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">private_key_path</span> <span class="o">=</span> <span class="o">.</span><span class="n">pem</span><span class="err">私钥的位置</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;dummy&quot;</span>
+</span><span class='line'>    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span> <span class="s2">&quot;/vagrant&quot;</span><span class="p">,</span> <span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参数的含义和赋值请<a href="https://github.com/mitchellh/vagrant-aws">参考这里</a> <br/>
+请把相关参数替换成您的实际值</p>
+
+<p>PS:关于各linux发行版的默认user</p>
+
+<p>For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.</p>
+
+<h4>创建 EC2 instance 并启动</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up --provider<span class="o">=</span>aws osapp01d
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果您使用的是gnome-terminal, 请注意要设置为<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a><br/>
+<code>Edit &gt; Profile Preferences &gt; Title and Command &gt; Run command as a login shell</code></p>
+
+<h4>登录EC2 instance, 添加vagrant用户</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant ssh osapp01d
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以下代码在EC2 inscatnce里执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>groupadd admin
+</span><span class='line'><span class="nv">$ </span>useradd -g admin vagrant
+</span><span class='line'><span class="nv">$ </span>passwd vagrant
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>设置vagrant用户的密码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>visudo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在最末添加一行:</p>
+
+<p><code>%admin ALL=(ALL:ALL) ALL</code></p>
+
+<p>如需使用同步文件夹，需将<code>Defaults    requiretty</code>这行注释掉<br/>
+保存退出</p>
+
+<h4>向EC2 instance安装cookbooks</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>
+</span><span class='line'><span class="nv">$ </span>mkdir Cookbooks
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>Cookbooks
+</span><span class='line'><span class="nv">$ </span>knife solo prepare vagrant@xx.xx.xx.xx<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>knife solo cook vagrant@xx.xx.xx.xx<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span> nodes/osapp01d,json
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>关于文件夹同步</h4>
+
+<p>如果您希望使用同步文件夹,<br/>
+请将Vagrantfile里的<code>override.vm.synced_folder "./", "/vagrant", disabled: true</code>注释掉<br/>
+并且重启EC2 instance</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant reload osapp01d
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>请注意这一步要在<strong>EC2 instance创建</strong>完成后,<br/>
+并且您已经将<code>Defaults    requiretty</code>注释掉后才可执行. <br/>
+否则会发生问题vagrant无法正常启动, <a href="https://github.com/mitchellh/vagrant/issues/1659">详情见这里</a></p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-12T19:21:22+08:00" pubdate data-updated="true">Apr 12<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/">使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><h3>下载安装 Virtualbox</h3>
+
+<p>这里可以直接用ubuntu软件中心提供的版本  <br/>
+其他系统可以再下面找<br/>
+<a href="https://www.virtualbox.org/wiki/Downloads">下载Virtualbox</a></p>
+
+<h3>下载安装 vagrant</h3>
+
+<p><a href="https://www.vagrantup.com/downloads.html">点击进入下下载列表</a><br/>
+注意低版本的vagrant提供gem安装方式, 目前已不支持, 请不要采取此种方式, 详见<a href="http://mitchellh.com/abandoning-rubygems">此处</a></p>
+
+<h3>下载安装 vagrant 的 centos box</h3>
+
+<p><a href="http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box">点击下载box</a><br/>
+安装box</p>
+
+<pre><code>vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
+</code></pre>
+
+<p>可以在下面找到其他操作系统的box<br/>
+<a href="http://www.vagrantbox.es/">vagrantbox</a></p>
+
+<h3>配置vagrant</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/
+</span><span class='line'><span class="nv">$ </span>mkdir vagrant
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>vagrant
+</span><span class='line'><span class="nv">$ </span>vagrant init
+</span><span class='line'><span class="nv">$ </span>vi Vagrantfile
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>把下面内容添加到 <code>Vagrantfile</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;centos-6.4&quot;</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="s2">&quot;192.168.33.10&quot;</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="s2">&quot;oshost&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>设置共享文件夹(若不配置,默认把host的Vagrantfile所在目录共享到guest的/vagrant),<br/>
+第一个参数是host machine的待共享文件夹, 可以用相对路径. <br/>
+第二个参数是gues tmachine的共享文件夹, 必须为绝对路径, 若不存在会自动创建一个.  <br/>
+其他支持的options可以参看<a href="http://docs.vagrantup.com/v2/synced-folders/basic_usage.html">这里</a><br/>
+<code>config.vm.synced_folder "/home/hanbing", "/vagrant"</code></p>
+
+<p>有时默认的共享文件夹会有性能问题, 需要加参数nfs: true<br/>
+若要使用NFS文件夹, host machine需要安装了<code>nfsd</code><br/>
+另外注意在Windows下不支持NFS, 所以Windows会自动忽略nfs参数<br/>
+<code>config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true</code></p>
+
+<p>配置好后可以通过<code>vagrant up</code>启动vm<br/>
+<strong>Vagrant常用命令</strong></p>
+
+<blockquote><pre><code>$ vagrant up 开机 
+$ vagrant ssh 登⼊  
+$ vagrant suspend 暂停  
+$ vagrant halt 关机
+$ vagrant destroy 刪除 
+</code></pre></blockquote>
+
+<h3>插曲 启动时报错</h3>
+
+<figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>hanbing@hanbing-System-Product-Name:~/vagrant<span class="nv">$ </span>vagrant up
+</span><span class='line'>Bringing machine <span class="s1">&#39;default&#39;</span> up with <span class="s1">&#39;virtualbox&#39;</span> provider...
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>forwarded ports...
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>network interfaces...
+</span><span class='line'><span class="o">==</span>&gt; default: Preparing network interfaces based on configuration...
+</span><span class='line'>    default: Adapter 1: nat
+</span><span class='line'>    default: Adapter 2: <span class="nv">hostonly</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Forwarding ports...
+</span><span class='line'>    default: <span class="nv">22</span> <span class="o">=</span>&gt; 2222 <span class="o">(</span>adapter 1<span class="o">)</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Booting VM...
+</span><span class='line'><span class="o">==</span>&gt; default: Waiting <span class="k">for </span>machine to boot. This may take a few minutes...
+</span><span class='line'>    default: SSH address: 127.0.0.1:2222
+</span><span class='line'>    default: SSH username: vagrant
+</span><span class='line'>    default: SSH auth method: private key
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:</p>
+
+<blockquote><pre><code>VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
+</code></pre></blockquote>
+
+<pre><code>请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
+</code></pre>
+
+<p>解决办法:<br/>
+(1)进入BIOS设置,把Virtualization设为为Enabled(一般会在高级设置里)<br/>
+(2)虚拟机设置 > 系统 > 硬件加速 > 启用VT-x/AMD-V<br/>
+(3)重新执行 <code>$ vargant up</code><br/>
+正常了^_^</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Bringing machine <span class="s1">&#39;default&#39;</span> up with <span class="s1">&#39;virtualbox&#39;</span> provider...
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>network interfaces...
+</span><span class='line'><span class="o">==</span>&gt; default: Preparing network interfaces based on configuration...
+</span><span class='line'>    default: Adapter 1: nat
+</span><span class='line'>    default: Adapter 2: <span class="nv">hostonly</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Forwarding ports...
+</span><span class='line'>    default: <span class="nv">22</span> <span class="o">=</span>&gt; 2222 <span class="o">(</span>adapter 1<span class="o">)</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Booting VM...
+</span><span class='line'><span class="o">==</span>&gt; default: Waiting <span class="k">for </span>machine to boot. This may take a few minutes...
+</span><span class='line'>    default: SSH address: 127.0.0.1:2222
+</span><span class='line'>    default: SSH username: vagrant
+</span><span class='line'>    default: SSH auth method: private key
+</span><span class='line'>    default: Error: Connection timout. Retrying...
+</span><span class='line'><span class="o">==</span>&gt; default: Machine booted and ready!
+</span><span class='line'><span class="o">==</span>&gt; default: Checking <span class="k">for </span>guest additions in VM...
+</span><span class='line'><span class="o">==</span>&gt; default: Configuring and enabling network interfaces...
+</span><span class='line'><span class="o">==</span>&gt; default: Mounting shared folders...
+</span><span class='line'>    default: /vagrant <span class="o">=</span>&gt; /home/hanbing/vagrant
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>PS:</strong>2013版Mac air下不存在这个问题</p>
+
+<h3>开始安装各个cookbook</h3>
+
+<p>执行<code>$ vagrant ssh-config --host oshost</code><br/>
+会出现类似下面内容:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Host oshost
+</span><span class='line'>  HostName 127.0.0.1
+</span><span class='line'>  User vagrant
+</span><span class='line'>  Port
+</span><span class='line'>  UserKnownHostsFile /dev/null
+</span><span class='line'>  StrictHostKeyChecking no
+</span><span class='line'>  PasswordAuthentication no
+</span><span class='line'>  IdentityFile /home/hanbing/.vagrant.d/insecure_private_key
+</span><span class='line'>  IdentitiesOnly yes
+</span><span class='line'>  LogLevel FATAL
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将其加入<code>~/.ssh/config</code>内, 以后使用<code>$ ssh oshost</code>可以直接连入guest machine</p>
+
+<pre><code>$ vagrant ssh-config --host oshost &gt;&gt; ~/.ssh/config
+</code></pre>
+
+<p>除此以外，使用<code>vagrant ssh [主机名]</code>也可连入guest machine</p>
+
+<pre><code>$ vagrant ssh oshost
+</code></pre>
+
+<p><strong>创建kitchen, 下载cookbooks</strong></p>
+
+<pre><code>$ mkdir Cookbooks
+$ cd Cookbooks`  
+</code></pre>
+
+<p>在当前目录生成一个kitchen　　</p>
+
+<pre><code>knife solo init .
+</code></pre>
+
+<p>在kitchen里生成Cheffile</p>
+
+<pre><code>librarian-chef init  
+</code></pre>
+
+<p>编辑Cheffile添加需要的cookbooks<br/>
+下载Cheffile里要求的cookbooks到./cookbooks目录</p>
+
+<pre><code>librarian-chef install
+</code></pre>
+
+<p>之后执行以下操作开始装机过程</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install librarian-chef
+</span><span class='line'><span class="nv">$ </span>gem install knife-solo
+</span><span class='line'><span class="nv">$ </span>knife solo prepare oshost
+</span><span class='line'><span class="nv">$ </span>knife solo cook oshost
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>knifo-solo命令</strong></p>
+
+<pre><code>`knife solo init 目录`  新建一个符合chef结构的目录(kitchen)用以创建和储存recipes  
+`knife solo prepare user@host` 在给定的host安装chef
+`knife solo cook user@host [nodes/&lt;hostname&gt;.json]` 将kitchen上传到指定的host并执行chef-solo
+`knife solo bootstrap user@host`  perpare+cook
+</code></pre>
+
+<h3>配置多台 vm</h3>
+
+<p>修改<code>Vagrantfile</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:oshost</span> <span class="k">do</span> <span class="o">|</span><span class="n">oshost</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;centos-6.4&quot;</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="s2">&quot;192.168.33.10&quot;</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="s2">&quot;oshost&quot;</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">&quot;virtualbox&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;oshost&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:osdep01d</span> <span class="k">do</span> <span class="o">|</span><span class="n">osdep01d</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">osdep01d</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;centos-6.4&quot;</span>
+</span><span class='line'>    <span class="n">osdep01d</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="s2">&quot;192.168.33.11&quot;</span>
+</span><span class='line'>    <span class="n">osdep01d</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="s2">&quot;osdep01d&quot;</span>
+</span><span class='line'>    <span class="n">osdep01d</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="s2">&quot;virtualbox&quot;</span> <span class="k">do</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;osdep01d&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启动vm</p>
+
+<pre><code>$ vagrant up osdep01d
+</code></pre>
+
+<p>添加ssh host</p>
+
+<pre><code>$ vagrant ssh-config --host osdep01d &gt;&gt; ~/.ssh/config
+</code></pre>
+
+<p>向<code>osdep01d</code>安装cookbooks</p>
+
+<pre><code>$ knife solo bootstrap osdep01d
+</code></pre>
+
+<h3>参考文章</h3>
+
+<p><a href="https://fak3r.com/2013/08/30/howto-get-started-with-chef-librarian-chef-and-vagrant/">HOWTO get started with chef, librarian-chef and vagrant</a><br/>
+<a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">[教學]使用Vagrant練習環境佈署</a><br/>
+<a href="http://gogojimmy.net/2013/06/01/Chef-Solo-Basic-with-Vagrant/">[Rails佈署實戰教學]使用Chef-Solo一鍵安裝機器</a><br/>
+<a href="http://tumblr.nrako.com/post/22320729770/vagrant-chef-librarian">Vagrant Provisioning, Chef solo and Librarian-chef</a></p>
+
+<h3>相关资源</h3>
+
+<p><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a><br/>
+<a href="http://www.vagrantbox.es/">vagrantbox</a><br/>
+<a href="http://community.opscode.com/cookbooks">cookbooks</a></p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2014-04-10T09:54:28+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2014</time>
         
            | <a href="/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/#disqus_thread"
@@ -560,125 +1128,6 @@
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--[if lte IE 8]&gt;&lt;span style=&quot;filter: FlipH; -ms-filter: &quot;FlipH&quot;; display: inline-block;&quot;&gt;&lt;![endif]--&gt;</span> <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;&quot;</span><span class="nt">&gt;</span>     <span class="ni">&amp;copy;</span> <span class="nt">&lt;/span&gt;</span> <span class="c">&lt;!--[if lte IE 8]&gt;&lt;/span&gt;&lt;![endif]--&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-10-15T09:47:43+08:00" pubdate data-updated="true">Oct 15<span>th</span>, 2012</time>
-        
-           | <a href="/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/">MySQL中文字段拼音排序</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>不想改变表定义及默认编码的情况，将字段先转换成gbk编码再排序：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="k">table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">CONVERT</span><span class="p">(</span> <span class="n">chinese_field</span> <span class="k">USING</span> <span class="n">gbk</span> <span class="p">)</span> <span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>前提是在安装mysql时安装了gbk字符集，不然会报错：</p>
-
-<pre><code>#1115 - Unknown character set: 'gbk'
-</code></pre>
-
-<p>在编译源码时加上gbk编码即可，如果已经安装好了，重新编译再安装，重新编译安装一般不会影响mysql的已有设置，包括数据都不会受到影响。</p>
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-04-09T10:56:15+08:00" pubdate data-updated="true">Apr 9<span>th</span>, 2012</time>
-        
-           | <a href="/blog/2012/04/09/pluralizeyu-i18nde-pei-he/#disqus_thread"
-             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he/">Comments</a>
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/09/pluralizeyu-i18nde-pei-he/">Pluralize与i18n的配合</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content clearfix"><p>locales文件</p>
-
-<figure class='code'><figcaption><span>en.yml </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:en</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">:nights</span>
-</span><span class='line'>    <span class="l-Scalar-Plain">:one =&gt; &#39;1 night&#39;,</span>
-</span><span class='line'>    <span class="l-Scalar-Plain">:other =&gt; &#39;%{count} nights&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>zh-TW.yml </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">:zh-TW</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">:nights     :one =&gt; &#39;1 晚&#39;,     :other =&gt; &#39;%{count} 晚&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>view层</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">    view </span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span> <span class="s2">&quot;.nights&quot;</span><span class="p">,</span> <span class="ss">count</span><span class="p">:</span> <span class="vi">@nights</span> <span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> </span>
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
