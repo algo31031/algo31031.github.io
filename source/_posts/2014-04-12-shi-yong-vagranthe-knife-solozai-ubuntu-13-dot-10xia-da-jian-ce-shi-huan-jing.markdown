@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境"
+title: "使用vagrant和knife-solo配合Vitrualbox搭建测试环境"
 date: 2014-04-12 19:21:22 +0800
 comments: true
 categories: [部署, ubuntu]
