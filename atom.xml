@@ -1,23 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2014-04-04T17:05:16+08:00</updated>
-  <id>http://yoursite.com/</id>
+  <title><![CDATA[老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-10T10:58:55+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[banban]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
+    <title type="html"><![CDATA[Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i]]></title>
+    <link href="http://blog.sns-simple.com/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/"/>
+    <updated>2014-04-10T09:54:28+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i</id>
+    <content type="html"><![CDATA[<p><a href="http://simpleror.wordpress.com/2009/03/15/q-q-w-w-x-r-s/">原文地址</a></p>
+
+<h3>%Q</h3>
+
+<p>用于替代双引号的字符串. 当你需要在字符串里放入很多引号时候, 可以直接用下面方法而不需要在引号前逐个添加反斜杠 (\&ldquo;)</p>
+
+<pre><code>&gt;&gt; %Q(Joe said: "Frank said: "#{what_frank_said}"")
+=&gt; "Joe said: "Frank said: "Hello!"""
+</code></pre>
+
+<p><code>(</code>&hellip;<code>)</code>也可用其他非数字字母的符号或成对的符号代替, 诸如<code>[</code>&hellip;<code>]</code>, <code>!</code>&hellip;<code>!</code>, <code>+</code>&hellip;<code>+</code>,<code>{</code>&hellip;<code>}</code>, <code>&lt;</code>&hellip;<code>&gt;</code>等.<br/>
+以下写法全部与上面等效:</p>
+
+<pre><code>&gt;&gt; %Q!Joe said: "Frank said: "#{what_frank_said}""!
+&gt;&gt; %Q[Joe said: "Frank said: "#{what_frank_said}""]
+&gt;&gt; %Q+Joe said: "Frank said: "#{what_frank_said}""+     
+</code></pre>
+
+<p>除此之外还可省略<code>Q</code>写作:</p>
+
+<pre><code>&gt;&gt; %/Joe said: "Frank said: "#{what_frank_said}""/
+=&gt; "Joe said: "Frank said: "Hello!""" 
+</code></pre>
+
+<h3>%q</h3>
+
+<p>与<code>%Q</code>类似, 但是表示的是单引号字符串</p>
+
+<pre><code>&gt;&gt; %q(Joe said: 'Frank said: '#{what_frank_said} ' ')
+=&gt; "Joe said: 'Frank said: '\#{what_frank_said} ' '"    
+</code></pre>
+
+<h3>%W</h3>
+
+<p>语法近似于<code>%Q</code>, 用于表示其中元素被双引号括起的数组.</p>
+
+<pre><code>&gt;&gt; %W(#{foo} Bar Bar\ with\ space)
+=&gt; ["Foo", "Bar", "Bar with space"] 
+</code></pre>
+
+<h3>%w</h3>
+
+<p>用于表示其中元素被单引号括起的数组. 比较奇怪的是<code>\</code>(斜杠空格)会被转化成<code></code>(空格), 但是其他的内容不会.</p>
+
+<pre><code>&gt;&gt; %w(a b c\ d \#e #{1}f)
+=&gt; ["a", "b", "c d", "\\#e", "\#{1}f"]
+</code></pre>
+
+<h3>%x</h3>
+
+<p>使用&#8220;`方法执行一段shell脚本并返回标准输出内容.</p>
+
+<pre><code>&gt;&gt; %x(echo foo:#{foo})
+=&gt; "foo:Foo\n"    
+</code></pre>
+
+<h3>%r</h3>
+
+<p>语法近似于<code>%Q</code>, 用于正则表达式.</p>
+
+<pre><code>&gt;&gt; %r(/home/#{foo})
+=&gt; "/\\/home\\/Foo/"     
+</code></pre>
+
+<h3>%s</h3>
+
+<p>用于表示symble, 但是不会对其中表达式等内容进行转化</p>
+
+<pre><code>&gt;&gt; %s(foo)
+=&gt; :foo
+&gt;&gt; %s(foo bar)
+=&gt; :"foo bar"
+&gt;&gt; %s(#{foo} bar)
+=&gt; :"\#{foo} bar"
+</code></pre>
+
+<h3>%i</h3>
+
+<p>Ruby 2.0 之后引入的语法, 用于生成一个symble数组</p>
+
+<pre><code>2.0.0p247 :014 &gt; %i(a b c)
+=&gt; [:a, :b, :c] 
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[把以前网易博客的部分内容转过来]]></title>
+    <link href="http://blog.sns-simple.com/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai/"/>
+    <updated>2014-04-08T16:32:34+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2014/04/08/ba-yi-qian-wang-yi-bo-ke-de-bu-fen-nei-rong-zhuan-guo-lai</id>
+    <content type="html"><![CDATA[<p>好吧，其实是以很不程序员的方式，手动逐篇粘过来的。。。</p>
+
+<p>翻了下以前写的东西，能挪过来的还真寥寥。</p>
+
+<p>算是正式搬家了吧。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[架设Octopress Blog]]></title>
-    <link href="http://yoursite.com/blog/2014/04/04/jia-she-octopress-blog/"/>
+    <link href="http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog/"/>
     <updated>2014-04-04T15:48:39+08:00</updated>
-    <id>http://yoursite.com/blog/2014/04/04/jia-she-octopress-blog</id>
+    <id>http://blog.sns-simple.com/blog/2014/04/04/jia-she-octopress-blog</id>
     <content type="html"><![CDATA[<p>一直想弄个Blog整理些资料, 单靠胡乱的记到文件里放在Ubuntu One上， 既混乱查找起来也不方便。</p>
 
 <p>碰巧前段时间因为工作需要开始研究AWS，遂去Godaddy注册了个域名，反正也不贵， AWS可以“免费”体验一年， 而Godaddy的.com域名一年只要56人民币，支持支付宝付款。 反正只是个blog不用考虑备案的诸多麻烦。</p>
@@ -30,16 +134,23 @@
 
 <p>注意需要Ruby 1.9.3及以上版本</p>
 
-<pre><code>$ git clone git://github.com/imathis/octopress.git octopress
-$ cd octopress
-$ gem install bundler
-$ bundle install
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
+</span><span class='line'><span class="nv">$ </span>gem install bundler
+</span><span class='line'><span class="nv">$ </span>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>安装默认主题</p>
 
-<pre><code>$ rake install
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake install
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>也可以在<a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">这里</a>找到其他主题</p>
 
@@ -47,16 +158,23 @@ $ bundle install
 
 <p>安装greyjoy主题</p>
 
-<pre><code>$ cd .themes
-$ git clone git://github.com/rezajatnika/greyjoy.git
-$ rake install[greyjoy]
-$ rake generate   
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> .themes
+</span><span class='line'><span class="nv">$ </span>git clone git://github.com/rezajatnika/greyjoy.git
+</span><span class='line'><span class="nv">$ </span>rake install<span class="o">[</span>greyjoy<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>rake generate
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>装完之后， 你就可以用<code>rake preview</code>预览下了</p>
 
-<pre><code>$ rake preview
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake preview
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>在浏览器地址栏输入<code>localhost:4000</code>就能看到</p>
 
@@ -66,48 +184,593 @@ $ rake generate
 
 <p>Github User/Organization pages会把你rope的master分支用作在<code>http://username.github.io</code>发布的内容，相应的我们可以把source 分支作为我们源码的分支。Octopress已经提供了一个内建的rake task来帮我们搞定上述操作。</p>
 
-<pre><code>$ rake setup_github_pages
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake setup_github_pages
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>这个rake  task会要你输入一个Github repo的url， 我我们创建完的repo的https/ssh url任选其一粘过来回车即可（比如我的： <code>git@github.com:algo31031/algo31031.github.io.git</code>）</p>
 
 <p>之后想要发表blog只要执行</p>
 
-<pre><code>$ rake generate
-$ rake deploy
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>就可以把我们的blog提交到github repo的master分支下，过段时间就可以在<code>http://username.github.io</code>看到blog已经部署成功。</p>
 
 <p>不要忘记把源码也一起放到github</p>
 
-<pre><code>$ git add .
-$ git commit -m 'your message'
-$ git push origin source
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s1">&#39;your message&#39;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>使用自己的域名</h2>
 
 <p>在source目录下创建一个名字是<code>CNAME</code>的文件，然后向CNAME里添加记录(二者择一即可, 或者干脆自己打开CNAME文件把<code>your-domain.com</code>或者<code>www.your-domain.com</code>考进去)</p>
 
-<pre><code>$ echo 'your-domain.com' &gt;&gt; source/CNAME
-# OR
-$ echo 'www.your-domain.com' &gt;&gt; source/CNAME
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">&#39;your-domain.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
+</span><span class='line'><span class="c"># OR</span>
+</span><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">&#39;www.your-domain.com&#39;</span> &gt;&gt; <span class="nb">source</span>/CNAME
+</span></code></pre></td></tr></table></div></figure>
 
-<p>然后去DSN服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
+
+<p>然后去DNS服务商那里创建一条记录。如果用的子域名，只需要创建一个CNAME记录, 将子域名指向<code>http://username.github.io</code>。如果是主域名则需要A记录然后指定ip。</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Tywin Lannister Quote]]></title>
-    <link href="http://yoursite.com/blog/2013/06/15/tywin-lannister-quote/"/>
-    <updated>2013-06-15T09:28:00+08:00</updated>
-    <id>http://yoursite.com/blog/2013/06/15/tywin-lannister-quote</id>
-    <content type="html"><![CDATA[<p>A nice quote by Tywin Lannister taken from <em>A Storm of Sword</em> book.</p>
+    <title type="html"><![CDATA[Ubuntu 12.04下安装 RMagick 报错Can't install RMagick 2.12.2. Can't find Magick-config]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/"/>
+    <updated>2012-12-26T13:28:41+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config</id>
+    <content type="html"><![CDATA[
 
-<blockquote><p>The greatest fools are ofttimes more clever then the men who laugh at them.</p><footer><strong>Tywin Lannister</strong> <cite>A Storm of Swords</cite></footer></blockquote>
+<figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>checking <span class="k">for </span>Magick-config... no
+</span><span class='line'>Can<span class="s1">&#39;t install RMagick 2.12.2. Can&#39;</span>t find Magick-config in /home/hanbing/.rvm/gems/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/gems/ruby-1.9.3-p125@global/bin:/home/hanbing/.rvm/rubies/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/bin::/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/hanbing/.rvm/bin
+</span></code></pre></td></tr></table></div></figure>
 
+
+<p>ImageMagick正确安装后还需要安装相应的dev包：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagickwand-dev
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用jquery-fileupload-rails在IE下进行AJAX文件上传失败的解决办法]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa/"/>
+    <updated>2012-10-19T09:29:55+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/10/19/shi-yong-jquery-fileupload-railszai-iexia-jin-xing-ajaxwen-jian-shang-chuan-shi-bai-de-jie-jue-ban-fa</id>
+    <content type="html"><![CDATA[<p>症状：提示“illegal character”错误,上传失败</p>
+
+<p>原因：Chrome, Firefox, Safari等浏览器本身支持XHR形式的文件上传，但IE不支持，于是Jquery-Fileupload自动在页面添加隐藏的iframe,于是在上传文件时造成 CSRF token 无法传递。</p>
+
+<p>解决：</p>
+
+<p>在View层添加：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='js+erb'><span class='line'>  <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">fileupload</span><span class="p">();</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="c">&lt;!--</span><span class="p">[</span><span class="k">if</span> <span class="nx">IE</span><span class="p">]</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#fileupload&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;fileuploadsend&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">auth_token</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;csrf-token&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">url</span> <span class="o">+</span> <span class="s1">&#39;?authenticity_token=&#39;</span> <span class="o">+</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">auth_token</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">.</span><span class="nx">blueimpUI</span><span class="p">.</span><span class="nx">fileupload</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">send</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>  <span class="o">&lt;!</span><span class="p">[</span><span class="nx">endif</span><span class="p">]</span><span class="o">--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 同时在controller里添加：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:json</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="vi">@episode</span><span class="o">.</span><span class="n">to_jq_upload</span><span class="o">].</span><span class="n">to_json</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:content_type</span> <span class="o">=&gt;</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[copyleft标志]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/10/16/copyleftbiao-zhi/"/>
+    <updated>2012-10-16T09:23:13+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/10/16/copyleftbiao-zhi</id>
+    <content type="html"><![CDATA[
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!--[if lte IE 8]&gt;&lt;span style=&quot;filter: FlipH; -ms-filter: &quot;FlipH&quot;; display: inline-block;&quot;&gt;&lt;![endif]--&gt;</span> <span class="nt">&lt;span</span> <span class="na">style=</span><span class="s">&quot;-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;&quot;</span><span class="nt">&gt;</span>     <span class="ni">&amp;copy;</span> <span class="nt">&lt;/span&gt;</span> <span class="c">&lt;!--[if lte IE 8]&gt;&lt;/span&gt;&lt;![endif]--&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL中文字段拼音排序]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/"/>
+    <updated>2012-10-15T09:47:43+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu</id>
+    <content type="html"><![CDATA[<p>不想改变表定义及默认编码的情况，将字段先转换成gbk编码再排序：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="k">table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">CONVERT</span><span class="p">(</span> <span class="n">chinese_field</span> <span class="k">USING</span> <span class="n">gbk</span> <span class="p">)</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>前提是在安装mysql时安装了gbk字符集，不然会报错：</p>
+
+<pre><code>#1115 - Unknown character set: 'gbk'
+</code></pre>
+
+<p>在编译源码时加上gbk编码即可，如果已经安装好了，重新编译再安装，重新编译安装一般不会影响mysql的已有设置，包括数据都不会受到影响。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[pluralize与i18n的配合]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he/"/>
+    <updated>2012-04-09T10:56:15+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/04/09/pluralizeyu-i18nde-pei-he</id>
+    <content type="html"><![CDATA[<p>locales文件</p>
+
+<figure class='code'><figcaption><span>en.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:en</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">:one =&gt; &#39;1 night&#39;,</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">:other =&gt; &#39;%{count} nights&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>zh-TW.yml </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">:zh-TW</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">:nights     :one =&gt; &#39;1 晚&#39;,     :other =&gt; &#39;%{count} 晚&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>view层</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">    view </span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span> <span class="s2">&quot;.nights&quot;</span><span class="p">,</span> <span class="ss">count</span><span class="p">:</span> <span class="vi">@nights</span> <span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> </span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[安装rmagick出错]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo/"/>
+    <updated>2012-04-06T11:46:21+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo</id>
+    <content type="html"><![CDATA[<p>报错信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while...
+</span><span class='line'>ERROR:  Error installing rmagick:
+</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[database.yml里password如果全部为数字需要加'']]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/"/>
+    <updated>2012-03-27T01:27:06+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia</id>
+    <content type="html"><![CDATA[<p>database.yml里面密码采用全数字时，加 &lsquo; &rsquo;, 否则运行rake时报错： can&rsquo;t convert Fixnum into String</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[设置gem源，解决下载慢的问题]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/"/>
+    <updated>2012-03-26T23:10:18+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-,jie-jue-xia-zai-man-de-wen-ti</id>
+    <content type="html"><![CDATA[<h3>问题解决的最好方法方法</h3>
+
+<p>使用google的DNS 8.8.8.8 / 8.8.4.4</p>
+
+<h3>另一种解决方式</h3>
+
+<p>修改rubygems的source源</p>
+
+<p>删除原有gem source</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://rubygems.org/
+</span><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://production.s3.rubygems.org/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>增加新source源</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -a http://production.s3.ru
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果使用Bundler</h3>
+
+<p>修改你的 Gemfile 将 <code>http://rubygems.org</code> 改为 <code>http://ruby.taobao.org/</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RVM is not a function]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/03/26/rvm-is-not-a-function/"/>
+    <updated>2012-03-26T10:47:59+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/03/26/rvm-is-not-a-function</id>
+    <content type="html"><![CDATA[<p>在主文件夹<code>.bashrc</code>中加入一行</p>
+
+<pre><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm"
+</code></pre>
+
+<p>如果终端设置成<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a>，则修改<code>.bash_profile</code></p>
+
+<p>重启终端</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用cucumber配合pickle]]></title>
+    <link href="http://blog.sns-simple.com/blog/2011/01/27/shi-yong-cucumberpei-he-pickle/"/>
+    <updated>2011-01-27T21:58:00+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2011/01/27/shi-yong-cucumberpei-he-pickle</id>
+    <content type="html"><![CDATA[<p>建立项目</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rails -d mysql order <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加脚手架</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate scaffold books title:string
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建数据库，建表</p>
+
+<p>修改<code>BooksController#index</code></p>
+
+<figure class='code'><figcaption><span>BooksController#index </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@books</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span><span class="ss">:order</span> <span class="o">=&gt;</span> <span class="s2">&quot;title DESC&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在项目下加载cucumber与capybara</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate cucumber --capybara
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加pickle(path可选，加上之后会在paths.rb里面增加)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate pickle path
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在相应books_steps.rb文件里加入</p>
+
+<figure class='code'><figcaption><span>books_steps.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Then</span> <span class="sr">/^我应该(?:在&quot;([^&quot;]*)&quot;中)?依次看到:$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">selector</span><span class="p">,</span> <span class="n">table</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">pattern</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">flatten</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="no">Regexp</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:quote</span><span class="p">))</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.*?&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">regexp</span> <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="ss">Regexp</span><span class="p">:</span><span class="ss">:MULTILINE</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">with_scope</span><span class="p">(</span><span class="n">selector</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_xpath</span><span class="p">(</span><span class="s1">&#39;//*&#39;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="n">regexp</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在feature中加入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Scenario:</span><span class="nf"> books in order</span>
+</span><span class='line'><span class="k">Given </span><span class="nf">the following books exist</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> title</span><span class="k">   |</span><span class="s"> id</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">  |</span><span class="s"> 1</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">  |</span><span class="s"> 2</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">   |</span><span class="s"> 3</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">When </span><span class="nf">I go to books</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I should see in that order:</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">    | </span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">    | </span><span class="nf"></span>
+</span><span class='line'><span class="k">And </span><span class="nf">I should see &quot;</span><span class="s">aaa</span><span class="nf">&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在paths.rb中加入</p>
+
+<figure class='code'><figcaption><span>path.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">when</span> <span class="sr">/books/</span>
+</span><span class='line'>  <span class="n">books_path</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake cucumber:all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等着看黄瓜变绿～～</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[undefined method 'rewrite' for #<String:0xaf85690>的解决]]></title>
+    <link href="http://blog.sns-simple.com/blog/2011/01/05/undefined-method-rewrite-for-number-de-jie-jue/"/>
+    <updated>2011-01-05T12:56:43+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2011/01/05/undefined-method-rewrite-for-number-de-jie-jue</id>
+    <content type="html"><![CDATA[<p>简而言之，就是代码中在有使用<code>link_to</code>的时候 ，出现了<code>@url</code></p>
+
+<hr />
+
+<p><a href="http://www.concept47.com/austin_web_developer_blog/ruby-on-rails/ruby-on-rails-gotcha-undefined-method-rewrite-for/">点此查看原文</a></p>
+
+<p>If you get this error, and the error message is pointing you to a “link_to” call or something similar, then you may be using an instance variable that’s called ‘@url’ too.</p>
+
+<p>This blog post did talk about the problem but it seemed limited to models only. I finally discovered that, in my case, I was using ‘@url’ in the controller for the view where I was making the ‘link_to’ call.</p>
+
+<p>Long story short, if you see this error, comb through your code (models, controllers and views) for any variables that are called ‘@url’  and change them.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[云清扬转正申请]]></title>
+    <link href="http://blog.sns-simple.com/blog/2010/12/31/yun-qing-yang-zhuan-zheng-shen-qing/"/>
+    <updated>2010-12-31T16:25:25+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2010/12/31/yun-qing-yang-zhuan-zheng-shen-qing</id>
+    <content type="html"><![CDATA[<h3>梦想不会逃走,逃走的只是自己&hellip;</h3>
+
+<p>第一次听到&lt;老男孩>中那首歌时,眼泪不由自主的落下来. 很难用语言描述清那种夹杂着失落的感动. 记得第一次摸到电脑,还是很小的时候在母亲战友的办公室里. 当时一下子就被屏幕中随着键盘按下做出各种动作的小人儿吸引住(现在再回想,其实不过是一款古老的打字练习程序中小游戏的环节&hellip;按顺序敲下字母,骑士就会去攻击敌人或者敲错了挨打). 五年级那年,父亲的办公室配备了一台486(DX66,最开始只有4M内存,没光驱..有次看到有人拿着游戏偷偷去安装,智冠的&lt;倚天屠龙记>,一大盒子软盘,拿在手里沉甸甸的很有实在感&hellip;).后来初一那年,家里终于买了电脑(奔腾100,16M内存,800多M的硬盘,win95+dos6.22+win3.1&hellip;). 不知道爸爸当时从哪儿弄了套洪恩的&lt;开天辟地>让我看来学习win95基础知识,我则对着里面介绍的几款游戏流口水(印象最深的是&lt;魔兽争霸2：黑暗之潮>,最后终于在上大学时候下载到)&hellip; &hellip;</p>
+
+<p>小时候是没有程序员的概念的,但心中却依稀留有朦胧的梦.</p>
+
+<p>高考结束,望着计算机专业高高在上的分数,只能轻叹口气&hellip;其实填报志愿选择专业并没太纠结,不过是从一大堆陌生的名词中挑选个看着还算顺眼的而已&hellip; &hellip;大学学业的失利,虽然可以说是用几年的时间推翻了之前十几年的努力.但从另一个角度讲,也正因此,让我有了在喜欢的领域从头再来的决心.</p>
+
+<h3>自由、真诚</h3>
+
+<p>在签合同之前宝哥找我谈话的那次,被问及一个月来对云清扬的感受时,头脑中最先冒出的就是&#8221;自由&#8221; ( &ldquo;自由?我们都感觉压力老大了&hellip;&rdquo; 当时宝哥好像是这么回应的来着&hellip;具体的字眼咬不准了&hellip;). 随着入伙儿的时间增长,&ldquo;自由&#8221;的感觉也越来越强烈. 压力自然是很大(现在每次洗头都感觉头发比原先稀疏得更厉害&hellip;),但&#8221;自由&#8221;原本也不等同于轻松安逸.  &#8220;蜂蜜水&rdquo;  &ldquo;谁喝咖啡&rdquo;   &ldquo;八点 || 九点&rdquo;  &ldquo; 高山流水&rdquo;  &ldquo;25/share/&rdquo;  &ldquo;大家一起喝多,打地铺&rdquo;  &hellip;  一幕幕,虽然很好的诠释&#8221;自由&#8221;的字面含义. 但在我心中,最大的自由,是我可以从事自己真正喜爱的工作.即便疯狂的掉头发,即便要挤好久的公交,每天依然能过的愉快而充实.</p>
+
+<p>爸爸妈妈都很喜欢一套电视剧&lt;激情燃烧的岁月>,里面&#8221;石光荣&#8221;的形象,简直就是爷爷的翻版.</p>
+
+<p>当于双源在郝阿姨婚礼答谢宴那晚讲到&#8221;真诚&#8221;时候,由心底的感到认同. 这么多年来几乎都在上学,并没什么所谓&#8221;社会阅历&#8221;,不敢妄谈品质德行. 然而,国家处于飞速发展时期,注定社会也心浮气躁. 只是希望,&ldquo;真诚&#8221;永远能够被当做美德,在云清扬的家族中传承下去.</p>
+
+<h3>For Honor &amp; Glory !</h3>
+
+<p>每次听到电影里,骑士们高呼激昂的口号,披坚执锐勇往无前的场面,都会感觉热血澎湃.</p>
+
+<p>我也愿化身为云清扬的骑士,与大家一起,执长枪跨战马,为了共同的理想与信念,向着各种困难和挑战发起冲锋.</p>
+
+<p>(突然在想&hellip;倘若真有册封&hellip;&ldquo;蜂蜜水爵士&rdquo; &ldquo;给力舞王美女爵士&rdquo; 等等&hellip;一定都会是很威武的名字&hellip;要是于双源在的话,一定会偷偷在&#8221;爵士&#8221;前加上&#8221;喷泉&#8221;两字&hellip;啊&hellip;扯远了)</p>
+
+<p>上次和明哥,谈到了个人定位的问题. (借用刚才的比喻,现阶段的我,恐怕连骑士侍从的标准也会勉强.) 差距是实实在在存在的,承认并接受这一点,并不是在说&#8221;我不行,我做不到&#8221;,而是要鞭策自己不断成长和进步.</p>
+
+<h3>转正申请</h3>
+
+<p>矫情的表决心部分全部忽略掉吧,直入主题</p>
+
+<p>韩冰  申请成为云清扬正式员工</p>
+
+<h3>最后的题外话&hellip;</h3>
+
+<p>To 明哥 : 年会那晚的歌唱得实在太有感觉了&hellip;虽然最佳节目我还是会选土耳其热舞&hellip;</p>
+
+<p>To 宝哥 : 上次谈话说的&#8221;我还是写出来吧&#8221;的部分: 如今,我的梦想是,能够在伟大的软件产品里留下自己的名字( 就算不是在现眼的位置)</p>
+
+<p>终于写完了.<br/>
+原来&hellip;转正申请,是写给自己的</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[《吸血鬼猎人D》]]></title>
+    <link href="http://blog.sns-simple.com/blog/2010/04/21/%3C%3Cxi-xie-gui-xi-ren-d%3E%3E/"/>
+    <updated>2010-04-21T00:11:56+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2010/04/21/<<xi-xie-gui-xi-ren-d>></id>
+    <content type="html"><![CDATA[<p><img src="http://blog.sns-simple.com/images/20100421.jpg" alt="吸血鬼猎人D" /></p>
+
+<p>&ldquo;Love can make us weak, and make us strong&rdquo;</p>
+
+<p>看完整部电影之后,<We were lovers>的旋律一直在心中回荡&hellip;虽然完全是不相干的故事了,但倘若主题是&#8221;爱&#8221;,应该全部都是互通的吧&hellip;即便主角已化为了Vampire</p>
+
+<p>又遇到了拥有双重血统的主角&hellip;永远也不会被当做人类来被接受,却也永远无法摆脱自己一半吸血鬼血统&hellip;当年把自己论坛上的ID选用&#8221;Half-ELF&#8221;,应该也是类似的心情吧&hellip;只是,D的诅咒来自他无法选择的血统&hellip;到最后,所有人都可以得到解脱,只有D依然承受着无尽的孤独</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[《巴黎，我爱你》]]></title>
+    <link href="http://blog.sns-simple.com/blog/2010/04/12/%3C%3Cba-li-%2Cwo-ai-ni-%3E%3E/"/>
+    <updated>2010-04-12T23:49:15+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2010/04/12/<<ba-li-,wo-ai-ni->></id>
+    <content type="html"><![CDATA[<p><img src="http://blog.sns-simple.com/images/20100412.jpg" alt="巴黎，我爱你" /></p>
+
+<p>果然所谓感悟这种东西&hellip;只消隔一天就会消失的无影无踪&hellip;</p>
+
+<p>依然觉得,喜剧演员的这段故事,是整部电影十数个段落中最感人的一出.浪漫到极致&hellip;</p>
+
+<p>在我眼中,浪漫便应如此.充满在生活的每一个角落里,只待同样浪漫的人去发现,而绝不应是人为雕琢而出.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[《纽约，我爱你!》]]></title>
+    <link href="http://blog.sns-simple.com/blog/2010/04/04/%3C%3Cniu-yue-%2Cwo-ai-ni-%3E%3E/"/>
+    <updated>2010-04-04T23:48:44+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2010/04/04/<<niu-yue-,wo-ai-ni->></id>
+    <content type="html"><![CDATA[<p><img src="http://blog.sns-simple.com/images/20100404.jpg" alt="纽约，我爱你" /></p>
+
+<p>爱情究竟何为何物&hellip;恐怕,每个人都会给出不同的答案</p>
+
+<p>一次浪漫的邂逅,一段尘封的往事,一场酒后的出轨,又或许只是几句抱怨\一阵唠叨</p>
+
+<p>打情骂俏是爱,翻云覆雨是爱,嫣然一笑是爱,刻骨铭心也是爱</p>
+
+<p>既可爱的过雨云烟,转瞬即逝,亦可爱的海枯石烂,至死不渝</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[猫的故事]]></title>
+    <link href="http://blog.sns-simple.com/blog/2008/12/04/mao-de-gu-shi/"/>
+    <updated>2008-12-04T13:41:56+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2008/12/04/mao-de-gu-shi</id>
+    <content type="html"><![CDATA[<p>有一只活了一百万次的猫，它死了一百万次，也活了一百万<br/>
+次。 但猫一直不喜欢任何人。<br/>
+有一次，猫是国王的猫，国王很喜欢猫，做了一个美丽的篮子，把猫放在里面。<br/>
+每次国王要打仗都把猫带在身边。不过猫很不快乐，有一次在打扙时，<br/>
+猫被箭打死了，国王抱著猫，哭得好伤心、好伤心，<br/>
+但是猫没有哭，猫不喜欢国王。</p>
+
+<p>有一次，猫是渔夫的猫，渔夫很喜欢猫，每次渔夫出海补鱼，都会带著猫，<br/>
+不过猫很不快乐，有一次在打渔时，猫掉进海里，<br/>
+渔夫赶紧拿网子把猫捞起来，不过猫已经死了。<br/>
+渔夫抱著它哭得好伤心、好伤心，但是猫并没有哭，猫不喜欢渔夫。</p>
+
+<p>有一次，猫是马戏团的猫。马戏团的魔术师喜欢表演一样魔术，就是把猫放在箱子里，</p>
+
+<p>把箱子和猫一起切开，<br/>
+然後再把箱子合起来，而猫又变回一只活蹦乱跳的猫，不过猫很不快乐。<br/>
+有一次魔术师在表演这一个魔术时，不小心将猫真的切成了两半，猫死了。<br/>
+魔术师抱著切成了两半的猫，哭得好伤心、好伤心，不过猫并没有哭，<br/>
+猫不喜欢马戏团。</p>
+
+<p>有一次，猫是老婆婆的猫，猫很不快乐，因为老婆婆喜欢静静的抱著猫，<br/>
+坐在窗前看著行人来来往往，就这样过了一天又一天、一年又一年。<br/>
+有一天，猫在老婆婆的怀里一动也不动，猫又死了，老婆婆抱著猫哭得好伤心、好伤心<br/>
+，但</p>
+
+<p>是猫并没有哭，猫不喜欢老婆婆。</p>
+
+<p>有一次，猫不是任何人的猫，猫是一只野猫，猫很快乐，每天猫有吃不完的鱼，<br/>
+每天都有母猫送鱼来给它吃。<br/>
+它的身旁总是围了一群美丽的母猫，不过猫并不喜欢它们。<br/>
+猫每次都是骄傲的说：「我可是一只活过一百万次的猫喔！」</p>
+
+<p>有一天，猫遇到了一只白猫，白猫看都不看猫一眼，<br/>
+猫很生气的走到白猫面前对白猫说我可是一只活过一百万次的猫喔！」<br/>
+白猫只是轻轻的「哼！」了一声，就把头转开了之後，猫每次遇到白猫，<br/>
+都会故意走到白猫面前说：「我可是一只活过一百万次的猫喔！」<br/>
+而白猫每次也都只是轻轻的「哼！」了一声，就把头转开。</p>
+
+<p>猫变得很不快乐，一天，猫又遇到白猫，刚开始，猫在白猫身边独自玩耍，後来<br/>
+渐渐的走到白猫身边，轻轻的问了一句话：「我们在一起好吗？」<br/>
+而白猫也轻轻的点了点头「嗯！」了一声，猫好高兴、好高兴，<br/>
+它们每天都在一起，白猫生了好多小猫，猫很用心的照顾小猫们，<br/>
+小猫长大了，一个个离开了。<br/>
+猫很骄傲，因为猫知道：小猫们是一只活过一百万次的猫的小孩！<br/>
+白猫老了，猫很细心的照顾著白猫，每天猫都抱著白猫说故事给白猫听，<br/>
+直到睡著。</p>
+
+<p>一天，白猫在猫的怀里一动也不动了，白猫死了。猫抱著白猫哭了，<br/>
+猫一直哭、一直哭、一直哭，直到有一天，猫不哭了，猫再也不动了，<br/>
+猫和白猫一起死了，猫也没有再活过来。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[大黑山归来...累...]]></title>
+    <link href="http://blog.sns-simple.com/blog/2008/10/02/da-hei-shan-gui-lai-dot-dot-dot-lei-dot-dot-dot/"/>
+    <updated>2008-10-02T20:47:00+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2008/10/02/da-hei-shan-gui-lai-dot-dot-dot-lei-dot-dot-dot</id>
+    <content type="html"><![CDATA[<p>从下面看还是挺矮的,海拔也的确不高,不过爬着并不轻松&hellip;再次倍感锻炼身体之迫切</p>
+
+<p>原本以为会是在林间小路中穿行,特意裹了厚重的外套.幸而一路都有石阶攀沿而上.通常陡峭之处边上还会有扶手.山路还是很窄,只能供两人并排前行.有两处坡度非常大,爬上去感觉很吃力,还要同时应付&#8221;千万不要掉下去&#8221;的心理负担..还好下山在我和老祝的一再坚持下,选择了条相对绕远但是更易行的车路,不过对体力又是严峻的考验&hellip;结果到最后大家也都没力气,瘫坐在路边,还好运气不错,打到了辆面包车代步&hellip;</p>
+
+<p>.人很多,也可能是因为路太窄,总之很难找到一块僻静之处.因为被开发过了,沿途的一切都有很浓重的雕琢过的味道.唯独下山时候路边的农家,还会透露出几分质朴的气息,但是很快就被连成片的小饭馆打散&hellip;整个爬山的过程没有太多亮点,满地是人,让人根本体会不到原本应该属于自然地幽静与安详&hellip;秋天的山,本该是深沉冷静的,却也不堪人类的烦扰,沾染了浮躁的脾性&hellip;</p>
+
+<p>本以为没拍几张照片,回来再看,却发现居然也过了百张,实属意料之外&hellip;所有照片几乎都是信手拈来,完全没有构图的美感,却比较符合我的特质,只可惜山下一片雾蒙蒙,从山顶拍的照片很是飘渺&hellip;刚上山没多久,看到一位奶奶下山,健步如飞动作丝毫不比年轻人逊色(对比我们下山时候走走停停的狼狈样子,更加崇拜她了&hellip;).头上还戴了一顶野花编制出的头环.可惜拿出相机那位奶奶已经擦身而过,只能捕捉到她的背影.其实年龄的增长并不可怕,只有当心也变得龙钟,才是真的老了&hellip;半山腰上有做寺庙,香火好像很旺,到处烟雾缭绕,佛乐飘飘,感觉好像进入了另一个世界.大殿上供着三尊如来,同学解释说是三世佛:前世,今世,来世.看到一位大师在替人释签,抑制不住好奇拍了一小段视频,被发现感觉自己也许有些冒昧,于是没在寺里再留任何影像记录&hellip;不过其实我并不相信神佛的&hellip;登顶的最后一段路程几乎消耗了全部的体力,下山没再拍什么照片&hellip;</p>
+
+<p>在山顶看到了下面的软件学院,心中无限感慨&hellip;然而一切过去了也就过去了,事已至此,悔亦何用&hellip;把握好现在的每一天才是最重要的</p>
 ]]></content>
   </entry>
   

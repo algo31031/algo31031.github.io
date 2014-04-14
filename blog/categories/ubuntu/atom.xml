@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ubuntu | 老男孩的整理箱]]></title>
+  <link href="http://blog.sns-simple.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://blog.sns-simple.com/"/>
+  <updated>2014-04-10T10:58:55+08:00</updated>
+  <id>http://blog.sns-simple.com/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu 12.04下安装 RMagick 报错Can't install RMagick 2.12.2. Can't find Magick-config]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/"/>
+    <updated>2012-12-26T13:28:41+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config</id>
+    <content type="html"><![CDATA[<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>checking <span class="k">for </span>Magick-config&amp;hellip; no
+</span><span class='line'>Can&amp;rsquo;t install RMagick 2.12.2. Can&amp;rsquo;t find Magick-config in /home/hanbing/.rvm/gems/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/gems/ruby-1.9.3-p125@global/bin:/home/hanbing/.rvm/rubies/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/bin::/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/hanbing/.rvm/bin
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>ImageMagick正确安装后还需要安装相应的dev包：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagickwand-dev
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[安装rmagick出错]]></title>
+    <link href="http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo/"/>
+    <updated>2012-04-06T11:46:21+08:00</updated>
+    <id>http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo</id>
+    <content type="html"><![CDATA[<p>报错信息</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while&hellip;
+</span><span class='line'>ERROR:  Error installing rmagick:
+</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>解决办法</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

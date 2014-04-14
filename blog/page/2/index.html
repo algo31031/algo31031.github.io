@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>老男孩的整理箱</title>
+  <meta name="author" content="banban">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.sns-simple.com/blog/page/2">
+  <link href="/favicon.png" type="image/png" rel="icon">
+  <link href="/atom.xml" rel="alternate" title="老男孩的整理箱" type="application/atom+xml">
+
+  <link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+
+  <script src="/javascripts/libs/jquery/jquery-2.0.3.min.js"></script>
+  
+
+</head>
+
+  <body   >
+    <div id="wrap">
+      <header role="banner">
+        <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">老男孩的整理箱</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li >
+                    <a href="/">Blog</a>
+                </li>
+                <li >
+                    <a href="/blog/archives">Archives</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a class="subscribe-rss" href="/atom.xml" title="subscribe via RSS">
+                        <span class="visible-xs">RSS</span>
+                        <img class="hidden-xs" src="/images/rss.png" alt="RSS">
+                    </a>
+                </li>
+                
+            </ul>
+            
+                <form class="search navbar-form navbar-right" action="https://www.google.com/search" method="GET">
+                    <input type="hidden" name="q" value="site:blog.sns-simple.com">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="q" placeholder="Search">
+                    </div>
+                </form>
+            
+        </div>
+    </div>
+</nav>
+
+
+      </header>
+      <div id="main" class="container">
+        <div id="content">
+          
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-04-06T11:46:21+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">安装rmagick出错</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>报错信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while...
+</span><span class='line'>ERROR:  Error installing rmagick:
+</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-27T01:27:06+08:00" pubdate data-updated="true">Mar 27<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/27/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">database.yml里password如果全部为数字需要加&#8221;</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>database.yml里面密码采用全数字时，加 &lsquo; &rsquo;, 否则运行rake时报错： can&rsquo;t convert Fixnum into String</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-26T23:10:18+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/26/she-zhi-gemyuan-%2Cjie-jue-xia-zai-man-de-wen-ti/">设置gem源，解决下载慢的问题</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><h3>问题解决的最好方法方法</h3>
+
+<p>使用google的DNS 8.8.8.8 / 8.8.4.4</p>
+
+<h3>另一种解决方式</h3>
+
+<p>修改rubygems的source源</p>
+
+<p>删除原有gem source</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://rubygems.org/
+</span><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -r http://production.s3.rubygems.org/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>增加新source源</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem <span class="nb">source</span> -a http://production.s3.ru
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如果使用Bundler</h3>
+
+<p>修改你的 Gemfile 将 <code>http://rubygems.org</code> 改为 <code>http://ruby.taobao.org/</code></p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2012-03-26T10:47:59+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2012</time>
+        
+           | <a href="/blog/2012/03/26/rvm-is-not-a-function/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2012/03/26/rvm-is-not-a-function/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/26/rvm-is-not-a-function/">RVM Is Not a Function</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>在主文件夹<code>.bashrc</code>中加入一行</p>
+
+<pre><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm"
+</code></pre>
+
+<p>如果终端设置成<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a>，则修改<code>.bash_profile</code></p>
+
+<p>重启终端</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2011-01-27T21:58:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2011</time>
+        
+           | <a href="/blog/2011/01/27/shi-yong-cucumberpei-he-pickle/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2011/01/27/shi-yong-cucumberpei-he-pickle/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2011/01/27/shi-yong-cucumberpei-he-pickle/">使用cucumber配合pickle</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>建立项目</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rails -d mysql order <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加脚手架</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate scaffold books title:string
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建数据库，建表</p>
+
+<p>修改<code>BooksController#index</code></p>
+
+<figure class='code'><figcaption><span>BooksController#index </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@books</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span><span class="ss">:order</span> <span class="o">=&gt;</span> <span class="s2">&quot;title DESC&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在项目下加载cucumber与capybara</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate cucumber --capybara
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加pickle(path可选，加上之后会在paths.rb里面增加)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate pickle path
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在相应books_steps.rb文件里加入</p>
+
+<figure class='code'><figcaption><span>books_steps.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Then</span> <span class="sr">/^我应该(?:在&quot;([^&quot;]*)&quot;中)?依次看到:$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">selector</span><span class="p">,</span> <span class="n">table</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">pattern</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">flatten</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="no">Regexp</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:quote</span><span class="p">))</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.*?&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">regexp</span> <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="ss">Regexp</span><span class="p">:</span><span class="ss">:MULTILINE</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">with_scope</span><span class="p">(</span><span class="n">selector</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_xpath</span><span class="p">(</span><span class="s1">&#39;//*&#39;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="n">regexp</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在feature中加入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Scenario:</span><span class="nf"> books in order</span>
+</span><span class='line'><span class="k">Given </span><span class="nf">the following books exist</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> title</span><span class="k">   |</span><span class="s"> id</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">  |</span><span class="s"> 1</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">  |</span><span class="s"> 2</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">   |</span><span class="s"> 3</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">When </span><span class="nf">I go to books</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I should see in that order:</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">    | </span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">    | </span><span class="nf"></span>
+</span><span class='line'><span class="k">And </span><span class="nf">I should see &quot;</span><span class="s">aaa</span><span class="nf">&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在paths.rb中加入</p>
+
+<figure class='code'><figcaption><span>path.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">when</span> <span class="sr">/books/</span>
+</span><span class='line'>  <span class="n">books_path</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake cucumber:all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等着看黄瓜变绿～～</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2011-01-05T12:56:43+08:00" pubdate data-updated="true">Jan 5<span>th</span>, 2011</time>
+        
+           | <a href="/blog/2011/01/05/undefined-method-rewrite-for-number-de-jie-jue/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2011/01/05/undefined-method-rewrite-for-number-de-jie-jue/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2011/01/05/undefined-method-rewrite-for-number-de-jie-jue/">Undefined Method &#8216;Rewrite&#8217; for #<String:0xaf85690>的解决</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p>简而言之，就是代码中在有使用<code>link_to</code>的时候 ，出现了<code>@url</code></p>
+
+<hr />
+
+<p><a href="http://www.concept47.com/austin_web_developer_blog/ruby-on-rails/ruby-on-rails-gotcha-undefined-method-rewrite-for/">点此查看原文</a></p>
+
+<p>If you get this error, and the error message is pointing you to a “link_to” call or something similar, then you may be using an instance variable that’s called ‘@url’ too.</p>
+
+<p>This blog post did talk about the problem but it seemed limited to models only. I finally discovered that, in my case, I was using ‘@url’ in the controller for the view where I was making the ‘link_to’ call.</p>
+
+<p>Long story short, if you see this error, comb through your code (models, controllers and views) for any variables that are called ‘@url’  and change them.</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2010-12-31T16:25:25+08:00" pubdate data-updated="true">Dec 31<span>st</span>, 2010</time>
+        
+           | <a href="/blog/2010/12/31/yun-qing-yang-zhuan-zheng-shen-qing/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2010/12/31/yun-qing-yang-zhuan-zheng-shen-qing/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2010/12/31/yun-qing-yang-zhuan-zheng-shen-qing/">云清扬转正申请</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><h3>梦想不会逃走,逃走的只是自己&hellip;</h3>
+
+<p>第一次听到&lt;老男孩>中那首歌时,眼泪不由自主的落下来. 很难用语言描述清那种夹杂着失落的感动. 记得第一次摸到电脑,还是很小的时候在母亲战友的办公室里. 当时一下子就被屏幕中随着键盘按下做出各种动作的小人儿吸引住(现在再回想,其实不过是一款古老的打字练习程序中小游戏的环节&hellip;按顺序敲下字母,骑士就会去攻击敌人或者敲错了挨打). 五年级那年,父亲的办公室配备了一台486(DX66,最开始只有4M内存,没光驱..有次看到有人拿着游戏偷偷去安装,智冠的&lt;倚天屠龙记>,一大盒子软盘,拿在手里沉甸甸的很有实在感&hellip;).后来初一那年,家里终于买了电脑(奔腾100,16M内存,800多M的硬盘,win95+dos6.22+win3.1&hellip;). 不知道爸爸当时从哪儿弄了套洪恩的&lt;开天辟地>让我看来学习win95基础知识,我则对着里面介绍的几款游戏流口水(印象最深的是&lt;魔兽争霸2：黑暗之潮>,最后终于在上大学时候下载到)&hellip; &hellip;</p>
+
+<p>小时候是没有程序员的概念的,但心中却依稀留有朦胧的梦.</p>
+
+<p>高考结束,望着计算机专业高高在上的分数,只能轻叹口气&hellip;其实填报志愿选择专业并没太纠结,不过是从一大堆陌生的名词中挑选个看着还算顺眼的而已&hellip; &hellip;大学学业的失利,虽然可以说是用几年的时间推翻了之前十几年的努力.但从另一个角度讲,也正因此,让我有了在喜欢的领域从头再来的决心.</p>
+
+<h3>自由、真诚</h3>
+
+<p>在签合同之前宝哥找我谈话的那次,被问及一个月来对云清扬的感受时,头脑中最先冒出的就是&#8221;自由&#8221; ( &ldquo;自由?我们都感觉压力老大了&hellip;&rdquo; 当时宝哥好像是这么回应的来着&hellip;具体的字眼咬不准了&hellip;). 随着入伙儿的时间增长,&ldquo;自由&#8221;的感觉也越来越强烈. 压力自然是很大(现在每次洗头都感觉头发比原先稀疏得更厉害&hellip;),但&#8221;自由&#8221;原本也不等同于轻松安逸.  &#8220;蜂蜜水&rdquo;  &ldquo;谁喝咖啡&rdquo;   &ldquo;八点 || 九点&rdquo;  &ldquo; 高山流水&rdquo;  &ldquo;25/share/&rdquo;  &ldquo;大家一起喝多,打地铺&rdquo;  &hellip;  一幕幕,虽然很好的诠释&#8221;自由&#8221;的字面含义. 但在我心中,最大的自由,是我可以从事自己真正喜爱的工作.即便疯狂的掉头发,即便要挤好久的公交,每天依然能过的愉快而充实.</p>
+
+<p>爸爸妈妈都很喜欢一套电视剧&lt;激情燃烧的岁月>,里面&#8221;石光荣&#8221;的形象,简直就是爷爷的翻版.</p>
+
+<p>当于双源在郝阿姨婚礼答谢宴那晚讲到&#8221;真诚&#8221;时候,由心底的感到认同. 这么多年来几乎都在上学,并没什么所谓&#8221;社会阅历&#8221;,不敢妄谈品质德行. 然而,国家处于飞速发展时期,注定社会也心浮气躁. 只是希望,&ldquo;真诚&#8221;永远能够被当做美德,在云清扬的家族中传承下去.</p>
+
+<h3>For Honor &amp; Glory !</h3>
+
+<p>每次听到电影里,骑士们高呼激昂的口号,披坚执锐勇往无前的场面,都会感觉热血澎湃.</p>
+
+<p>我也愿化身为云清扬的骑士,与大家一起,执长枪跨战马,为了共同的理想与信念,向着各种困难和挑战发起冲锋.</p>
+
+<p>(突然在想&hellip;倘若真有册封&hellip;&ldquo;蜂蜜水爵士&rdquo; &ldquo;给力舞王美女爵士&rdquo; 等等&hellip;一定都会是很威武的名字&hellip;要是于双源在的话,一定会偷偷在&#8221;爵士&#8221;前加上&#8221;喷泉&#8221;两字&hellip;啊&hellip;扯远了)</p>
+
+<p>上次和明哥,谈到了个人定位的问题. (借用刚才的比喻,现阶段的我,恐怕连骑士侍从的标准也会勉强.) 差距是实实在在存在的,承认并接受这一点,并不是在说&#8221;我不行,我做不到&#8221;,而是要鞭策自己不断成长和进步.</p>
+
+<h3>转正申请</h3>
+
+<p>矫情的表决心部分全部忽略掉吧,直入主题</p>
+
+<p>韩冰  申请成为云清扬正式员工</p>
+
+<h3>最后的题外话&hellip;</h3>
+
+<p>To 明哥 : 年会那晚的歌唱得实在太有感觉了&hellip;虽然最佳节目我还是会选土耳其热舞&hellip;</p>
+
+<p>To 宝哥 : 上次谈话说的&#8221;我还是写出来吧&#8221;的部分: 如今,我的梦想是,能够在伟大的软件产品里留下自己的名字( 就算不是在现眼的位置)</p>
+
+<p>终于写完了.<br/>
+原来&hellip;转正申请,是写给自己的</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2010-04-21T00:11:56+08:00" pubdate data-updated="true">Apr 21<span>st</span>, 2010</time>
+        
+           | <a href="/blog/2010/04/21/%3C%3Cxi-xie-gui-xi-ren-d%3E%3E/#disqus_thread"
+             data-disqus-identifier="http://blog.sns-simple.com/blog/2010/04/21/%3C%3Cxi-xie-gui-xi-ren-d%3E%3E/">Comments</a>
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/21/%3C%3Cxi-xie-gui-xi-ren-d%3E%3E/">《吸血鬼猎人D》</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content clearfix"><p><img src="/images/20100421.jpg" alt="吸血鬼猎人D" /></p>
+
+<p>&ldquo;Love can make us weak, and make us strong&rdquo;</p>
+
+<p>看完整部电影之后,<We were lovers>的旋律一直在心中回荡&hellip;虽然完全是不相干的故事了,但倘若主题是&#8221;爱&#8221;,应该全部都是互通的吧&hellip;即便主角已化为了Vampire</p>
+
+<p>又遇到了拥有双重血统的主角&hellip;永远也不会被当做人类来被接受,却也永远无法摆脱自己一半吸血鬼血统&hellip;当年把自己论坛上的ID选用&#8221;Half-ELF&#8221;,应该也是类似的心情吧&hellip;只是,D的诅咒来自他无法选择的血统&hellip;到最后,所有人都可以得到解脱,只有D依然承受着无尽的孤独</p>
+</div>
+  
+  
+
+</article>
+
+<nav id="pagenavi">
+    
+        <a href="/blog/" class="prev">Prev</a>
+    
+    
+        <a href="/blog/page/3/" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav>
+        </div>
+      </div>
+    </div>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits">
+  Copyright &copy; 2014 - banban<br>
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+      <span class="credit">customized with <a href="https://github.com/kAworu/octostrap3">octostrap3</a></span>.
+  </small>
+</p>
+
+</div>
+</footer>
+    <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr-2.0.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'banban';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
