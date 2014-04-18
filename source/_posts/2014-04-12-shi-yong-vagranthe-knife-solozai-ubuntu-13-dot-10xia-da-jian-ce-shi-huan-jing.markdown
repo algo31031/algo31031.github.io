@@ -16,8 +16,8 @@ categories: [部署, ubuntu]
 
 ###下载安装 vagrant 的 centos box
 [点击下载box](http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box)  
-安装box	
-	vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
+安装box    
+    $ vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
 可以在下面找到其他操作系统的box  
 [vagrantbox](http://www.vagrantbox.es/)  
 
@@ -52,12 +52,13 @@ config.vm.host_name = "oshost"
 
 配置好后可以通过`vagrant up`启动vm  
 **Vagrant常用命令**
->
-	$ vagrant up 开机 
-	$ vagrant ssh 登⼊  
-	$ vagrant suspend 暂停  
-	$ vagrant halt 关机
-	$ vagrant destroy 刪除 
+{% codeblock lang:bash %}
+$ vagrant up 开机 
+$ vagrant ssh 登⼊  
+$ vagrant suspend 暂停  
+$ vagrant halt 关机
+$ vagrant destroy 刪除 
+{% endcodeblock %}    
 
 ###插曲 启动时报错
 
@@ -94,7 +95,6 @@ Bringing machine 'default' up with 'virtualbox' provider...
 {% endcodeblock %}        
 
 原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:
->
     VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
 
     请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
@@ -146,38 +146,42 @@ Host oshost
 {% endcodeblock %}  
 
 将其加入`~/.ssh/config`内, 以后使用`$ ssh oshost`可以直接连入guest machine  
-	$ vagrant ssh-config --host oshost >> ~/.ssh/config
+    $ vagrant ssh-config --host oshost >> ~/.ssh/config
 
 除此以外，使用`vagrant ssh [主机名]`也可连入guest machine  
-	$ vagrant ssh oshost
+    $ vagrant ssh oshost
 
 **创建kitchen, 下载cookbooks**
-	$ mkdir Cookbooks
-	$ cd Cookbooks`  
+    $ mkdir Cookbooks
+    $ cd Cookbooks`  
+
+安装gem
+    $ gem install librarian-chef
+    $ gem install knife-solo  
 
 在当前目录生成一个kitchen　　
-	knife solo init .
+    $ knife solo init .
 
 在kitchen里生成Cheffile
-	librarian-chef init  
+    $ librarian-chef init  
+
 编辑Cheffile添加需要的cookbooks  
 下载Cheffile里要求的cookbooks到./cookbooks目录
-	librarian-chef install
+    $ librarian-chef install
 
 之后执行以下操作开始装机过程
 {% codeblock lang:bash %}
-$ gem install librarian-chef
-$ gem install knife-solo
 $ knife solo prepare oshost
 $ knife solo cook oshost
 {% endcodeblock %}   
 
 **knifo-solo命令**
-
-    `knife solo init 目录`  新建一个符合chef结构的目录(kitchen)用以创建和储存recipes  
-    `knife solo prepare user@host` 在给定的host安装chef
-    `knife solo cook user@host [nodes/<hostname>.json]` 将kitchen上传到指定的host并执行chef-solo
-    `knife solo bootstrap user@host`  perpare+cook
+{% codeblock lang:bash %}
+$ knife solo init 目录                               新建一个符合chef结构的目录(kitchen)用以创建和储存recipes  
+$ knife solo prepare user@host                      在给定的host安装chef
+$ knife solo cook user@host [nodes/<hostname>.json] 将kitchen上传到指定的host并执行chef-solo
+$ knife solo bootstrap user@host                    perpare+cook
+{% endcodeblock %} 
 
 ###配置多台 vm
 
@@ -205,13 +209,13 @@ $ knife solo cook oshost
 
 
 启动vm  
-	$ vagrant up osdep01d
+    $ vagrant up osdep01d
 
 添加ssh host  
-	$ vagrant ssh-config --host osdep01d >> ~/.ssh/config
+    $ vagrant ssh-config --host osdep01d >> ~/.ssh/config
 
 向`osdep01d`安装cookbooks  
-	$ knife solo bootstrap osdep01d
+    $ knife solo bootstrap osdep01d
 
 ###参考文章
 [HOWTO get started with chef, librarian-chef and vagrant](https://fak3r.com/2013/08/30/howto-get-started-with-chef-librarian-chef-and-vagrant/)  
