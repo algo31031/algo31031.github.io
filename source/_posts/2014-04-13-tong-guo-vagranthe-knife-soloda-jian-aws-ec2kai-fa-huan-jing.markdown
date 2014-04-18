@@ -6,13 +6,13 @@ comments: true
 categories: [部署, AWS]
 ---
 
-####安装vagrant-aws插件
+###安装vagrant-aws插件
 
 {% codeblock lang:bash %}
 $ vagrant plugin install vagrant-aws
 {% endcodeblock %}
 
-####配置vagrant
+###配置vagrant
 
 {% codeblock lang:bash %}
 $ mkdir aws
@@ -60,7 +60,7 @@ PS:关于各linux发行版的默认user
 
 For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.
 
-####创建 EC2 instance 并启动
+###创建 EC2 instance 并启动
 
 {% codeblock lang:bash %}
 vagrant up --provider=aws osapp01d
@@ -69,7 +69,7 @@ vagrant up --provider=aws osapp01d
 如果您使用的是gnome-terminal, 请注意要设置为[以登录shell方式运行命令(Run command as login shell)](http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/)  
 `Edit > Profile Preferences > Title and Command > Run command as a login shell`    
 
-####登录EC2 instance, 添加vagrant用户
+###登录EC2 instance, 添加vagrant用户
 
 {% codeblock lang:bash %}
 vagrant ssh osapp01d
@@ -95,7 +95,7 @@ $ visudo
 如需使用同步文件夹，需将`Defaults    requiretty`这行注释掉  
 保存退出
 
-####向EC2 instance安装cookbooks
+###向EC2 instance安装cookbooks
 {% codeblock lang:bash %} 
 $ mkdir Cookbooks 
 $ cd Cookbooks
@@ -103,7 +103,7 @@ $ knife solo prepare vagrant@xx.xx.xx.xx(您的EC2 instance的public ip)
 $ knife solo cook vagrant@xx.xx.xx.xx(您的EC2 instance的public ip) nodes/osapp01d,json
 {% endcodeblock %}
 
-####关于文件夹同步  
+###关于文件夹同步  
 如果您希望使用同步文件夹,  
 请将Vagrantfile里的`override.vm.synced_folder "./", "/vagrant", disabled: true`注释掉  
 并且重启EC2 instance
