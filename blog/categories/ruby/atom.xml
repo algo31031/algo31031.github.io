@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | 老男孩的整理箱]]></title>
   <link href="http://blog.sns-simple.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-16T08:29:20+08:00</updated>
+  <updated>2014-04-18T08:44:08+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -84,7 +84,7 @@
 
 <h3>%s</h3>
 
-<p>用于表示symble, 但是不会对其中表达式等内容进行转化</p>
+<p>用于表示symbol, 但是不会对其中表达式等内容进行转化</p>
 
 <pre><code>&gt;&gt; %s(foo)
 =&gt; :foo
@@ -96,7 +96,7 @@
 
 <h3>%i</h3>
 
-<p>Ruby 2.0 之后引入的语法, 用于生成一个symble数组</p>
+<p>Ruby 2.0 之后引入的语法, 用于生成一个symbol数组</p>
 
 <pre><code>2.0.0p247 :014 &gt; %i(a b c)
 =&gt; [:a, :b, :c] 
