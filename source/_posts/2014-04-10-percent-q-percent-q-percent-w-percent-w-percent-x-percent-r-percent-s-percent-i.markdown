@@ -63,7 +63,7 @@ categories: [ruby, 翻译]
 
 ###%s
 
-用于表示symble, 但是不会对其中表达式等内容进行转化
+用于表示symbol, 但是不会对其中表达式等内容进行转化
 
     >> %s(foo)
     => :foo
@@ -74,7 +74,7 @@ categories: [ruby, 翻译]
 
 ###%i
 
-Ruby 2.0 之后引入的语法, 用于生成一个symble数组
+Ruby 2.0 之后引入的语法, 用于生成一个symbol数组
 
     2.0.0p247 :014 > %i(a b c)
     => [:a, :b, :c] 
