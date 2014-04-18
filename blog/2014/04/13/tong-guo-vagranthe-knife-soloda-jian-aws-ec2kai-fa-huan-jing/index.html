@@ -114,14 +114,14 @@
   </header>
 
 
-<div class="entry-content clearfix"><h4>安装vagrant-aws插件</h4>
+<div class="entry-content clearfix"><h3>安装vagrant-aws插件</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant plugin install vagrant-aws
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>配置vagrant</h4>
+<h3>配置vagrant</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -200,7 +200,7 @@
 
 <p>For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.</p>
 
-<h4>创建 EC2 instance 并启动</h4>
+<h3>创建 EC2 instance 并启动</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up --provider<span class="o">=</span>aws osapp01d
@@ -210,7 +210,7 @@
 <p>如果您使用的是gnome-terminal, 请注意要设置为<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a><br/>
 <code>Edit &gt; Profile Preferences &gt; Title and Command &gt; Run command as a login shell</code></p>
 
-<h4>登录EC2 instance, 添加vagrant用户</h4>
+<h3>登录EC2 instance, 添加vagrant用户</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant ssh osapp01d
@@ -242,7 +242,7 @@
 <p>如需使用同步文件夹，需将<code>Defaults    requiretty</code>这行注释掉<br/>
 保存退出</p>
 
-<h4>向EC2 instance安装cookbooks</h4>
+<h3>向EC2 instance安装cookbooks</h3>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -257,7 +257,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>关于文件夹同步</h4>
+<h3>关于文件夹同步</h3>
 
 <p>如果您希望使用同步文件夹,<br/>
 请将Vagrantfile里的<code>override.vm.synced_folder "./", "/vagrant", disabled: true</code>注释掉<br/>
