@@ -95,9 +95,10 @@ Bringing machine 'default' up with 'virtualbox' provider...
 {% endcodeblock %}        
 
 原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:
-    VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
-
-    请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
+>
+  VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
+>
+  请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
 
 解决办法:  
 (1)进入BIOS设置,把Virtualization设为为Enabled(一般会在高级设置里)  

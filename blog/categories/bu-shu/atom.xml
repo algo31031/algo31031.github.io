@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 部署 | 老男孩的整理箱]]></title>
   <link href="http://blog.sns-simple.com/blog/categories/bu-shu/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-16T08:29:20+08:00</updated>
+  <updated>2014-04-18T15:19:00+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -18,13 +18,13 @@
     <link href="http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/"/>
     <updated>2014-04-13T16:45:26+08:00</updated>
     <id>http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing</id>
-    <content type="html"><![CDATA[<h4>安装vagrant-aws插件</h4>
+    <content type="html"><![CDATA[<h3>安装vagrant-aws插件</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant plugin install vagrant-aws
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h4>配置vagrant</h4>
+<h3>配置vagrant</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -105,7 +105,7 @@
 
 <p>For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.</p>
 
-<h4>创建 EC2 instance 并启动</h4>
+<h3>创建 EC2 instance 并启动</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up &amp;mdash;provider<span class="o">=</span>aws osapp01d
@@ -114,7 +114,7 @@
 <p>如果您使用的是gnome-terminal, 请注意要设置为<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a><br/>
 <code>Edit &gt; Profile Preferences &gt; Title and Command &gt; Run command as a login shell</code></p>
 
-<h4>登录EC2 instance, 添加vagrant用户</h4>
+<h3>登录EC2 instance, 添加vagrant用户</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant ssh osapp01d
@@ -142,7 +142,7 @@
 <p>如需使用同步文件夹，需将<code>Defaults    requiretty</code>这行注释掉<br/>
 保存退出</p>
 
-<h4>向EC2 instance安装cookbooks</h4>
+<h3>向EC2 instance安装cookbooks</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -150,11 +150,11 @@
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir Cookbooks
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>Cookbooks
-</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#108;&amp;#x74;&amp;#111;&amp;#58;&amp;#118;&amp;#97;&amp;#103;&amp;#114;&amp;#x61;&amp;#110;&amp;#116;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#x78;&quot;</span>&gt;&amp;#118;&amp;#97;&amp;#x67;&amp;#114;&amp;#x61;&amp;#110;&amp;#x74;&amp;#64;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&amp;#46;&amp;#120;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#118;&amp;#x61;&amp;#103;&amp;#x72;&amp;#97;&amp;#110;&amp;#x74;&amp;#x40;&amp;#120;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&quot;</span>&gt;&amp;#118;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#120;&amp;#120;&amp;#46;&amp;#120;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span> nodes/osapp01d,json
+</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#111;&amp;#x3a;&amp;#118;&amp;#x61;&amp;#x67;&amp;#x72;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#x78;&amp;#46;&amp;#120;&amp;#120;&quot;</span>&gt;&amp;#x76;&amp;#97;&amp;#103;&amp;#114;&amp;#x61;&amp;#110;&amp;#116;&amp;#x40;&amp;#120;&amp;#x78;&amp;#46;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#x76;&amp;#97;&amp;#x67;&amp;#x72;&amp;#97;&amp;#110;&amp;#116;&amp;#64;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#x78;&quot;</span>&gt;&amp;#118;&amp;#97;&amp;#x67;&amp;#114;&amp;#97;&amp;#110;&amp;#x74;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span> nodes/osapp01d,json
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h4>关于文件夹同步</h4>
+<h3>关于文件夹同步</h3>
 
 <p>如果您希望使用同步文件夹,<br/>
 请将Vagrantfile里的<code>override.vm.synced_folder "./", "/vagrant", disabled: true</code>注释掉<br/>
@@ -170,7 +170,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境]]></title>
+    <title type="html"><![CDATA[使用vagrant和knife-solo配合Vitrualbox搭建测试环境]]></title>
     <link href="http://blog.sns-simple.com/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/"/>
     <updated>2014-04-12T19:21:22+08:00</updated>
     <id>http://blog.sns-simple.com/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing</id>
@@ -190,7 +190,7 @@
 <p><a href="http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box">点击下载box</a><br/>
 安装box</p>
 
-<pre><code>vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
+<pre><code>$ vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
 </code></pre>
 
 <p>可以在下面找到其他操作系统的box<br/>
@@ -232,14 +232,18 @@
 <code>config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true</code></p>
 
 <p>配置好后可以通过<code>vagrant up</code>启动vm<br/>
-<strong>Vagrant常用命令</strong></p>
-
-<blockquote><pre><code>$ vagrant up 开机 
-$ vagrant ssh 登⼊  
-$ vagrant suspend 暂停  
-$ vagrant halt 关机
-$ vagrant destroy 刪除 
-</code></pre></blockquote>
+<strong>Vagrant常用命令</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant up 开机
+</span><span class='line'><span class="nv">$ </span>vagrant ssh 登⼊&lt;br/&gt;
+</span><span class='line'><span class="nv">$ </span>vagrant <span class="nb">suspend</span> 暂停&lt;br/&gt;
+</span><span class='line'><span class="nv">$ </span>vagrant halt 关机
+</span><span class='line'><span class="nv">$ </span>vagrant destroy 刪除
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>插曲 启动时报错</h3>
 
@@ -326,10 +330,9 @@ $ vagrant destroy 刪除
 
 <p>原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:</p>
 
-<blockquote><pre><code>VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
-</code></pre></blockquote>
+<pre><code>VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
 
-<pre><code>请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
+请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
 </code></pre>
 
 <p>解决办法:<br/>
@@ -447,40 +450,45 @@ $ vagrant destroy 刪除
 $ cd Cookbooks`  
 </code></pre>
 
+<p>安装gem</p>
+
+<pre><code>$ gem install librarian-chef
+$ gem install knife-solo  
+</code></pre>
+
 <p>在当前目录生成一个kitchen　　</p>
 
-<pre><code>knife solo init .
+<pre><code>$ knife solo init .
 </code></pre>
 
 <p>在kitchen里生成Cheffile</p>
 
-<pre><code>librarian-chef init  
+<pre><code>$ librarian-chef init  
 </code></pre>
 
 <p>编辑Cheffile添加需要的cookbooks<br/>
 下载Cheffile里要求的cookbooks到./cookbooks目录</p>
 
-<pre><code>librarian-chef install
+<pre><code>$ librarian-chef install
 </code></pre>
 
 <p>之后执行以下操作开始装机过程
 <div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install librarian-chef
-</span><span class='line'><span class="nv">$ </span>gem install knife-solo
-</span><span class='line'><span class="nv">$ </span>knife solo prepare oshost
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>knife solo prepare oshost
 </span><span class='line'><span class="nv">$ </span>knife solo cook oshost
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p><strong>knifo-solo命令</strong></p>
-
-<pre><code>`knife solo init 目录`  新建一个符合chef结构的目录(kitchen)用以创建和储存recipes  
-`knife solo prepare user@host` 在给定的host安装chef
-`knife solo cook user@host [nodes/&lt;hostname&gt;.json]` 将kitchen上传到指定的host并执行chef-solo
-`knife solo bootstrap user@host`  perpare+cook
-</code></pre>
+<p><strong>knifo-solo命令</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>knife solo init 目录                               新建一个符合chef结构的目录<span class="o">(</span>kitchen<span class="o">)</span>用以创建和储存recipes&lt;br/&gt;
+</span><span class='line'><span class="nv">$ </span>knife solo prepare user@host                      在给定的host安装chef
+</span><span class='line'><span class="nv">$ </span>knife solo cook user@host <span class="o">[</span>nodes/&lt;hostname&gt;.json<span class="o">]</span> 将kitchen上传到指定的host并执行chef-solo
+</span><span class='line'><span class="nv">$ </span>knife solo bootstrap user@host                    perpare+cook
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>配置多台 vm</h3>
 
