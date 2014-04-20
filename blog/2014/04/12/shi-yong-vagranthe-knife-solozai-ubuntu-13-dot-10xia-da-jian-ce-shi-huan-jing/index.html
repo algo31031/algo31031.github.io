@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境 - 老男孩的整理箱</title>
+  <title>使用vagrant和knife-solo配合Vitrualbox搭建测试环境 - 老男孩的整理箱</title>
   <meta name="author" content="banban">
 
   
@@ -107,7 +107,7 @@
     
     
     <h1 class="entry-title">
-        使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境
+        使用vagrant和knife-solo配合Vitrualbox搭建测试环境
         
     </h1>
     
@@ -130,7 +130,7 @@
 <p><a href="http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box">点击下载box</a><br/>
 安装box</p>
 
-<pre><code>vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
+<pre><code>$ vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box  
 </code></pre>
 
 <p>可以在下面找到其他操作系统的box<br/>
@@ -176,12 +176,18 @@
 <p>配置好后可以通过<code>vagrant up</code>启动vm<br/>
 <strong>Vagrant常用命令</strong></p>
 
-<blockquote><pre><code>$ vagrant up 开机 
-$ vagrant ssh 登⼊  
-$ vagrant suspend 暂停  
-$ vagrant halt 关机
-$ vagrant destroy 刪除 
-</code></pre></blockquote>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant up 开机
+</span><span class='line'><span class="nv">$ </span>vagrant ssh 登⼊
+</span><span class='line'><span class="nv">$ </span>vagrant <span class="nb">suspend</span> 暂停
+</span><span class='line'><span class="nv">$ </span>vagrant halt 关机
+</span><span class='line'><span class="nv">$ </span>vagrant destroy 刪除
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>插曲 启动时报错</h3>
 
@@ -249,10 +255,9 @@ $ vagrant destroy 刪除
 
 <p>原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:</p>
 
-<blockquote><pre><code>VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
-</code></pre></blockquote>
+<pre><code>VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.
 
-<pre><code>请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
+请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.
 </code></pre>
 
 <p>解决办法:<br/>
@@ -346,42 +351,49 @@ $ vagrant destroy 刪除
 $ cd Cookbooks`  
 </code></pre>
 
+<p>安装gem</p>
+
+<pre><code>$ gem install librarian-chef
+$ gem install knife-solo  
+</code></pre>
+
 <p>在当前目录生成一个kitchen　　</p>
 
-<pre><code>knife solo init .
+<pre><code>$ knife solo init .
 </code></pre>
 
 <p>在kitchen里生成Cheffile</p>
 
-<pre><code>librarian-chef init  
+<pre><code>$ librarian-chef init  
 </code></pre>
 
 <p>编辑Cheffile添加需要的cookbooks<br/>
 下载Cheffile里要求的cookbooks到./cookbooks目录</p>
 
-<pre><code>librarian-chef install
+<pre><code>$ librarian-chef install
 </code></pre>
 
 <p>之后执行以下操作开始装机过程</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gem install librarian-chef
-</span><span class='line'><span class="nv">$ </span>gem install knife-solo
-</span><span class='line'><span class="nv">$ </span>knife solo prepare oshost
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>knife solo prepare oshost
 </span><span class='line'><span class="nv">$ </span>knife solo cook oshost
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p><strong>knifo-solo命令</strong></p>
 
-<pre><code>`knife solo init 目录`  新建一个符合chef结构的目录(kitchen)用以创建和储存recipes  
-`knife solo prepare user@host` 在给定的host安装chef
-`knife solo cook user@host [nodes/&lt;hostname&gt;.json]` 将kitchen上传到指定的host并执行chef-solo
-`knife solo bootstrap user@host`  perpare+cook
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>knife solo init 目录                               新建一个符合chef结构的目录<span class="o">(</span>kitchen<span class="o">)</span>用以创建和储存recipes
+</span><span class='line'><span class="nv">$ </span>knife solo prepare user@host                      在给定的host安装chef
+</span><span class='line'><span class="nv">$ </span>knife solo cook user@host <span class="o">[</span>nodes/&lt;hostname&gt;.json<span class="o">]</span> 将kitchen上传到指定的host并执行chef-solo
+</span><span class='line'><span class="nv">$ </span>knife solo bootstrap user@host                    perpare+cook
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>配置多台 vm</h3>
 
@@ -527,7 +539,7 @@ $ cd Cookbooks`
     
     <a class="list-group-item " href="/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/">通过vagrant和knife-solo搭建AWS_EC2开发环境</a>
     
-    <a class="list-group-item active" href="/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/">使用vagrant和knife-solo在ubuntu 13.10下搭建测试环境</a>
+    <a class="list-group-item active" href="/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/">使用vagrant和knife-solo配合Vitrualbox搭建测试环境</a>
     
     <a class="list-group-item " href="/blog/2014/04/10/percent-q-percent-q-percent-w-percent-w-percent-x-percent-r-percent-s-percent-i/">Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i</a>
     
@@ -573,7 +585,7 @@ $ cd Cookbooks`
 
 <aside>
   <h3>About Banban <img src="/images/banban.png" class="img-responsive img-circle" /></h3>
-  <p>Ruby on Rails developer, also knows a little about HTML/CSS, Javascript, a little about deployment and a little about linux.</p>
+  <p>Developer and newbie father, living in Dalian.</p>
 </aside>
 
     

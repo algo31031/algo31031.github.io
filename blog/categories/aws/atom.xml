@@ -4,7 +4,7 @@
   <title><![CDATA[Category: AWS | 老男孩的整理箱]]></title>
   <link href="http://blog.sns-simple.com/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.sns-simple.com/"/>
-  <updated>2014-04-16T08:29:20+08:00</updated>
+  <updated>2014-04-18T15:19:00+08:00</updated>
   <id>http://blog.sns-simple.com/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -18,13 +18,13 @@
     <link href="http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/"/>
     <updated>2014-04-13T16:45:26+08:00</updated>
     <id>http://blog.sns-simple.com/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing</id>
-    <content type="html"><![CDATA[<h4>安装vagrant-aws插件</h4>
+    <content type="html"><![CDATA[<h3>安装vagrant-aws插件</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant plugin install vagrant-aws
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h4>配置vagrant</h4>
+<h3>配置vagrant</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -105,7 +105,7 @@
 
 <p>For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.</p>
 
-<h4>创建 EC2 instance 并启动</h4>
+<h3>创建 EC2 instance 并启动</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up &amp;mdash;provider<span class="o">=</span>aws osapp01d
@@ -114,7 +114,7 @@
 <p>如果您使用的是gnome-terminal, 请注意要设置为<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a><br/>
 <code>Edit &gt; Profile Preferences &gt; Title and Command &gt; Run command as a login shell</code></p>
 
-<h4>登录EC2 instance, 添加vagrant用户</h4>
+<h3>登录EC2 instance, 添加vagrant用户</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant ssh osapp01d
@@ -142,7 +142,7 @@
 <p>如需使用同步文件夹，需将<code>Defaults    requiretty</code>这行注释掉<br/>
 保存退出</p>
 
-<h4>向EC2 instance安装cookbooks</h4>
+<h3>向EC2 instance安装cookbooks</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -150,11 +150,11 @@
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir Cookbooks
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>Cookbooks
-</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#118;&amp;#97;&amp;#103;&amp;#x72;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#120;&quot;</span>&gt;&amp;#x76;&amp;#x61;&amp;#103;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span>
-</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#116;&amp;#x6f;&amp;#58;&amp;#x76;&amp;#97;&amp;#x67;&amp;#x72;&amp;#x61;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#46;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&quot;</span>&gt;&amp;#118;&amp;#97;&amp;#103;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#46;&amp;#120;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#46;&amp;#120;&amp;#x78;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span> nodes/osapp01d,json
+</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#108;&amp;#116;&amp;#x6f;&amp;#x3a;&amp;#118;&amp;#97;&amp;#103;&amp;#114;&amp;#x61;&amp;#110;&amp;#116;&amp;#64;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&quot;</span>&gt;&amp;#x76;&amp;#x61;&amp;#x67;&amp;#114;&amp;#x61;&amp;#x6e;&amp;#116;&amp;#64;&amp;#120;&amp;#120;&amp;#46;&amp;#x78;&amp;#x78;&amp;#46;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span>
+</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#x3a;&amp;#118;&amp;#97;&amp;#103;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#x78;&quot;</span>&gt;&amp;#x76;&amp;#97;&amp;#x67;&amp;#x72;&amp;#x61;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#120;&amp;#120;&amp;#46;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&lt;/a&gt;<span class="o">(</span>您的EC2 instance的public ip<span class="o">)</span> nodes/osapp01d,json
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h4>关于文件夹同步</h4>
+<h3>关于文件夹同步</h3>
 
 <p>如果您希望使用同步文件夹,<br/>
 请将Vagrantfile里的<code>override.vm.synced_folder "./", "/vagrant", disabled: true</code>注释掉<br/>
