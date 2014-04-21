@@ -3,7 +3,7 @@ layout: post
 title: "Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i"
 date: 2014-04-10 09:54:28 +0800
 comments: true
-categories: [ruby, 翻译]
+categories: [ruby, quote]
 ---
 [原文地址](http://simpleror.wordpress.com/2009/03/15/q-q-w-w-x-r-s/)
 

@@ -1,0 +1,27 @@
+---
+layout: post
+title: "git拾遗"
+date: 2014-04-21 15:08:52 +0800
+comments: true
+categories: git
+---
+把一直以来零星的收集到的一些git相关的东西划拉到一起
+
+### 彩色的 git 输出：
+    git config color.ui true
+
+### checkout指定分支的指定文件
+    git checkout <your_branch> -- <your_file>
+
+### pull一个remote分支
+    git checkout -b <new_branch> origin/<new_branch>
+    git pull
+
+### 删除remote分支
+    git push origin --delete <branchName>
+
+### push 之前修改commit
+    git reset HEAD^
+    修改代码
+    git commit -am "xxxxxx"    
+

@@ -3,7 +3,7 @@ layout: post
 title: "架设Octopress Blog"
 date: 2014-04-04 15:48:39 +0800
 comments: true
-categories: [部署, Octopress]
+categories: [deploy, Octopress]
 ---
 一直想弄个Blog整理些资料, 单靠胡乱的记到文件里放在Ubuntu One上， 既混乱查找起来也不方便。
 

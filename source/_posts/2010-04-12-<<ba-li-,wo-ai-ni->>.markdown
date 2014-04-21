@@ -3,7 +3,7 @@ layout: post
 title: 《巴黎，我爱你》
 date: 2010-04-12 23:49:15 +0800
 comments: true
-categories: 电影
+categories: movie
 ---
 ![巴黎，我爱你](/images/20100412.jpg)
 

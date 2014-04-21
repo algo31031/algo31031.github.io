@@ -3,7 +3,7 @@ layout: post
 title: "把以前网易博客的部分内容转过来"
 date: 2014-04-08 16:32:34 +0800
 comments: true
-categories: 半半故事
+categories: banban-tales
 ---
 好吧，其实是以很不程序员的方式，手动逐篇粘过来的。。。
 

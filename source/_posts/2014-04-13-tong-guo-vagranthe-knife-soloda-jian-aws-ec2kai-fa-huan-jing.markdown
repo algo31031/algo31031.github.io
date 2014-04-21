@@ -3,7 +3,7 @@ layout: post
 title: "通过vagrant和knife-solo搭建AWS_EC2开发环境"
 date: 2014-04-13 16:45:26 +0800
 comments: true
-categories: [部署, AWS]
+categories: [deploy, AWS]
 ---
 
 ###安装vagrant-aws插件

@@ -3,7 +3,7 @@ layout: post
 title: "安了..."
 date: 2008-01-05 22:00:00 +0800
 comments: true
-categories: [半半故事]
+categories: banban-tales
 ---
 终于又到家了,始终还是自己家里更舒服些 
 

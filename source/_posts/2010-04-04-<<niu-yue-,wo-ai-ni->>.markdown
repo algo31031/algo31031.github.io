@@ -3,7 +3,7 @@ layout: post
 title: "《纽约，我爱你!》"
 date: 2010-04-04 23:48:44 +0800
 comments: true
-categories: 电影
+categories: movie
 ---
 ![纽约，我爱你](/images/20100404.jpg)
 
