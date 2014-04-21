@@ -3,7 +3,7 @@ layout: post
 title: "大黑山归来...累..."
 date: 2008-10-02 20:47:00 +0800
 comments: true
-categories: [半半故事]
+categories: banban-tales
 ---
 从下面看还是挺矮的,海拔也的确不高,不过爬着并不轻松...再次倍感锻炼身体之迫切
 

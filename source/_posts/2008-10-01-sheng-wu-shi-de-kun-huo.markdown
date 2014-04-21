@@ -3,7 +3,7 @@ layout: post
 title: "圣武士的困惑"
 date: 2008-10-01 16:26:22 +0800
 comments: true
-categories: [游戏]
+categories: game
 ---
 
 这篇最早发在了bfclan上，时间应该远早于08年10月，毕竟是还有大把时间跑《博德之门》且还有心情吐槽的时候的东西。可惜bfclan早已不在，确切发表时间不可考，只好用挪到网易博客时候的时间。

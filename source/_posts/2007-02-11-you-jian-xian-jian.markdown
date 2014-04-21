@@ -3,7 +3,7 @@ layout: post
 title: "又见仙剑"
 date: 2007-02-11 22:00:39 +0800
 comments: true
-categories: [游戏]
+categories: [game]
 ---
 
 仙剑是经典的，但经典的未必就是最好的，而最好的永远需要等待着你自己去挖掘。

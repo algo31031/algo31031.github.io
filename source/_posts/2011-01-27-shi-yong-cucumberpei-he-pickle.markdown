@@ -3,7 +3,7 @@ layout: post
 title: "使用cucumber配合pickle"
 date: 2011-01-27 13:58:00 15:43:10 +0800
 comments: true
-categories: [测试, cucumber]
+categories: [test, cucumber]
 ---
 建立项目  
 

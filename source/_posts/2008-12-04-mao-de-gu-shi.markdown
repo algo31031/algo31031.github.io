@@ -3,7 +3,7 @@ layout: post
 title: "猫的故事"
 date: 2008-12-04 13:41:56 +0800
 comments: true
-categories: [转载]
+categories: quote
 ---
 有一只活了一百万次的猫，它死了一百万次，也活了一百万  
 次。 但猫一直不喜欢任何人。  

@@ -3,7 +3,7 @@ layout: post
 title: "使用vagrant和knife-solo配合Vitrualbox搭建测试环境"
 date: 2014-04-12 19:21:22 +0800
 comments: true
-categories: [部署, ubuntu]
+categories: [deploy, ubuntu]
 ---
 ###下载安装 Virtualbox
 这里可以直接用ubuntu软件中心提供的版本    
