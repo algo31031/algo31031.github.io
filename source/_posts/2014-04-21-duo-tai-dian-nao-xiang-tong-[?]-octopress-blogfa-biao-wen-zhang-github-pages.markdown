@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "多台电脑向同一Octopress Blog发表文章(Github Pages)"
-date: 2014-10-21 11:07:21 +0800
+date: 2014-4-21 11:07:21 +0800
 comments: true
 categories: Octopress
 ---
