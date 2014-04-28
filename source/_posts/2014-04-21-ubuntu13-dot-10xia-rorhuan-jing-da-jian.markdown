@@ -58,9 +58,10 @@ categories: [rails, ubuntu]
 
 一些必备的package:
 >
-    Sublimerge  
-    SideBarEnhancements  
-    Alignment
+    Sublimerge           # 文件比对工具
+    SideBarEnhancements  # 侧边栏增强
+    Alignment            # 默认快捷键`ctrl+alt+a`
+    Rubocop              # coding style检查工具, 需要先`gem install rubocop` 
   
 若要进行BDD, 可以安装下列package:
 >
