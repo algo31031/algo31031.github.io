@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The RSpec Book笔记(一) Part I  Getting Started"
+title: "The RSpec Book笔记(一) 概述"
 date: 2014-04-28 10:58:54 +0800
 comments: true
 categories: [test, RSpec, cucumber]
@@ -10,7 +10,7 @@ categories: [test, RSpec, cucumber]
 现在在做对日外包, 日方那里直接要求的就是完全肉测然后上测试式样书, 更是没机会写测试.  
 适逢DHH大神前不久的[TDD is dead. Long live testing.](http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html), 引发关于测试的各种大讨论
 
-但是无论大神观点如何, 毕竟自己只是一枚小小的程序猿, 而TDD作为一种很成熟开发方式, 在很多情况下依然会是行之有效的. 我一直信奉所谓"存在即合理".
+但是无论大神观点如何, 毕竟自己只是一枚小小的程序猿, 而TDD作为一种很成熟开发方式, 在很多情况下依然会是行之有效的. 我一直信奉"存在即合理"这种观点.
 
 碰巧这段时间开发进度不是很忙, 又快赶上5.1的三天假期, 应该可以把手头的<The RSpec Book>啃掉. 然后把chat_demo 改以书中所倡导的BDD的方式改善下, 通过实践来加深理解.
 
@@ -40,11 +40,11 @@ BDD(Behaviour-Driven Development)则把目光着眼于行为(做什么)而非结
 
 ### BDD需要些什么
 
-``` ruby RSpec使用
+``` ruby RSpec
 rspec [options] [files or directories]
 ```
 
-``` ruby cucumber使用
+``` ruby cucumber
 cucumber [options] [ [FILE|DIR|URL][:LINE[:LINE]*] ]+
 ```
 
@@ -75,22 +75,27 @@ end
 
 ### The Principles of BDD
 
-> ** Enough is enough ** 不要过度设计  
-> ** Deliver stakeholder value ** 不做不相关的事  
+> ** Enough is enough ** 过犹不及, 计划/分析/设计仅仅足够开始即可  
+> ** Deliver stakeholder value ** 不做不产生价值的事 
 > ** It’s all behavior ** RSpec描述程序行为, cucumber描述用户行为  
 
-***
+### What’s in a Story?
+** A title **  
+我们可以通过title知道我们在讨论哪个故事
 
-### 三段式的故事描述
+** A narrative **  
+可以采用三段式的故事描述:
 > as a [stakeholder],  
 > I want [feature]  
-> so that [benefit].  
+> so that [benefit].
 
-或者:  
-
-> in order to [benefit],  
+或者:
+> in order to [benefit],　　 
 > a [stakeholder]  
 > wants to [feature].  
 
 更推荐后者，因为其更突出行为的目的。
 
+** Acceptance criteria **  
+由此批评我们何时算是干完了  
+acceptance criteria包含一系列由独立steps组成的scenarios
