@@ -10,9 +10,11 @@ categories: [test, RSpec, cucumber]
 现在在做对日外包, 日方那里直接要求的就是完全肉测然后上测试式样书, 更是没机会写测试.  
 适逢DHH大神前不久的[TDD is dead. Long live testing.](http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html), 引发关于测试的各种大讨论
 
-但是无论大神观点如何, 毕竟自己只是一枚小小的程序猿, 而TDD作为一种很成熟开发方式, 在很多情况下依然会是行之有效的. 我一直信奉"存在即合理"这种观点.
+但是无论大神观点如何, 毕竟自己只是一枚小小的程序猿, 而TDD作为一种很成熟开发方式, 在很多情况下依然会是行之有效的.  
+我一直信奉"存在即合理"这种观点.
 
-碰巧这段时间开发进度不是很忙, 又快赶上5.1的三天假期, 应该可以把手头的<The RSpec Book>啃掉. 然后把chat_demo 改以书中所倡导的BDD的方式改善下, 通过实践来加深理解.
+碰巧这段时间开发进度不是很忙, 又快赶上5.1的三天假期, 应该可以把手头的<The RSpec Book>啃掉.  
+然后把chat_demo改以书中所倡导的BDD的方式改善下, 通过实践来加深理解.
 
 # Part I Getting Started with RSpec and Cucumber
 
@@ -94,8 +96,8 @@ end
 > a [stakeholder]  
 > wants to [feature].  
 
-更推荐后者，因为其更突出行为的目的。
+更突出行为的目的角度看, 后者更佳
 
 ** Acceptance criteria **  
-由此批评我们何时算是干完了  
+据此评判我们何时算是干完了  
 acceptance criteria包含一系列由独立steps组成的scenarios

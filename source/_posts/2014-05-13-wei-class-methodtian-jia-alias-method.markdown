@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "为class method添加alias_method"
-date: 2014-05-14 10:21:15 +0800
+date: 2014-05-13 16:21:15 +0800
 comments: true
 categories: ruby
 ---

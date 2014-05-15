@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The RSpec Book笔记(三) RSpec详解(1)"
+title: "The RSpec Book笔记(三) Code Examples(1)"
 date: 2014-04-30 11:55:59 +0800
 comments: true
 categories: [test, RSpec]
