@@ -5,7 +5,7 @@ date: 2010-04-04 23:48:44 +0800
 comments: true
 categories: movie
 ---
-![纽约，我爱你](/images/20100404.jpg)
+![纽约，我爱你](http://blog-banban.qiniudn.com/20100404.jpg)
 
 爱情究竟何为何物...恐怕,每个人都会给出不同的答案
 

@@ -5,7 +5,7 @@ date: 2010-04-12 23:49:15 +0800
 comments: true
 categories: movie
 ---
-![巴黎，我爱你](/images/20100412.jpg)
+![巴黎，我爱你](http://blog-banban.qiniudn.com/20100412.jpg)
 
 果然所谓感悟这种东西...只消隔一天就会消失的无影无踪...
 

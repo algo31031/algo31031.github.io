@@ -5,7 +5,7 @@ date: 2010-04-21 00:11:56 +0800
 comments: true
 categories: movie
 ---
-![吸血鬼猎人D](/images/20100421.jpg)
+![吸血鬼猎人D](http://blog-banban.qiniudn.com/20100421.jpg)
 
 "Love can make us weak, and make us strong"  
 
