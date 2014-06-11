@@ -6,6 +6,15 @@ comments: true
 categories: AWS
 ---
 
+** 首先, 你要有一个信用卡...  **
+或者似乎有人说可以在淘宝购买虚拟信用卡也是可行的, 但是里面余额要大于1美金
+
+** 另外有人反应说注册时候被扣掉1美金 **,  
+是因为首次注册时, ASW会为了验证信用卡有效性冻结1美金  
+被冻结的钱在服务到期后会返还  
+另外好像双币信用卡不会有这个问题
+
+
 0. ### 注册 AWS 账户
     进入[AWS主页](http://aws.amazon.com/), 按照指示完成注册.
     
@@ -177,7 +186,3 @@ categories: AWS
         ![mac_vpn1.png](http://blog-banban.qiniudn.com/pptp-vpn-mac-1.png)
         
         ![mac_vpn2.png](http://blog-banban.qiniudn.com/pptp-vpn-mac-2.png)
-
-    2. ** Win7 用户 **
-
-        工作环境下木有win7, 图晚上回家补上...
