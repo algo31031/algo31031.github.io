@@ -1,42 +1,30 @@
 ---
 layout: default
-navbar: Blog
+title: A Tech Blog by Jake Zimmerman
+description: "A tech blog by Jake Zimmerman. Updates occaisonally with tips, tricks, and hacks that have helped me out."
+categories: [Jekyll, theme, themes, responsive, blog, modern, tech, hacks]
+keywords: Jekyll theme themes responsive blog modern tech hacks
+image:
+  feature: threaded-blue-on-black-cropped.png
 ---
 
-<div class="row">
-  <div class="page-content {% unless site.default_asides == empty and site.blog_index_asides == empty %}col-md-9{% else %}col-md-12{% endunless %}">
-    <div class="blog-index">
-      {% assign index = true %}
-      {% for post in paginator.posts %}
-      {% assign content = post.content %}
-        <article class="post">
-          {% include article.html %}
-        </article>
-      {% endfor %}
-    </div>
+{% assign index = true %}
+{% for post in paginator.posts %}
+<article class="hentry">
+  {% include article.html %}
+</article><!-- /.hentry -->
+{% endfor %}
 
-    <ul class="pager">
-      {% if paginator.next_page %}
-        <li class="previous"><a href="{{paginator.next_page}}">&larr;&nbsp;Older</a></li>
-      {% else %}
-        <li class="previous disabled"><a href="#">&larr;&nbsp;Older</a></li>
-      {% endif %}
-      <li><a href="/blog/archives">Blog Archives</a></li>
-      {% if paginator.previous_page %}
-        <li class="next"><a href="{{paginator.previous_page}}">Newer&nbsp;&rarr;</a></li>
-      {% else %}
-        <li class="next disabled"><a href="#">Newer&nbsp;&rarr;</a></li>
-      {% endif %}
-    </ul>
-  </div>
-
-  {% unless site.default_asides == empty and site.blog_index_asides == empty %}
-    <aside class="sidebar col-md-3">
-      {% if site.blog_index_asides.size %}
-        {% include_array blog_index_asides %}
-      {% else %}
-        {% include_array default_asides %}
-      {% endif %}
-    </aside>
-  {% endunless %}
-</div>
+<div class="pagination">
+  {% if paginator.previous_page %}
+    {% if paginator.previous_page == 1 %}
+      <a href="/" class="btn">Previous</a>
+    {% else %}
+      <a href="{{ root_url }}/page{{ paginator.previous_page }}" class="btn">Previous</a>
+    {% endif %}
+  {% endif %}
+  <a href="{{ root_url }}/archives">Blog Archives</a>
+  {% if paginator.next_page %}
+    <a href="{{ root_url }}/page{{ paginator.next_page }}" class="btn">Next</a>
+  {% endif %}
+</div><!-- /.pagination -->

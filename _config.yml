@@ -98,3 +98,7 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: false
+
+# hpstr-theme
+avatar: http://blog-banban.qiniudn.com/banban.png
+# background: http://blog-banban.qiniudn.com/922383_193733824109562_1230746898_o.jpg
