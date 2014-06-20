@@ -186,3 +186,14 @@ categories: AWS
         ![mac_vpn1.png](http://blog-banban.qiniudn.com/pptp-vpn-mac-1.png)
         
         ![mac_vpn2.png](http://blog-banban.qiniudn.com/pptp-vpn-mac-2.png)
+
+4. ### 更换ip
+
+    需要先将原有的elastic ip从ec2实例解除绑定, 然后释放这个ip  
+    ** 注意 ** 一定要把不用的ip释放掉, 不然超过15分钟后就要扣钱的(只有绑定到运行中的ec2上才不扣钱)
+
+    ![reset_ip](http://blog-banban.qiniudn.com/reset_ip_1.png)
+
+    之后按照之前的流程重申请一个Elastic IP并绑定到EC2实例即可
+
+    更换完IP之后记得要把svn连接信息里的地址一并替换掉
