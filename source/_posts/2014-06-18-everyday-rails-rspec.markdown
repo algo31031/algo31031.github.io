@@ -100,7 +100,6 @@ factory :post do
   `feature`对应`describe`  
   `scenario`对应`it`
 
-需要注意`feature`块不可嵌套
 
 ** 涉及javascript **
 ``` ruby
