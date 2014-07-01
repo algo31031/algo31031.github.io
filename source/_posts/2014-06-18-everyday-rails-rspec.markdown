@@ -18,6 +18,40 @@ RSpec 2.99之后版本, 需要稍作变动
 对于** expectation **, 之前的版本惯用的`should`形式  
 被改写为`expect(<obj>).to <matcher>`这种用法
 
+** subject() **
+
+``` ruby
+describe CheckingAccount, "with $50" do
+  subject { CheckingAccount.new(Money.new(50, :USD)) }
+  it { is_expected.to have_a_balance_of(Money.new(50, :USD)) }
+  it { is_expected.not_to be_overdrawn }
+end
+
+describe CheckingAccount, "with a non-zero starting balance" do
+  subject(:account) { CheckingAccount.new(Money.new(50, :USD)) }
+  it { is_expected.not_to be_overdrawn }
+  it "has a balance equal to the starting balance" do
+    #account.balance.should eq(Money.new(50, :USD))
+    expect(:account).to eq(Money.new(50, :USD))
+  end
+end
+```
+
+** mock & stub **
+
+RSpec 2.14之前的语法要这么写
+``` ruby
+d = double(:message1 => true)
+d.stub(:message2).and_return(:value)
+real_object.stub(:message).and_return(:value)
+```
+
+之后可以这么写
+``` ruby
+d = double(:message1 => true)
+allow(d).to receive(:message2).and_return(:value)
+allow(real_object).to receive(:message).and_return(:value)
+```
 
 ### FactoryGirl
 

@@ -173,7 +173,7 @@ home_team.should have(9).players_on(field)
 其中, `have()`返回一个无法响应`players_on()`方法的matcher  
 之后这个matcher把`players_on()`方法代理到`home_team`上
 
-这么写以来易读(从English角度), 二来可以鼓励添加诸如`players_on()`这样的有用的方法
+这么写一来易读(从English角度), 二来可以鼓励添加诸如`players_on()`这样的有用的方法
 
 ** Unowned Collections **
 
