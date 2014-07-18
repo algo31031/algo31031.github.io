@@ -5,9 +5,9 @@ date: 2014-06-19 16:20:03 +0800
 comments: true
 categories: [test, RSpec]
 ---
-前段时间利用零碎时间走马观花的把<The RSpec Book>的前面部分(part1~part4)过了一遍  
+前段时间利用零碎时间走马观花的把The RSpec Book的前面部分(part1~part4)过了一遍  
 发现自己在测试这方面缺口真是不小  
-<The RSpec Book>前半部分偏理论性的东西很多, 啃得很生硬  
+The RSpec Book前半部分偏理论性的东西很多, 啃得很生硬  
 于是买了本[Andor Chen译的<使用 RSpec 测试 Rails 程序>](https://leanpub.com/everydayrailsrspec-cn)以作实践  
 
 ### RSpec

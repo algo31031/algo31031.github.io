@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "undefined method 'rewrite' for #<String:0xaf85690>的解决"
+title: "view层出现undefined method 'rewrite' for 某一string对象的解决"
 date: 2011-01-05 12:56:43 +0800
 comments: true
 categories: rails
