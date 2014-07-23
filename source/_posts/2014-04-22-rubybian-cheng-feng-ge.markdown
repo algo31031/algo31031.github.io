@@ -3,7 +3,7 @@ layout: post
 title: "ruby编程风格(节选)"
 date: 2014-04-22 14:47:21 +0800
 comments: true
-categories: [ruby, quote]
+categories: ruby
 ---
 平时还是挺注意格式问题的, 不过看来还是有好多地方需要改进  
 从ruby-china wiki那边抄录了些平时欠缺的coding style, 日后多加注意

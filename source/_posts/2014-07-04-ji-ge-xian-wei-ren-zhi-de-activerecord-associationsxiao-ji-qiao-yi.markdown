@@ -3,7 +3,7 @@ layout: post
 title: "几个鲜为人知的ActiveRecord Associations小技巧 (译)"
 date: 2014-07-04 10:08:40 +0800
 comments: true
-categories: [rails, quote]
+categories: [rails, translation]
 ---
 原文出自[gotealeaf.com](http://www.gotealeaf.com/blog/ruby-on-rails-activerecord-association-features/), 感谢作者Steve Turczyn
 

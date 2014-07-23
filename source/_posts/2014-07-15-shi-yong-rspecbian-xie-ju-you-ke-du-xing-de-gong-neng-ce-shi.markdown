@@ -3,7 +3,7 @@ layout: post
 title: "使用RSpec编写具有可读性的功能测试(译)"
 date: 2014-07-15 10:37:24 +0800
 comments: true
-categories: [test, RSpec, quote]
+categories: [test, RSpec, translation]
 ---
 原文出自[about.futurelearn.com](https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/?utm_source=rubyweekly&utm_medium=email),感谢作者[Chris Zetter](https://www.futurelearn.com/profiles/1390)
 

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i"
+title: "Ruby 里的 %Q, %q, %W, %w, %x, %r, %s, %i(译)"
 date: 2014-04-10 09:54:28 +0800
 comments: true
-categories: [ruby, quote]
+categories: ruby
 ---
 [原文地址](http://simpleror.wordpress.com/2009/03/15/q-q-w-w-x-r-s/)
 
