@@ -5,6 +5,9 @@ date: 2014-07-23 13:23:08 +0800
 comments: true
 categories: [rails, translation]
 ---
+
+原文出自[most-common-mistakes-on-legacy-rails-apps](http://edelpero.svbtle.com/most-common-mistakes-on-legacy-rails-apps), 感谢作者[EZEQUIEL DELPERO](http://edelpero.svbtle.com/)
+
 近来我一直在对几个遗留项目作维护。
 
 众所周知，处理遗留项目多数时间都感觉糟透了，因为那些代码通常都丑陋不堪而且晦涩难懂。
