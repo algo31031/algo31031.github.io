@@ -43,7 +43,7 @@
 			"file": "source/_posts/2014-10-02-macshang-da-jian-phonegaphuan-jing.markdown",
 			"settings":
 			{
-				"buffer_size": 662,
+				"buffer_size": 1343,
 				"line_ending": "Unix"
 			}
 		}
@@ -51,7 +51,7 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 287.0,
 		"selected_items":
 		[
 			[
@@ -143,15 +143,15 @@
 					"file": "source/_posts/2014-10-02-macshang-da-jian-phonegaphuan-jing.markdown",
 					"settings":
 					{
-						"buffer_size": 662,
+						"buffer_size": 1343,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								299,
-								299
+								1258,
+								1258
 							]
 						],
 						"settings":
@@ -159,7 +159,7 @@
 							"syntax": "Packages/Markdown/Markdown.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 236.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

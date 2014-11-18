@@ -1,7 +1,7 @@
 ---
 layout: default
-title: May the force be with you.
-description: 
+title: 老男孩的整理箱
+description: "May the force be with you"
 categories: [Jekyll, theme, themes, responsive, blog, modern, tech, hacks]
 keywords: Jekyll theme themes responsive blog modern tech hacks
 image:
@@ -16,15 +16,25 @@ image:
 {% endfor %}
 
 <div class="pagination">
-  {% if paginator.previous_page %}
-    {% if paginator.previous_page == 1 %}
-      <a href="/" class="btn">Previous</a>
-    {% else %}
-      <a href="{{ root_url }}{{ paginator.previous_page }}" class="btn">Previous</a>
-    {% endif %}
-  {% endif %}
-  <a href="{{ root_url }}/archives">Blog Archives</a>
-  {% if paginator.next_page %}
-    <a href="{{ root_url }}{{ paginator.next_page }}" class="btn">Next</a>
+  {% if paginator.total_pages > 1 %}
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a class="prev" href="{{paginator.previous_page}}">&larr; Prev</a>
+      {% endif %}
+      {% for page in (1..paginator.total_pages) %}
+        {% capture url %}/{{site.pagination_dir}}/page/{{page}}{% endcapture %}
+        {% if page == 1 %}
+          {% assign url = "/" %}
+        {% endif %}
+        {% if page != paginator.page %}
+          <a href="{{url}}">{{page}}</a>
+        {% else %}
+          <span style='font-weight: bold; color: grey; font-size: 1.3em;'>{{page}}</span>
+        {% endif %}
+      {% endfor %}
+      {% if paginator.next_page %}
+        <a class="next" href="{{paginator.next_page}}">Next &rarr;</a>
+      {% endif %}
+    </div>
   {% endif %}
 </div><!-- /.pagination -->
