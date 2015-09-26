@@ -39,14 +39,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "source/_posts/2014-10-02-macshang-da-jian-phonegaphuan-jing.markdown",
-			"settings":
-			{
-				"buffer_size": 1343,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -76,6 +68,19 @@
 	},
 	"file_history":
 	[
+		"/Users/hanbing/work/algo31031.github.io/Gemfile",
+		"/Users/hanbing/work/algo31031.github.io/config.rb",
+		"/Users/hanbing/work/algo31031.github.io/sass/screen.scss",
+		"/Users/hanbing/work/algo31031.github.io/sass/README.md",
+		"/Users/hanbing/work/algo31031.github.io/source/index.html",
+		"/Users/hanbing/work/algo31031.github.io/source/categories.html",
+		"/Users/hanbing/work/algo31031.github.io/plugins/pagination.rb",
+		"/Users/hanbing/work/algo31031.github.io/source/_includes/scripts.html",
+		"/Users/hanbing/work/algo31031.github.io/_config.yml",
+		"/Users/hanbing/work/algo31031.github.io/public/stylesheets/screen.css",
+		"/Users/hanbing/work/algo31031.github.io/source/assets/bootstrap/docs/_includes/footer.html",
+		"/Users/hanbing/work/algo31031.github.io/source/posts.html",
+		"/Users/hanbing/work/algo31031.github.io/source/_posts/2014-10-02-macshang-da-jian-phonegaphuan-jing.markdown",
 		"/Users/hanbing/work/algo31031.github.io/blog.sublime-project",
 		"/Users/hanbing/Library/Application Support/Sublime Text 2/Packages/RuboCop/Default (OSX).sublime-keymap",
 		"/Users/hanbing/work/jiandanxinli/app/models/reservation_time.rb",
@@ -110,6 +115,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"pagination_enabled?",
+			"page",
+			"pag",
+			"paginate",
+			"google",
+			"googleapis",
+			"google",
 			"parse_email_template",
 			"controlgroup",
 			"get_phone_token_user_path",
@@ -135,35 +147,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "source/_posts/2014-10-02-macshang-da-jian-phonegaphuan-jing.markdown",
-					"settings":
-					{
-						"buffer_size": 1343,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1258,
-								1258
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 236.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
