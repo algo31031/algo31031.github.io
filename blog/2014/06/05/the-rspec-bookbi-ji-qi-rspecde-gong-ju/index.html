@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+
+
+<meta charset="utf-8">
+<meta http-equiv="cleartype" content="on">
+
+<title>The RSpec Book笔记(七) RSpec的工具、集成与扩展 - 老男孩的整理箱</title>
+<meta name="author" content="banban">
+
+
+
+
+<meta name="description" content="The rspec Command 1
+2
+rspec simple_math_spec.rb #执行单个文件
+rspec spec #执行spec文件夹下全部文件 &ndash;format,设置输出格式 1
+2
+3
+4
+5
+rspec path/to/my/specs --format &hellip;">
+
+<meta name="keywords" content="RSpec test ">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Twitter Cards -->
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content"">
+  
+  <meta name="twitter:title" content="The RSpec Book笔记(七) RSpec的工具、集成与扩展">
+  <meta name="twitter:description" content="The rspec Command 1
+2
+rspec simple_math_spec.rb #执行单个文件
+rspec spec #执行spec文件夹下全部文件 &ndash;format,设置输出格式 1
+2
+3
+4
+5
+rspec path/to/my/specs --format &hellip;">
+  <meta name="twitter:creator" content="@hanbing403">
+
+
+<!-- Open Graph -->
+<meta property="og:local" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://blog.banban.me/blog/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju">
+<meta property="og:title" content="The RSpec Book笔记(七) RSpec的工具、集成与扩展">
+<meta property="og:description" content="The rspec Command 1
+2
+rspec simple_math_spec.rb #执行单个文件
+rspec spec #执行spec文件夹下全部文件 &ndash;format,设置输出格式 1
+2
+3
+4
+5
+rspec path/to/my/specs --format &hellip;">
+
+  <meta property="og:image" content="">
+
+<meta property="og:site_name" content="老男孩的整理箱">
+
+<link rel="canonical" href="http://blog.banban.me/blog/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju">
+<link href="/favicon.png" rel="icon">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/atom.xml" rel="alternate" title="老男孩的整理箱" type="application/atom+xml">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+<script>Modernizr || document.write('<script src="/javascripts/vendor/modernizr-2.6.2.custom.min.js"><\/script>') </script>
+
+
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog-banban.qiniudn.com/avatar.png" alt="banban photo" class="author-photo">
+					<h4>banban</h4>
+					<p>Hi, my name is Hanbing. I'm a web developer and newbie father, living in Dalian.</p>
+				</li>
+				
+				<li>
+					<a href="mailto:algo31031@gmail.com"><i class="fa fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="http://twitter.com/hanbing403"><i class="fa fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://plus.google.com/110631178882824005380"><i class="fa fa-google-plus"></i> Google+</a>
+				</li>
+				<li>
+					<a href="http://github.com/algo31031"><i class="fa fa-github"></i> GitHub</a>
+				</li>
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="/posts/">All Posts</a></li>
+				<li><a href="/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju/" rel="bookmark" title="The RSpec Book笔记(七) RSpec的工具、集成与扩展">The RSpec Book笔记(七) RSpec的工具、集成与扩展</a></h1>
+        
+        <h2>June 05, 2014</h2>
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <h3>The rspec Command</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rspec simple_math_spec.rb  <span class="c">#执行单个文件</span>
+</span><span class='line'>rspec spec                 <span class="c">#执行spec文件夹下全部文件 </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> &ndash;format,设置输出格式 </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rspec path/to/my/specs --format documentation
+</span><span class='line'>rspec path/to/my/specs --format html:path/to/my/report.html
+</span><span class='line'>rspec path/to/my/specs  --format progress <span class="se">\</span>
+</span><span class='line'>                        --format nested:path/to/my/report.txt <span class="se">\</span>
+</span><span class='line'>                        --format html:path/to/my/report.html
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> 其他 </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rspec spec --backtrace
+</span><span class='line'>rspec spec --color
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Rake</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake spec               <span class="c">#执行spec下的全部specs文件</span>
+</span><span class='line'>rake spec:controllers   <span class="c">#执行spec下的全部specs/controllers文件</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完整命令列表可以通过执行<code>rake -T spec</code>获取, 这些命令被定义在<code>RSpec::Core::RakeTask</code></p>
+
+<p>可以在<code>Rakefile</code>里添加以下内容作来配置以rake执行的rspec</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/core/rake_task&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RSpec</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">RakeTask</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">rspec_opts</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;--color&quot;</span><span class="p">,</span> <span class="s2">&quot;--format&quot;</span><span class="p">,</span> <span class="s2">&quot;specdoc&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Filtering</h3>
+
+<p><strong> Inclusion </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">filter</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:focus</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="s2">&quot;group&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;example 1&quot;</span><span class="p">,</span> <span class="ss">:focus</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;example 2&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这段代码执行后会得到类似下面的输出</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>group
+</span><span class='line'>  example 2
+</span><span class='line'>
+</span><span class='line'>Finished in 0.00067 seconds
+</span><span class='line'><span class="m">1</span> example, <span class="m">0</span> failures
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中<code>it()</code>里的<code>:focus =&gt; true</code>部分被称为metadata<br/>
+值可以通过<code>example.metadata[:focus]</code>获取到</p>
+
+<p><strong> Exclusion </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'><span class="n">c</span><span class="o">.</span><span class="n">exclusion_filter</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:slow</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="s2">&quot;group&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;example 1&quot;</span><span class="p">,</span> <span class="ss">:slow</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;example 2&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行时&#8221;example 2&#8221;被排除在外</p>
+
+<p><strong> Lambdas </strong></p>
+
+<p>Inclusion与Exclusion的filter都可以接受一个lambda处理更复杂的逻辑</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;ping&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">exclusion_filter</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="ss">:if</span> <span class="o">=&gt;</span> <span class="nb">lambda</span> <span class="p">{</span><span class="o">|</span><span class="n">what</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">case</span> <span class="n">what</span>
+</span><span class='line'>      <span class="k">when</span> <span class="ss">:network_available</span>
+</span><span class='line'>        <span class="o">!</span><span class="no">Ping</span><span class="o">.</span><span class="n">pingecho</span> <span class="s2">&quot;example.com&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">80</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="s2">&quot;network group&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;example 1&quot;</span><span class="p">,</span> <span class="ss">:if</span> <span class="o">=&gt;</span> <span class="ss">:network_available</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;example 2&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="/categories/#RSpec" title="Pages tagged RSpec" class="tag">RSpec</a><a href="/categories/#test" title="Pages tagged test" class="tag">test</a></span>
+        <span><a href="/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju/" rel="bookmark" title="The RSpec Book笔记(七) RSpec的工具、集成与扩展">The RSpec Book笔记(七) RSpec的工具、集成与扩展</a> was published on <span class="entry-date date published updated"><time datetime="2014-06-05T14:29:11+08:00">June 05, 2014</time></span></span>
+        
+        <span class="author vcard"><span class="fn"><a href="" title="About banban">banban</a></span></span>
+        
+      </footer>
+    </div><!-- /.entry-content -->
+    
+      <div class="read-more">
+        
+          <div class="read-more-header">
+            <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" class="btn">Read More</a>
+          </div><!-- /.read-more-header -->
+          <div class="read-more-content">
+            <h3><a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" title="Mac上搭建Phonegap环境">Mac上搭建Phonegap环境</a></h3>
+            <p>话说好久没有更新Blog了。八九两个月各种事情，工作也是一换再换。现在终于能够以远程的形式重新加入一家创业公司，为心理咨询的事业奋斗。公司给配了台Macbook Pro，近期要开始着力移动端的开发，简单粗暴的phonegap第一版已经发布了，我这边也需要尽快对安卓、 &hellip;&hellip; <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/"> Continue reading</a></p>
+          </div><!-- /.read-more-content -->
+        
+        <div class="read-more-list">
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/" title="Rails遗留程序里最常犯的错误(译)">Rails遗留程序里最常犯的错误(译)</a></h4>
+              <span>Published on July 23, 2014</span>
+            </div><!-- /.list-item -->
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" title="使用RSpec编写具有可读性的功能测试(译)">使用RSpec编写具有可读性的功能测试(译)</a></h4>
+              <span>Published on July 15, 2014</span>
+            </div><!-- /.list-item -->
+          
+        </div><!-- /.read-more-list -->
+      </div><!-- /.read-more -->
+    
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2015 banban. Powered by <a href="http://octopress.org">Octopress</a> using the <a href="https://github.com/Z1MM32M4N/hpstr-theme/">HPSTR Theme for Octopress</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+
+	        
+<script src="http://blog-banban.qiniudn.com/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/javascripts/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/javascripts/octopress.js" type="text/javascript"></script>
+<script src="/javascripts/scripts.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'banban';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.banban.me/blog/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju/';
+        var disqus_url = 'http://blog.banban.me/blog/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

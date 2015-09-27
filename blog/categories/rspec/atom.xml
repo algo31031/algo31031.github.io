@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: RSpec | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/rspec/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用RSpec编写具有可读性的功能测试(译)]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/"/>
+    <updated>2014-07-15T10:37:24+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi</id>
+    <content type="html"><![CDATA[<p>原文出自<a href="https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/?utm_source=rubyweekly&amp;utm_medium=email">about.futurelearn.com</a>,感谢作者<a href="https://www.futurelearn.com/profiles/1390">Chris Zetter</a></p>
+
+<p><strong>Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。</strong></p>
+
+<p>测试是建立与维护一个大型平台不可或缺的一部分。每当我们为FutureLearn这个平台增添新功能时，我们都会编写自动化的功能测试来记录这些新功能是如何运作的，并确保他们不运转时我们也能知晓。</p>
+
+<h3>令人爱恨交加的Cucumber</h3>
+
+<p>Cucumber是一款用来编写功能测试的常用工具，每当我们开启项目时它都是我们的不二选择。它可以让我们以用户的视角编写出高层级的行为驱动测试。</p>
+
+<pre><code class="ruby">Feature: Enrolment
+  Scenario: Enrolling in a course
+    Given there is a course
+    And I am logged in as a learner
+    When I enrol on a course
+    Then the course should appear in 'my courses'
+</code></pre>
+
+<p>我们乐于使用Cucumber因为它可以使根据用户故事编写测试变得简单易行，而且写完的测试通俗易懂。然而使用Cucumber也有些许不足之处。首先，我们已经在项目里使用了RSpec，再引入Cucumber意味着又要多维护一个测试框架；其次，由于两者的DSLs和测试运行器不同，在他们之间进行脑筋切换又会带来额外开销；最后，我们特别不喜欢Cucumber所使用的正则表达式，因为同Ruby的标准方法调用相比，它们使测试变得更加晦涩难懂。</p>
+
+<h3>编写更好的RSpec features</h3>
+
+<p>那么，我么该如何在不失测试可读性的前提下停用Cucumber呢？</p>
+
+<p>我们已经开始使用RSpec features来替代Cucumber，它们通常看起来会是这样：</p>
+
+<pre><code class="ruby">feature 'Enrolment' do
+  scenario 'Enrolling in a course' do
+    course = FactoryGirl.create(:course)
+
+    learner = FactoryGirl.create(:learner)
+    login_as learner
+
+    visit course_path(course)
+    find('.join').click
+    expect(page).to have_content('Thanks for joining!')
+
+    visit '/'
+    expect(page).to have_main_header('My Courses')
+    expect(page).to have_content(course.full_title)
+  end
+end
+</code></pre>
+
+<p>它们总是趋于变得很长，使得难以辨明其究竟在测试些什么。而且难以区分诸如Arrange, Act, Assert（在Cucumber里又被称为'Given'、'When'和'Then'）这些部分。我们试过在代码中这些步骤里添加注释，但它们就和通常那些程序代码里的注释一样不尽如人意：一段时间之后这些注释就变得与实际代码不同步了。</p>
+
+<p>一般来说，如果是在程序里别的地方写出这么长的方法，我们就会有所警觉，并且通常会采用提取方法的办法进行重构。何不也这么做呢？让我们依据Cucumber步骤的风格，把这些代码也提取成一个个方法吧。</p>
+
+<pre><code class="ruby">feature 'Enrolment' do
+  scenario 'Enrolling in a course' do
+    given_there_is_a_course
+    and_i_am_logged_in_as_a_learner
+    when_i_enrol_on_a_course
+    then_the_course_should_appear_in_my_courses
+  end
+
+  def given_there_is_a_course
+    @course = FactoryGirl.create(:course)
+  end
+
+  def and_i_am_logged_in_as_a_learner
+    @learner = FactoryGirl.create(:learner)
+    login_as @learner
+  end
+
+  def when_i_enrol_on_a_course
+    visit course_path(@course)
+    find('.join').click
+    expect(page).to have_content('Thanks for joining!')
+  end
+
+  def then_the_course_should_appear_in_my_courses
+    visit '/'
+    expect(page).to have_main_header('My Courses')
+    expect(page).to have_content(@course.full_title)
+  end
+end
+</code></pre>
+
+<h3>我们有何发现</h3>
+
+<p>我们移除了全部的Cucumber功能测试，并把它们中大部分用新式的RSpec features加以重写。这样一来即可保证拥有Cucumber所提供的优秀的可读性，又使得测试变得更加便于编写和维护。</p>
+
+<p>我们做了一个慎重的决定，不把各个features文件里提取的方法进行复用，因为担心这么做会使得测试难于理解。我们发现在编写一个feature下的多条scenario时，会不自觉的就想要进行代码复用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Everyday Rails RSpec]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/06/19/everyday-rails-rspec/"/>
+    <updated>2014-06-19T16:20:03+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/06/19/everyday-rails-rspec</id>
+    <content type="html"><![CDATA[<p>前段时间利用零碎时间走马观花的把The RSpec Book的前面部分(part1~part4)过了一遍<br/>
+发现自己在测试这方面缺口真是不小<br/>
+The RSpec Book前半部分偏理论性的东西很多, 啃得很生硬<br/>
+于是买了本<a href="https://leanpub.com/everydayrailsrspec-cn">Andor Chen译的&lt;使用 RSpec 测试 Rails 程序></a>以作实践</p>
+
+<h3>RSpec</h3>
+
+<p>RSpec 2.99之后版本, 需要稍作变动
+在<code>Gemfile</code>里加上<code>gem 'rspec-collection_matchers'</code></p>
+
+<p>对于<strong> expectation </strong>, 之前的版本惯用的<code>should</code>形式<br/>
+被改写为<code>expect(&lt;obj&gt;).to &lt;matcher&gt;</code>这种用法</p>
+
+<p><strong> subject() </strong></p>
+
+<pre><code class="ruby">describe CheckingAccount, "with $50" do
+  subject { CheckingAccount.new(Money.new(50, :USD)) }
+  it { is_expected.to have_a_balance_of(Money.new(50, :USD)) }
+  it { is_expected.not_to be_overdrawn }
+end
+
+describe CheckingAccount, "with a non-zero starting balance" do
+  subject(:account) { CheckingAccount.new(Money.new(50, :USD)) }
+  it { is_expected.not_to be_overdrawn }
+  it "has a balance equal to the starting balance" do
+    #account.balance.should eq(Money.new(50, :USD))
+    expect(:account).to eq(Money.new(50, :USD))
+  end
+end
+</code></pre>
+
+<p><strong> mock &amp; stub </strong></p>
+
+<p>RSpec 2.14之前的语法要这么写
+<code>ruby
+d = double(:message1 =&gt; true)
+d.stub(:message2).and_return(:value)
+real_object.stub(:message).and_return(:value)
+</code></p>
+
+<p>之后可以这么写
+<code>ruby
+d = double(:message1 =&gt; true)
+allow(d).to receive(:message2).and_return(:value)
+allow(real_object).to receive(:message).and_return(:value)
+</code></p>
+
+<h3>FactoryGirl</h3>
+
+<p>简化factory_girl代码
+<code>ruby 加到rails_helper.rb
+config.include FactoryGirl::Syntax::Methods
+</code></p>
+
+<p><strong> Aliases </strong></p>
+
+<p>可以用<code>aliases</code>简化关联关系
+``` ruby
+FactoryGirl.define do</p>
+
+<p>  factory :user, aliases: [:author, :commenter] do
+    first_name &ldquo;John&rdquo;
+    last_name &ldquo;Deo&rdquo;
+  end</p>
+
+<p>  factory :post do
+    author  #用以替代 association :author, factory: :user
+  end</p>
+
+<p>  factory :comment do
+    commerter  #替代  association :commenter, factory: :user
+  end</p>
+
+<p>end
+```</p>
+
+<p><strong> Associations </strong></p>
+
+<p>如果association的名字与factory的名字相同, 可以省略<code>association</code><br/>
+也可以指定不同名的factory并覆盖某属性
+<code>ruby
+factory :post do
+  author factory: :user, last_name: "skywalker"
+</code></p>
+
+<h3>Capybara</h3>
+
+<p>以下方法别名只可用在功能测试中</p>
+
+<blockquote><p>  <code>given</code>对应<code>let</code><br/>
+  <code>background</code>对应<code>before</code><br/>
+  <code>feature</code>对应<code>describe</code><br/>
+  <code>scenario</code>对应<code>it</code></p></blockquote>
+
+<p><strong> 涉及javascript </strong>
+<code>ruby
+feature "About BigCo modal" do
+  scenario "toggles display of the modal about display", js: true do
+    # blablalbla
+</code></p>
+
+<p>另外如果开启了<code>js: true</code>时, 要测试DB变化, 有可能DB反映慢导致测试失败, 可以采取下面办法:
+<code>ruby
+expect {
+  fill_in_new_user_data("new_user@example.com")
+  check "user_admin"
+  click_button "Create User"
+  sleep 1
+}.to change(User, :count).by(1)     
+</code></p>
+
+<h3>Launchy</h3>
+
+<p><code>save_and_open_page</code></p>
+
+<h3>Guard</h3>
+
+<p><code>bundle exec guard init rspec</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The RSpec Book笔记(七) RSpec的工具、集成与扩展]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju/"/>
+    <updated>2014-06-05T14:29:11+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/06/05/the-rspec-bookbi-ji-qi-rspecde-gong-ju</id>
+    <content type="html"><![CDATA[<h3>The rspec Command</h3>
+
+<pre><code class="bash">rspec simple_math_spec.rb  #执行单个文件
+rspec spec                 #执行spec文件夹下全部文件 
+</code></pre>
+
+<p><strong> &ndash;format,设置输出格式 </strong>
+<code>bash
+rspec path/to/my/specs --format documentation
+rspec path/to/my/specs --format html:path/to/my/report.html
+rspec path/to/my/specs  --format progress \
+                        --format nested:path/to/my/report.txt \
+                        --format html:path/to/my/report.html
+</code></p>
+
+<p><strong> 其他 </strong>
+<code>bash
+rspec spec --backtrace
+rspec spec --color
+</code></p>
+
+<h3>Rake</h3>
+
+<pre><code class="bash">rake spec               #执行spec下的全部specs文件
+rake spec:controllers   #执行spec下的全部specs/controllers文件
+</code></pre>
+
+<p>完整命令列表可以通过执行<code>rake -T spec</code>获取, 这些命令被定义在<code>RSpec::Core::RakeTask</code></p>
+
+<p>可以在<code>Rakefile</code>里添加以下内容作来配置以rake执行的rspec
+``` ruby
+require &lsquo;rspec/core/rake_task&rsquo;</p>
+
+<p>RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = [&ldquo;&ndash;color&rdquo;, &ldquo;&ndash;format&rdquo;, &ldquo;specdoc&rdquo;]
+end
+```</p>
+
+<h3>Filtering</h3>
+
+<p><strong> Inclusion </strong>
+``` ruby
+RSpec.configure do |c|
+  c.filter = { :focus => true }
+end</p>
+
+<p>describe &ldquo;group&rdquo; do
+  it &ldquo;example 1&rdquo;, :focus => true do
+  end</p>
+
+<p>  it &ldquo;example 2&rdquo; do
+  end
+end
+<code>
+上面这段代码执行后会得到类似下面的输出
+</code> bash
+group
+  example 2</p>
+
+<p>Finished in 0.00067 seconds
+1 example, 0 failures
+```</p>
+
+<p>其中<code>it()</code>里的<code>:focus =&gt; true</code>部分被称为metadata<br/>
+值可以通过<code>example.metadata[:focus]</code>获取到</p>
+
+<p><strong> Exclusion </strong>
+``` ruby
+RSpec.configure do |c|
+c.exclusion_filter = { :slow => true }
+end</p>
+
+<p>describe &ldquo;group&rdquo; do
+  it &ldquo;example 1&rdquo;, :slow => true do
+  end</p>
+
+<p>  it &ldquo;example 2&rdquo; do
+  end
+end
+```
+执行时"example 2"被排除在外</p>
+
+<p><strong> Lambdas </strong></p>
+
+<p>Inclusion与Exclusion的filter都可以接受一个lambda处理更复杂的逻辑</p>
+
+<pre><code class="ruby">require 'ping'
+
+RSpec.configure do |c|
+  c.exclusion_filter = {
+    :if =&gt; lambda {|what|
+      case what
+      when :network_available
+        !Ping.pingecho "example.com", 10, 80
+      end
+    }
+  }
+end
+
+describe "network group" do
+  it "example 1", :if =&gt; :network_available do
+  end
+
+  it "example 2" do
+  end
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The RSpec Book笔记(六) RSpec::Mocks]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/05/19/the-rspec-bookbi-ji-liu-rspec-mocks/"/>
+    <updated>2014-05-19T16:04:29+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/05/19/the-rspec-bookbi-ji-liu-rspec-mocks</id>
+    <content type="html"><![CDATA[<h2>Chapter 14 RSpec::Mocks</h2>
+
+<h3>Test Doubles, Method Stubs, Message Expectations</h3>
+
+<pre><code class="ruby">thingamajig_double = double('thing-a-ma-jig')
+stub_thingamajig = stub('thing-a-ma-jig')
+mock_thingamajig = mock('thing-a-ma-jig')
+</code></pre>
+
+<p><code>double()</code>,<code>stub()</code>,<code>mock()</code>都会返回一个<code>RSpec::Mocks::Mock</code>的实例<br/>
+可以在这个实例上生成method stubs和message expectations</p>
+
+<pre><code class="ruby">describe Statement do
+  it "logs a message on generate()" do
+    customer = stub('customer')
+    customer.stub(:name).and_return('Aslak')
+
+    logger = mock('logger')
+
+    statement = Statement.new(customer, logger)
+    logger.should_receive(:log).with(/Statement generated for Aslak/)
+
+    statement.generate
+  end
+end
+</code></pre>
+
+<p>这段代码中, <code>stub('customer')</code>和m<code>mock('logger')</code>分别生成了2个test double</p>
+
+<p><code>customer.stub(:name)</code>为customer double添加了一个method stub(打桩方法), :name为方法名
+<code>and_return('Aslak')</code>表示:name的返回值为Aslak</p>
+
+<p><code>logger.should_receive(:log)</code>为logger double设置了一个对于message <code>name()</code> 的expectation<br/>
+后面的<code>generate()</code>方法里, 如果<code>logger</code>对<code>log()</code>的调用失败, 则整个example会fail<br/>
+否则会判断<code>logger.should_receive(:log)</code>后面的条件是否满足(此处为<code>with(xxx)</code>,即<code>log()</code>调用是否带参数xxx)</p>
+
+<p><strong> partial stubbing, partial mocking </strong></p>
+
+<pre><code class="ruby">describe WidgetsController do
+  describe "PUT update with valid attributes"
+    it "finds the widget"
+      widget = Widget.new()
+      widget.stub(:update_attributes).and_return(true)
+      Widget.should_receive(:find).with("37").and_return(widget)
+      put :update, :id =&gt; 37
+    end
+
+    it "updates the widget's attributes" do
+      widget = Widget.new()
+      Widget.stub(:find).and_return(widget)
+      widget.should_receive(:update_attributes).and_return(true)
+      put :update, :id =&gt; 37
+    end
+
+    it "redirects to the list of widgets"
+      widget = Widget.new()
+      Widget.stub(:find).and_return(widget)
+      widget.stub(:update_attributes).and_return(true)
+      put :update, :id =&gt; 37
+      response.should redirect_to(widgets_path)
+    end    
+  end
+end
+</code></pre>
+
+<h3>更多关于Method Stubs</h3>
+
+<p><strong> One-Line Shortcut </strong></p>
+
+<p><code>double()</code>,<code>stub()</code>,<code>mock()</code>第一个参数非必填但是强烈建议有, 因为其会作为失败时的消息<br/>
+此外还可以接受一个hash作为第二参数
+<code>ruby
+customer = double('customer', :name =&gt; 'Bryan')
+</code></p>
+
+<p>等效于
+<code>ruby
+customer = double('customer')
+customer.stub(:name).and_return('Bryan')
+</code></p>
+
+<p><strong> Implementation Injection </strong></p>
+
+<p>如果一个stub method需要使用多次而且根据条件不同会有不同返回值, 可以用如下方法<br/>
+多用于<code>before()</code>里
+<code>ruby
+ages = double('ages')
+ages.stub(:age_for) do |what|
+  if what == 'drinking'
+    21
+  elsif what == 'voting'
+    18
+  end
+end
+</code></p>
+
+<p><strong> 方法链 </strong></p>
+
+<pre><code class="ruby ">article = double()
+Article.stub_chain(:recent, :published, :authored_by).and_return(article)
+</code></pre>
+
+<h3>更多关于Message Expectations</h3>
+
+<p><strong> 执行次数 </strong></p>
+
+<p><code>should_receive(:xxx)</code>要求<code>xxx()</code>被调用且只调用一次, 如果希望调用若干次, 可采用下列方式</p>
+
+<pre><code class="ruby">mock_account.should_receive(:withdraw).exactly(5).times
+network_double.should_receive(:open_connection).at_most(5).times
+network_double.should_receive(:open_connection).at_least(2).times
+account_double.should_receive(:withdraw).once
+account_double.should_receive(:deposit).twice
+</code></pre>
+
+<p>如果期待方法不被调用,要使用<code>should_not_receive</code></p>
+
+<pre><code class="ruby">network_double.should_not_receive(:open_connection)
+network_double.should_receive(:open_connection).never              #不推荐
+network_double.should_receive(:open_connection).exactly(0).times   #不推荐
+</code></pre>
+
+<p><strong> 指定期待的参数, <code>with()</code> </strong></p>
+
+<pre><code class="ruby">### 指定一个参数, 且值为50
+account_double.should_receive(:withdraw).with(50)
+### 可以指定任意个参数
+checking_account.should_receive(:transfer).with(50, savings_account)
+### 第一个参数为给定值, 第二个参数为Fixnum型任意值
+source_account.should_receive(:transfer).with(target_account, instance_of(Fixnum))
+### 第一个参数可以为任意类型任意值
+source_account.should_receive(:transfer).with(anything(), 50)
+### 任意类型任意数量参数
+source_account.should_receive(:transfer).with(any_args())
+### 不传参数
+collaborator.should_receive(:message).with(no_args())
+### 参数为包含/不包含给定key/value的Hash
+with(hash_including('Electric' =&gt; '123', 'Gas' =&gt; '234'))
+with(hash_not_including('Electric' =&gt; '123', 'Gas' =&gt; '234'))
+### 正则表达式
+mock_atm.should_receive(:login).with(/.* User/)
+</code></pre>
+
+<p><strong> 自定义的Argument Matchers </strong></p>
+
+<p>自定义一个类, 然后重写<code>==(actual)</code>方法即可<br/>
+也可以添加一个<code>description()</code>方法以提供失败时输出的信息</p>
+
+<pre><code class="ruby">class GreaterThanMatcher
+
+  def initialize(expected)
+    @expected = expected
+  end
+
+  def description
+    "a number greater than #{@expected}"
+  end
+
+  def ==(actual)
+    actual &gt; @expected
+  end
+end
+
+def greater_than(floor)
+  GreaterThanMatcher.new(floor)
+end
+
+calculator.should_receive(:add).with(greater_than(37))
+</code></pre>
+
+<p><strong> Throwing or Raising </strong></p>
+
+<p><code>and_raise()</code>可以不传参/一个参数(异常类或异常类实例)<br/>
+<code>and_throw()</code>传symbol</p>
+
+<pre><code class="ruby">account_double.should_receive(:withdraw).and_raise
+account_double.should_receive(:withdraw).and_raise(InsufficientFunds)
+
+the_exception = InsufficientFunds.new(:reason =&gt; :on_hold)
+account_double.should_receive(:withdraw).and_raise(the_exception)
+
+account_double.should_receive(:withdraw).and_throw(:insufficient_funds)
+</code></pre>
+
+<p><strong> 按序执行 </strong></p>
+
+<pre><code class="ruby">database.should_receive(:count).with('Roster', :course_id =&gt; 37).ordered
+database.should_receive(:add).with(student).ordered
+</code></pre>
+
+<p>只要<code>count()</code>在<code>add()</code>之前执行就会pass</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The RSpec Book笔记(五) RSpec::Expectations]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/05/15/the-rspec-bookbi-ji-wu-rspec-expectations/"/>
+    <updated>2014-05-15T15:17:39+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/05/15/the-rspec-bookbi-ji-wu-rspec-expectations</id>
+    <content type="html"><![CDATA[<h2>Chapter 13 RSpec::Expectations</h2>
+
+<p><strong> assertions OR expectations </strong><br/>
+BDD里, 使用expectations替代了传统测试里的assertions<br/>
+虽然作用基本是一样的, 但是2者理念不同</p>
+
+<p>传统测试我们先有了代码, 于是我们可以断言(assert)一段代码执行之后会出现生么状况<br/>
+但是在BDD中, 测试之前还没有代码本体. 我们把自己化身为各种角色, 做出各种行为, 然后期待(expect)会得到某样结果</p>
+
+<h3>13.1 should, should_not, and matchers</h3>
+
+<p>RSpec为所有Ruby对象添加了<code>should()</code>和<code>should_not()</code>方法<br/>
+每个方法可以接受一个<code>matcher</code>对象或一个包含了特定范围内的ruby操作符的ruby表达式作参数</p>
+
+<pre><code class="ruby">result.should equal(5)
+</code></pre>
+
+<p>这段代码会先对<code>equal(5)</code>求值, 这是一个RSpec提供的方法, 可以返回一个matcher对象,<br/>
+之后这个matcherd对象被传给<code>result.should</code>.<br/>
+<code>should</code>会调用<code>matcher.matches?</code>, 并把<code>self</code>(在这里即是<code>result</code>)作为参数.<br/>
+如果<code>matches?(self)</code>返回<code>true</code>, 则expectations通过, 开始执行example里下一行代码,<br/>
+否则<code>should()</code>方法会向matcher索取错误信息并报<code>ExpectationNotMetError</code></p>
+
+<h3>13.2 Built-in Matchers</h3>
+
+<pre><code class="ruby">include(item)
+respond_to(message)
+raise_error(type)
+</code></pre>
+
+<p><strong> 相等 </strong></p>
+
+<p>对于<a href="http://blog.banban.me/blog/2014/05/14/rubyxia-de-equals-equals-equals/">ruby中的四种相等</a>, rspec提供了以下四种对应:
+<code>ruby
+a.should == b
+a.should === b
+a.should eql(b)
+a.should equal(b)
+</code>
+另外还要注意<strong> 不要使用 <code>!=</code> </strong>, 而是要用RSpec里提供的<code>should_not</code>方法<br/>
+因为<code>==</code>实际是调用的ruby方法, 于是
+<code>actual.should == expected</code>会被解释称<code>actual.shoul. ==(expected)</code></p>
+
+<p>而<code>actual.should != expected</code>会被解释成<code>!(actual.should.==(expected))</code><br/>
+actual和expected如果不等, 则会直接报<code>ExpectationNotMetError</code>了</p>
+
+<p><strong> 浮点数 </strong></p>
+
+<pre><code class="ruby">result.should be_close(5.25, 0.005)
+</code></pre>
+
+<p><strong> 多行文本 </strong></p>
+
+<pre><code class="ruby">result.should match(/this expression/)
+result.should =~ /this expression/
+</code></pre>
+
+<p><strong> 变更 </strong></p>
+
+<pre><code class="ruby">expect {
+  User.create!(:role =&gt; "admin")
+}.to change{ User.admins.count }
+
+expect {
+  User.create!(:role =&gt; "admin")
+}.to change{ User.admins.count }.by(1)
+
+expect {
+  User.create!(:role =&gt; "admin")
+}.to change{ User.admins.count }.to(1)
+
+expect {
+  User.create!(:role =&gt; "admin")
+}.to change{ User.admins.count }.from(0).to(1)
+
+expect {
+  seller.accept Offer.new(250_000)
+}.to change{agent.commission}.by(7_500)
+</code></pre>
+
+<p>最后面那个也可以写成
+<code>ruby
+agent.commission.should == 0
+seller.accept Offer.new(250_000)
+agent.commission.should == 7_500
+</code></p>
+
+<p><strong> 报错 </strong></p>
+
+<pre><code class="ruby">expect {
+  account.withdraw 75, :dollars
+}.to raise_error(
+  InsufficientFundsError,
+  /attempted to withdraw 75 dollars/
+)
+</code></pre>
+
+<p><code>raise_error</code>可以传0个,1个或2个参数<br/>
+第一个参数可以是error class, 错误信息的字符串 或者匹配错误信息的正则表达式<br/>
+如果第一个参数为error class, 可以传第二个参数, String或Regexp</p>
+
+<p><strong> 手动抛出异常 </strong></p>
+
+<pre><code class="ruby">course = Course.new(:seats =&gt; 20)
+  20.times { course.register Student.new }
+lambda {
+  course.register Student.new
+}.should throw_symbol(:course_full, 20)
+</code></pre>
+
+<p>参数形式与<code>raise_error</code>类似, 但是第一个参数必须为symbol, 第二个参数可为任意类型</p>
+
+<h3>13.3 Predicate Matchers</h3>
+
+<p>所谓predicate method, 即是以<code>?</code>并且返回一个<code>boolean</code>值的方法<br/>
+在RSpec里, 可以用<code>be_xxx</code>, <code>be_a_xxx</code>, <code>be_an_xxx</code> 来描述一个predicate method</p>
+
+<h3>13.4 Be True in the Eyes of Ruby</h3>
+
+<pre><code class="ruby">true.should be_true
+0.should be_true
+"this".should be_true
+
+false.should be_false
+nil.should be_false
+</code></pre>
+
+<p>对于特殊的只期待true/false的场合, 可以使用<code>equal</code></p>
+
+<pre><code class="ruby">true.should equal(true)
+false.should equal(false)
+</code></pre>
+
+<h3>13.5 Have Whatever You Like</h3>
+
+<p><strong> have_xxx </strong></p>
+
+<p>对<code>has_xxx?</code>这类predicate method, 可以使用<code>have_xxx</code>的Predicate Matchers</p>
+
+<pre><code class="ruby">request_parameters.has_key?(:id).should == true
+request_parameters.should have_key(:id)
+</code></pre>
+
+<p><strong> Owned Collections </strong></p>
+
+<pre><code class="ruby ">field.players.select {|p| p.team == home_team }.length.should == 9
+</code></pre>
+
+<p>够ruby, 但是不够English, 于是可以写成</p>
+
+<pre><code class="ruby">home_team.should have(9).players_on(field)
+</code></pre>
+
+<p>其中, <code>have()</code>返回一个无法响应<code>players_on()</code>方法的matcher<br/>
+之后这个matcher把<code>players_on()</code>方法代理到<code>home_team</code>上</p>
+
+<p>这么写一来易读(从English角度), 二来可以鼓励添加诸如<code>players_on()</code>这样的有用的方法</p>
+
+<p><strong> Unowned Collections </strong></p>
+
+<p>对于需要描述的对象本身就是collection的情况, 需要判断其size/length</p>
+
+<pre><code class="ruby">collection.should have(37).items
+</code></pre>
+
+<p>其中<code>items</code>是语法糖, 后面会有进一步说明</p>
+
+<p>同样的, String也适用, 其中<code>characters</code>也是语法糖</p>
+
+<pre><code class="ruby">"this string".should have(11).characters
+</code></pre>
+
+<p>除了<code>have()</code>以外, 还有<code>have_at_least()</code>和<code>have_at_most()</code><br/>
+<code>have_exactly()</code>与<code>have()</code>同义</p>
+
+<pre><code class="ruby">day.should have_exactly(24).hours
+dozen_bagels.should have_at_least(12).bagels
+internet.should have_at_most(2037).killer_social_networking_apps
+</code></pre>
+
+<p><strong> have()究竟如何工作的 </strong></p>
+
+<p><code>have()</code>方法会返回一个<code>RSpec::Matchers::Have</code>实例<br/>
+实例里面记录了传入<code>have()</code>的数目作为指定collection的包含元素数目的期待值</p>
+
+<pre><code class="ruby">result.should have(3).things
+</code></pre>
+
+<p>其实等价于</p>
+
+<pre><code class="ruby">result.should(Have.new(3).things)
+</code></pre>
+
+<p>Have类重写了<code>method_missing</code>方法, 使其能记录自己无法响应的方法(在这里就是<code>things</code>), 并返回self<br/>
+于是<code>Have.new(3).things</code>, 最终返回了一个包含期待的collection元素数目(3)以及可能的collection名字(<code>things</code>)的Have对象</p>
+
+<p>紧接着, 这个Have对象被传递给了<code>should()</code>方法<br/>
+<code>should()</code>调用<code>matcher.matches?(self)</code></p>
+
+<p>而在<code>matches?()</code>方法里, 首先会判断目标对象(<code>result</code>)是否能响应之前纪录的<code>things</code>方法<br/>
+若能相应, 则在<code>result.things</code>上调用<code>length</code>或者<code>size</code>(length优先)<br/>
+此时如果<code>result.things</code>没有<code>length</code>或<code>size</code>, 就会得到一个error message
+如果有<code>length</code>/<code>size</code>, 便会与Have对象里记录的数目作比较, 判断example通过或者失败</p>
+
+<p>如果<code>result</code>无法响应<code>things</code>, 则会在<code>result</code>自身调用<code>length</code>或<code>size</code><br/>
+之后的判断与上面一样,  返回错误信息或者比较数目是否相等</p>
+
+<h3>13.6 Operator Expressions</h3>
+
+<pre><code class="ruby">result.should == 3
+result.should =~ /some regexp/
+result.should be &lt; 7
+result.should be &lt;= 7
+result.should be &gt;= 7
+result.should be &gt; 7
+</code></pre>
+
+<p>这些会被Ruby解释成</p>
+
+<pre><code class="ruby">result.should.==(3)
+result.should.=~(/some regexp/)
+result.should(be.&lt;(7))
+result.should(be.&lt;=(7))
+result.should(be.&gt;=(7))
+result.should(be.&gt;(7))
+</code></pre>
+
+<p>RSpec在<code>should()</code>返回的对象上定义了<code>==</code>, <code>=~</code>, 在<code>be()</code>返回对象上定义了<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code></p>
+
+<h3>13.7 Generated Descriptions</h3>
+
+<pre><code class="ruby">describe "A new chess board" do
+  before(:each) do
+    @board = Chess::Board.new
+  end
+
+  it "should have 32 pieces" do
+    @board.should have(32).pieces
+  end
+end
+</code></pre>
+
+<p>因为example运行时输出的内容几乎和example是一样的, 于是上述内容也可以写成</p>
+
+<pre><code class="ruby">describe "A new chess board" do
+  before(:each) { @board = Chess::Board.new }
+  specify { @board.should have(32).pieces }
+end
+</code></pre>
+
+<p>这2段代码输出的内容都是
+<code>bash
+A new chess board
+  should have 32 pieces
+</code></p>
+
+<p><code>specify()</code>和<code>it()</code>一样, 都是<code>example()</code>的方法别名</p>
+
+<h3>13.8 Subjectivity</h3>
+
+<p><code>subject()</code>相当于在<code>before</code>里创建一个当前example的subject(被描述的对象)</p>
+
+<pre><code class="ruby">describe Person do
+  subject { Person.new(:birthdate =&gt; 19.years.ago) }
+  specify { subject.should be_eligible_to_vote }
+end
+</code></pre>
+
+<p>一旦<code>subject</code>被声明了, <code>should()</code>和<code>should_not()</code>都会被代理到<code>subject</code>上<br/>
+于是上面的代码还可以写作
+<code>ruby
+describe Person do
+  subject { Person.new(:birthdate =&gt; 19.years.ago) }
+  it { should be_eligible_to_vote }
+end
+</code></p>
+
+<p>如果创建的subject在执行<code>new</code>时不需要参数, <code>subject</code>的声明也可以不写, 直接写作</p>
+
+<pre><code class="ruby">describe RSpecUser do
+  it { should be_happy }
+end
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

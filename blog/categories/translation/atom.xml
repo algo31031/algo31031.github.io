@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Translation | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/translation/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails遗留程序里最常犯的错误(译)]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/"/>
+    <updated>2014-07-23T13:23:08+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu</id>
+    <content type="html"><![CDATA[<p>原文出自<a href="http://edelpero.svbtle.com/most-common-mistakes-on-legacy-rails-apps">most-common-mistakes-on-legacy-rails-apps</a>, 感谢作者<a href="http://edelpero.svbtle.com/">EZEQUIEL DELPERO</a></p>
+
+<p>近来我一直在对几个遗留项目作维护。</p>
+
+<p>众所周知，处理遗留项目多数时间都感觉糟透了，因为那些代码通常都丑陋不堪而且晦涩难懂。</p>
+
+<p>我决定做一个列表，记录下那些公认的不良实践，或者是我认为不太好的实践，以及如何改良代码来避免这些不良实践。</p>
+
+<h3>问题一览</h3>
+
+<ul>
+<li>在模型层以外使用查询方法</li>
+<li>在视图层使用业务逻辑</li>
+<li>使用无意义的方法名和变量名</li>
+<li>条件判断时使用unless或者否定的表达式</li>
+<li>没有遵循“命令，不要去询问”原则</li>
+<li>使用复杂的条件</li>
+<li>在模型的实例方法里，本来不需要的时候使用了“self.”</li>
+<li>使用条件表达式并且返回了条件</li>
+<li>在视图层使用行内样式</li>
+<li>在视图层使用JavaScript</li>
+<li>调用方法时把另一个方法的调用作为参数</li>
+<li>没有使用类来隔离Rake Tasks</li>
+<li>没有遵循Sandi Metz的规则</li>
+</ul>
+
+
+<h3>在模型层以外使用查询方法</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+
+  def index
+    @users = User.where(active: true).order(:last_login_at)
+  end
+
+end
+</code></pre>
+
+<p>这段代码不可重用而且难于测试。如果你在别的地方也想查找全部用户并进行排序，就会出现冗余代码。</p>
+
+<p><strong>好的</strong></p>
+
+<p>比起在控制器里使用查询方法，我们的做法是在模型层中使用scope把它们独立出来，就如下例所示。这样做既可以使代码能够复用，又便于代码阅读和测试。</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  scope :active, -&gt; { where(active: true) }
+  scope :by_last_login_at, -&gt; { order(:lasst_login_at) }
+
+end
+</code></pre>
+
+<pre><code class="ruby"># app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+
+  def index
+    @users = User.active.by_last_login_at
+  end
+
+end
+</code></pre>
+
+<p>每当你想用where、order、joins、includes、group、having或者其他查询方法时，记得要把它们放在模型层里。</p>
+
+<h3>在视图层使用业务逻辑</h3>
+
+<p><strong>不好的</strong></p>
+
+<p>```ruby</p>
+
+<!-- app/views/posts/show.html.erb -->
+
+
+<p>&hellip;</p>
+
+<h2>
+  <%= "#{@comments.count} Comment#{@comments.count == 1 ? '' : 's'}" %>
+</h2>
+
+
+<p>&hellip;
+```</p>
+
+<p>初看之下这小段代码似乎没什么问题，但是它会让HTML变得有点难以阅读，而且可以肯定的说一旦你在视图层添加了逻辑代码，那么日后你定会添加更多的逻辑到视图。这段代码还有一个问题，里面的逻辑无法复用，而且不能单独测试。</p>
+
+<p><strong>好的</strong></p>
+
+<p>使用Rails的helper方法把业务逻辑隔离出来</p>
+
+<pre><code class="ruby"># app/helpers/comments_helper.rb
+module CommentsHelper
+  def comments_count(comments)
+    "#{comments.count} Comment#{comments.count == 1 ? '' : 's'}"
+  end
+end
+</code></pre>
+
+<p>```ruby</p>
+
+<!-- app/views/posts/show.html.erb -->
+
+
+<h2>
+  <%= comments_count(@comments) %>
+</h2>
+
+
+<pre><code>
+###使用无意义的方法名和变量名
+
+**不好的**
+</code></pre>
+
+<h1>app/models/topic.rb</h1>
+
+<p>class Topic &lt; ActiveRecord::Base</p>
+
+<p>  def self.r_topics(questions)
+    rt = []</p>
+
+<pre><code>questions.each do |q|
+  topics = q.topics
+
+  topics.each do |t|
+    if t.enabled?
+      rt &lt;&lt; t
+    end
+  end
+end
+
+Topic.where(id: rt)
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+```</p>
+
+<p>这类遗留代码最主要的问题在于：你需要花费大把时间来搞清楚这些代码的用途。r_topics这个方法是做什么的，rt这个变量又是什么意思。其他的一些变量，比如在代码块里用到的那个，变量名的含义很模糊，这样也使得它们的用途初看起来很难理解。</p>
+
+<p><strong>好的</strong></p>
+
+<p>对方法和变量命名时选那些能表达出其含义的名字。这样更便于其他开发者理解你的代码。</p>
+
+<pre><code class="ruby"># app/models/topic.rb
+class Topic &lt; ActiveRecord::Base
+
+  def self.related(questions)
+    related_topics = []
+
+    questions.each do |question|
+      topics = question.topics
+
+      topics.each do |topic|
+        if topic.enabled?
+          related_topics &lt;&lt; topic
+        end
+      end
+    end
+
+    Topic.where(id: related_topics)
+  end
+
+end
+</code></pre>
+
+<p>这样改进的好处在于：</p>
+
+<ul>
+<li>第一次看到方法名时就会对方法返回值有个概念。一个与给定问题集合相关联的主题的集合。</li>
+<li>现在你能够了解related_topics表示一个数组，它里面存放了一个与给定问题集合相关联的主题的集合。之前打代码里rt表示什么非常含糊。</li>
+<li>使用topic代替之前的t，并用question替换掉q，使得你的代码更便于阅读，因为你不再需要脑补这些变量的用途。现在这些代码已然能够自解释一切。</li>
+</ul>
+
+
+<h3>条件判断时使用unless或者否定的表达式</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/services/charge_user.rb
+class ChargeUser
+
+  def self.perform(user, amount)
+    return false unless user.enabled?
+
+    PaymentGateway.charge(user.account_id, amount)
+  end
+
+end
+</code></pre>
+
+<p>这段代码也许并不难理解，但是使用unless或者否定的条件表达式会稍微增加代码的发复杂度，因为你必须对它要判断的条件自行脑补。</p>
+
+<p><strong>好的</strong></p>
+
+<p>改用if或者肯定的条件表达式之后，上述代码就会好懂得多。</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def disabled?
+    !enabled?
+  end
+
+end
+</code></pre>
+
+<pre><code class="ruby"># app/services/charge_user.rb
+class ChargeUser
+
+  def self.perform(user, amount)
+    return false if user.disabled?
+
+    PaymentGateway.charge(user.account_id, amount)
+  end
+
+end
+</code></pre>
+
+<p>不觉得这样写代码更易读了吗？我更倾向于使用if而非unless，用肯定的表达式多过肯定的表达式。实在不行就添加个反意的方法，比如我们在User模型里加的那个。</p>
+
+<h3>没有遵循“命令，不要去询问”原则</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def enable!
+    update(enabled: true)
+  end
+
+end
+</code></pre>
+
+<pre><code class="ruby"># app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+
+  def enable
+    user = User.find(params[:id])
+
+    if user.disabled?
+      user.enable!
+      message = "User enabled"
+    else
+      message = "User already disabled"
+    end
+
+    redirect_to user_path(user), notice: message
+  end
+
+end
+</code></pre>
+
+<p>这里的问题是在不恰当的地方出现了控制逻辑。你先判断了用户是否是不可用，如果的确不可用，就启用这个用户。</p>
+
+<p><strong>好的</strong></p>
+
+<p>比较好的改办法是把控制逻辑放到enable!方法里。</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def enable!
+    if disabled?
+      update(enabled: true)
+    end
+  end
+
+end
+</code></pre>
+
+<pre><code class="ruby"># app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+
+  def enable
+    user = User.find(params[:id])
+
+    if user.enable!
+      message = "User enabled"
+    else
+      message = "User already disabled"
+    end
+
+    redirect_to user_path(user), notice: message
+  end
+
+end
+</code></pre>
+
+<p>现在控制器不用关心user需要满足何种条件才会被启用。相关的判断由User模型和enable！方法来处理。</p>
+
+<h3>使用复杂的条件</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/controllers/posts_controller.rb
+class PostsController &lt; ApplicationController
+
+  def destroy
+    post = Post.find(params[:id])
+
+    if post.enabled? &amp;&amp; (user.own_post?(post) || user.admin?)
+      post.destroy
+      message = "Post destroyed."
+    else
+      message = "You're not allow to destroy this post."
+    end
+
+    redirect_to posts_path, notice: message
+  end
+
+end
+</code></pre>
+
+<p>条件表达式弄的太过复杂了，实际上这里只想知道一件事：用户可以删掉post吗？</p>
+
+<p><strong>好的</strong></p>
+
+<p>从上面的代码我们可以了解到，一个用户需要是post的所有者或者这个用户是管理员，并且post本身也是可用的，才可以删除这个post。最好的做法就是，把这些条件抽取成一个日后可以复用的方法。</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def can_destroy_post?(post)
+    post.enabled? &amp;&amp; (own_post?(post) || admin?)
+  end
+
+end
+</code></pre>
+
+<pre><code class="ruby"># app/controllers/posts_controller.rb
+class PostsController &lt; ApplicationController
+
+  def destroy
+    post = Post.find(params[:id])
+
+    if user.can_destroy_post?(post)
+      post.destroy
+      message = "Post destroyed."
+    else
+      message = "You're not allow to destroy this post."
+    end
+
+    redirect_to posts_path, notice: message
+  end
+
+end
+</code></pre>
+
+<p>每当条件表达式里出现了&amp;&amp;或者||，就应该把它们提取为方法，以备以后复用。</p>
+
+<h3>在模型的实例方法里，本来不需要的时候使用了“self.”</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
+end
+</code></pre>
+
+<p>这段代码并不复杂但是里面并不需要使用“self.”。把“self.”去掉会使代码更简洁且不影响可用性。</p>
+
+<p><strong>好的</strong></p>
+
+<p>在模型里，只有在实例方法里需要赋值时，才会用到“self.”，否则通篇的“self.”只会徒增代码复杂度。</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+end
+</code></pre>
+
+<h3>使用条件表达式并且返回了条件</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def full_name
+    if name
+      name
+    else
+      "No name"
+    end
+  end
+
+end
+</code></pre>
+
+<p>或者</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def full_name
+    name ? name : "No name"
+  end
+
+end
+</code></pre>
+
+<p>这段代码的问题在于：在不需要的地方添加了控制语句。</p>
+
+<p><strong>好的</strong></p>
+
+<p>有种更简便的处理方式也能达到同样效果</p>
+
+<pre><code class="ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+
+  def full_name
+    name || "No name"
+  end
+
+end
+</code></pre>
+
+<p>简单来说这段代码会在name不为false或nil时将其返回，否则返回"No name".</p>
+
+<p>使用得当的话，||和&amp;&amp;这些操作符会对提升你的代码品质提供巨大助力。</p>
+
+<h3>在视图层使用行内样式</h3>
+
+<p><strong>不好的</strong></p>
+
+<p>```ruby</p>
+
+<!-- app/views/projects/show.html.erb -->
+
+
+<p>&hellip;</p>
+
+<h3 style="font-size:20px;letter-spacing:normal;color:#95d60a;line-height:100%;margin:0;font-family:'Proxima Nova';">
+  SECRET PROJECT
+</h3>
+
+
+<p>&hellip;
+```</p>
+
+<p>这里我们只列出一个标签，所有的样式都写在了标签里。现在，请设想一下，如果所有的标签都接收行内样式。这会把你的HTML变得和其难度，除此之外，每当你需要引入另一个同样的h3元素时，将不得不把同样代码照搬一边，造成冗余。</p>
+
+<p><strong>好的</strong></p>
+
+<pre><code class="ruby">// app/assets/stylesheets/application.css
+.project-title {
+    font-size: 20px;
+    letter-spacing: normal;
+    color: #95d60a; 
+    line-height: 100%;
+    margin: 0;
+    font-family:'Proxima Nova';
+}
+</code></pre>
+
+<p>```ruby</p>
+
+<!-- app/views/projects/show.html.erb -->
+
+
+<p>&hellip;</p>
+
+<h3 class="project-title">
+  SECRET PROJECT
+</h3>
+
+
+<p>&hellip;
+```</p>
+
+<p>现在我么可以复用样式了，并且HTML的可读性也有所提高。</p>
+
+<p><strong>注意：</strong>这只是个简单的范例，实际应用时你应该把CSS拆分成多个小文件，并通过application.css来加载这些文件。另外只有在email模板里，才会用到行内样式。</p>
+
+<h3>在视图层使用JavaScript</h3>
+
+<p><strong>不好的</strong></p>
+
+<p>```ruby</p>
+
+<!-- app/views/questions/show.html.erb -->
+
+
+<p>&hellip;
+<textarea rows="4" cols="50" class='wysihtml5'>
+  Insert your question details here.
+</textarea>
+&hellip;</p>
+
+<p><script>
+  $(document).ready(function(){
+  $(&lsquo;textarea.wysihtml5&rsquo;).wysihtml5({
+    &ldquo;font-styles&rdquo;: true, //Font styling, e.g. h1, h2, etc. Default true.
+    &ldquo;emphasis&rdquo;: true, //Italics, bold, etc. Default true.
+    &ldquo;lists&rdquo;: true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true.
+    &ldquo;html&rdquo;: false, //Button which allows you to edit the generated HTML. Default false.
+    &ldquo;link&rdquo;: true, //Button to insert a link. Default true.
+    &ldquo;image&rdquo;: true, //Button to insert an image. Default true.
+    &ldquo;color&rdquo;: true //Button to change color of font. Default true.
+  });
+});
+<script>
+```</p>
+
+<p>这里的逻辑和特定页面耦合在一起，导致代码不可复用。</p>
+
+<p><strong>好的</strong></p>
+
+<p>Rails里面有专门用于组织和存放javascript代码的地方：“app/assets/javascripts/”。</p>
+
+<pre><code class="ruby">// app/assets/javascripts/application.js
+...
+$(document).ready(function(){
+  $('textarea.wysihtml5').wysihtml5({
+    "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true.
+    "emphasis": true, //Italics, bold, etc. Default true.
+    "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true.
+    "html": false, //Button which allows you to edit the generated HTML. Default false.
+    "link": true, //Button to insert a link. Default true.
+    "image": true, //Button to insert an image. Default true.
+    "color": true //Button to change color of font. Default true.
+  });
+});
+...
+</code></pre>
+
+<pre><code class="ruby">&lt;!-- app/views/questions/show.html.erb --&gt;
+...
+&lt;textarea rows="4" cols="50" class='wysihtml5'&gt;
+  Insert your question details here.
+&lt;/textarea&gt;
+...
+</code></pre>
+
+<p>现在我们可以在view层任何地方用这段代码了。只需要页面上有一个带有wysihtml5这个class的textarea，刚才的那段js就会被执行。</p>
+
+<p><strong>注意：</strong>这只是个简单的范例，实际应用时需要考虑是否需要把你的JavaScript拆分成若干小的文件，并通过application.js来加载这些文件。另外，如果你使用的是CoffeeScript而非JavaScript，请坚持不要把CoffeeScript与普通JavaScript在一起混写。</p>
+
+<h3>调用方法时把另一个方法的调用作为参数</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># app/services/find_or_create_topic.rb
+class FindOrCreateTopic
+  ...
+  def self.perform(user, name)
+    find(user, sluggify(name)) || create(user, name)
+  end
+  ...
+end
+</code></pre>
+
+<p>这段代码里调用了find方法并传入了2个参数，首参数为user，第二个参数则是直接调用了sluggify这个方法并把name作为参数传给sluggify。你也许会有疑问，这么写有什么问题吗？我明明完全能够看懂这段代码呀。是的，代码也许不难理解，但是每次到这里你都需要自己做一点脑筋转换，而这正是我一直极力想要避免的。</p>
+
+<p><strong>好的</strong></p>
+
+<p>避免需要脑筋转换的一个比较有效的办法就是：使用有意义的变量名。</p>
+
+<pre><code class="ruby"># app/services/find_or_create_topic.rb
+class FindOrCreateTopic
+  ...
+  def self.perform(user, name)
+    slug = sluggify(name)
+    find(user, slug) || create(user, name)
+  end
+  ...
+end
+</code></pre>
+
+<p>这样做可以避免脑筋转换。换用含义明确的变量名之后，每当你再调用find方法，就会知道find接受一个user和一个slug做参数。</p>
+
+<h3>没有使用类来隔离Rake Tasks</h3>
+
+<p><strong>不好的</strong></p>
+
+<pre><code class="ruby"># lib/tasks/recalculate_badges_for_users.rake
+namespace :users do
+
+  desc "Recalculates Badges for Users"
+  task recalculate_badges: :environment do
+    user_count = User.count
+
+    User.find_each do |user|
+      puts "#{index}/#{user_count} Recalculating Badges for: #{user.email}"
+
+      if user.questions_with_negative_votes &gt;= 1 || user.answers_with_negative_votes &gt;= 1
+        user.grant_badge('Critic')
+      end
+
+      user.answers.find_each do |answer|
+        question   = answer.question
+        next unless answer &amp;&amp; question
+
+        days       = answer.created_at - question.created_at
+        days_count = (days / 1.day).round
+
+        if (days_count &gt;= 60) &amp;&amp; (question.vote_count &gt;= 5)
+          grant_badge('Necromancer') &amp;&amp; return
+        end
+      end
+    end
+  end
+
+end
+</code></pre>
+
+<p>这个rake task有问题多多。最主要的问题是，这个rake太长了而且不好测试。代码写的初一看也很难理解。你只好相信这个task的确是为用户重新计算奖章系统的，因为它上面描述就这么写的。</p>
+
+<p><strong>好的</strong></p>
+
+<p>解决这个问题最好的办法就是，把业务逻辑挪到一个特定的类里面。所以，让我们新建个类来搞定它吧。</p>
+
+<pre><code class="ruby"># app/services/recalculate_badge.rb
+class RecalculateBadge
+  attr_reader :user
+
+  def initialize(user)
+    @user = user
+  end
+
+  def grant_citric
+    if grant_citric?
+      user.grant_badge('Critic')
+    end
+  end
+
+  def grant_necromancer
+    user.answers.find_each do |answer|
+      question = answer.question
+      next unless answer &amp;&amp; question
+
+      if grant_necromancer?(answer, question)
+        grant_badge('Necromancer') &amp;&amp; return
+      end
+    end
+  end
+
+  protected
+
+    def grant_citric?
+      (user.questions_with_negative_votes &gt;= 1) ||
+      (user.answers_with_negative_votes &gt;= 1)
+    end
+
+    def days_count(answer, question)
+      days = answer.created_at - question.created_at
+      (days / 1.day).round
+    end
+
+    def grant_necromancer?(answer, question)
+      (days_count(answer,question) &gt;= 60) &amp;&amp;
+      (question.vote_count &gt;= 5)
+    end
+
+end
+</code></pre>
+
+<pre><code class="ruby"># lib/tasks/recalculate_badges_for_users.rake
+namespace :users do
+
+  desc "Recalculates Badges for Users"
+  task recalculate_badges: :environment do
+    user_count = User.count
+
+    User.find_each do |user|
+      puts "#{index}/#{user_count} Recalculating Badges for: #{user.email}"
+      task = RecalculateBadge.new(user)
+      task.grant_citric
+      task.grant_necromancer
+    end
+  end
+
+end
+</code></pre>
+
+<p>如你所见，现在这个rake task可读性要好的多，而且还可以单独测试每一种批准徽章的方法。除此以外我么也可以在有需要时复用这个类。当然这段代码只是点到即止，诸位可以再做进一步优化。</p>
+
+<h3>没有遵循Sandi Metz的规则</h3>
+
+<ol>
+<li>每个类代码不可以超过100行</li>
+<li>每个方法代码不可以超过5行</li>
+<li>方法参数不可以超过4个，hash项也包括在内</li>
+<li>控制器之可以初始化一个对象。而且视图层只可以使用一个实例变量，并且只可以在这个对象上调用方法（@object.collaborator.value这种是不可以的）。</li>
+</ol>
+
+
+<p>更多关于Sandi Metz的规则请移步至<a href="http://robots.thoughtbot.com/">thoughtbot</a>,参阅<a href="http://robots.thoughtbot.com/sandi-metz-rules-for-developers">Sandi Metz' Rules For Developers</a>这篇博文。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用RSpec编写具有可读性的功能测试(译)]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/"/>
+    <updated>2014-07-15T10:37:24+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi</id>
+    <content type="html"><![CDATA[<p>原文出自<a href="https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/?utm_source=rubyweekly&amp;utm_medium=email">about.futurelearn.com</a>,感谢作者<a href="https://www.futurelearn.com/profiles/1390">Chris Zetter</a></p>
+
+<p><strong>Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。</strong></p>
+
+<p>测试是建立与维护一个大型平台不可或缺的一部分。每当我们为FutureLearn这个平台增添新功能时，我们都会编写自动化的功能测试来记录这些新功能是如何运作的，并确保他们不运转时我们也能知晓。</p>
+
+<h3>令人爱恨交加的Cucumber</h3>
+
+<p>Cucumber是一款用来编写功能测试的常用工具，每当我们开启项目时它都是我们的不二选择。它可以让我们以用户的视角编写出高层级的行为驱动测试。</p>
+
+<pre><code class="ruby">Feature: Enrolment
+  Scenario: Enrolling in a course
+    Given there is a course
+    And I am logged in as a learner
+    When I enrol on a course
+    Then the course should appear in 'my courses'
+</code></pre>
+
+<p>我们乐于使用Cucumber因为它可以使根据用户故事编写测试变得简单易行，而且写完的测试通俗易懂。然而使用Cucumber也有些许不足之处。首先，我们已经在项目里使用了RSpec，再引入Cucumber意味着又要多维护一个测试框架；其次，由于两者的DSLs和测试运行器不同，在他们之间进行脑筋切换又会带来额外开销；最后，我们特别不喜欢Cucumber所使用的正则表达式，因为同Ruby的标准方法调用相比，它们使测试变得更加晦涩难懂。</p>
+
+<h3>编写更好的RSpec features</h3>
+
+<p>那么，我么该如何在不失测试可读性的前提下停用Cucumber呢？</p>
+
+<p>我们已经开始使用RSpec features来替代Cucumber，它们通常看起来会是这样：</p>
+
+<pre><code class="ruby">feature 'Enrolment' do
+  scenario 'Enrolling in a course' do
+    course = FactoryGirl.create(:course)
+
+    learner = FactoryGirl.create(:learner)
+    login_as learner
+
+    visit course_path(course)
+    find('.join').click
+    expect(page).to have_content('Thanks for joining!')
+
+    visit '/'
+    expect(page).to have_main_header('My Courses')
+    expect(page).to have_content(course.full_title)
+  end
+end
+</code></pre>
+
+<p>它们总是趋于变得很长，使得难以辨明其究竟在测试些什么。而且难以区分诸如Arrange, Act, Assert（在Cucumber里又被称为'Given'、'When'和'Then'）这些部分。我们试过在代码中这些步骤里添加注释，但它们就和通常那些程序代码里的注释一样不尽如人意：一段时间之后这些注释就变得与实际代码不同步了。</p>
+
+<p>一般来说，如果是在程序里别的地方写出这么长的方法，我们就会有所警觉，并且通常会采用提取方法的办法进行重构。何不也这么做呢？让我们依据Cucumber步骤的风格，把这些代码也提取成一个个方法吧。</p>
+
+<pre><code class="ruby">feature 'Enrolment' do
+  scenario 'Enrolling in a course' do
+    given_there_is_a_course
+    and_i_am_logged_in_as_a_learner
+    when_i_enrol_on_a_course
+    then_the_course_should_appear_in_my_courses
+  end
+
+  def given_there_is_a_course
+    @course = FactoryGirl.create(:course)
+  end
+
+  def and_i_am_logged_in_as_a_learner
+    @learner = FactoryGirl.create(:learner)
+    login_as @learner
+  end
+
+  def when_i_enrol_on_a_course
+    visit course_path(@course)
+    find('.join').click
+    expect(page).to have_content('Thanks for joining!')
+  end
+
+  def then_the_course_should_appear_in_my_courses
+    visit '/'
+    expect(page).to have_main_header('My Courses')
+    expect(page).to have_content(@course.full_title)
+  end
+end
+</code></pre>
+
+<h3>我们有何发现</h3>
+
+<p>我们移除了全部的Cucumber功能测试，并把它们中大部分用新式的RSpec features加以重写。这样一来即可保证拥有Cucumber所提供的优秀的可读性，又使得测试变得更加便于编写和维护。</p>
+
+<p>我们做了一个慎重的决定，不把各个features文件里提取的方法进行复用，因为担心这么做会使得测试难于理解。我们发现在编写一个feature下的多条scenario时，会不自觉的就想要进行代码复用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[几个鲜为人知的ActiveRecord Associations小技巧 (译)]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/07/04/ji-ge-xian-wei-ren-zhi-de-activerecord-associationsxiao-ji-qiao-yi/"/>
+    <updated>2014-07-04T10:08:40+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/07/04/ji-ge-xian-wei-ren-zhi-de-activerecord-associationsxiao-ji-qiao-yi</id>
+    <content type="html"><![CDATA[<p>原文出自<a href="http://www.gotealeaf.com/blog/ruby-on-rails-activerecord-association-features/">gotealeaf.com</a>, 感谢作者Steve Turczyn</p>
+
+<p>作为一个Rails开发者, 与ActiveRecord associations打交道实属家常便饭. 但其中若干特性, 却非尽人皆知.</p>
+
+<h3>自定义查询</h3>
+
+<p>假如你在开发一个允许发表评论的博客, 保不齐会遇到各种不和谐的言论充斥于评论间(这里毕竟是互联网). 为了保证只显示经核准的评论, 你要在comments表里加一个<code>boolean</code>型字段:<code>approved</code>.</p>
+
+<p>对于每篇博客, 由于只想取出审核过的评论(即那些被管理员标记为通过的), 所以需要自定义查询.</p>
+
+<pre><code class="ruby"># app/models/post.rb
+class Post &lt; ActiveRecord::Base
+  has_many :approved_comments, -&gt; { where approved: true }, class_name: 'Comment'
+  ...
+</code></pre>
+
+<p>现在, 当你需要取出某篇博客里审核过的评论时, 只需要使用<code>my_post.approved_comments</code>.</p>
+
+<h3>扩展</h3>
+
+<p>有可能你还是需要有个选项能调出一篇博客的全部评论, 或者只看在今天发的那些. 这时你可以利用扩展功能, 在某个特定的关系上追加一个自定义方法.</p>
+
+<pre><code class="ruby"># app/models/post.rb
+class Post &lt; ActiveRecord::Base
+  has_many :comments do
+    def today
+      where("created_at &gt;= ?", Time.zone.now.beginning_of_day)
+    end
+  end
+  ...
+</code></pre>
+
+<p>这样一来, 除了原本的<code>my_post.comments</code>, 你还能通过诸如<code>my_post.comments.today</code>这种调用让检索更确切.</p>
+
+<h3>回调</h3>
+
+<p>在记录被添加或移除之前与之后, 自动的调用方法, 这个可以有.</p>
+
+<p>假如你有一个建筑项目(BuildingProject), 里面有许多工人(Worker). 每次增加一个工人, 都需要重新计算项目预算和完工日期的变化, 而这些有又可能与工人类型工作经验等等息息相关&hellip;好个麻烦的方法, 要能在添加完工人后自动调用就好了.</p>
+
+<pre><code class="ruby"># app/models/building_project.rb
+class BuildingProject &lt; ActiveRecord::Base
+  has_many :workers, after_add: :recalculate_project_status
+  ...
+  def recalculate_project_status(newly_added_worker)
+    ...
+  end
+  ...
+</code></pre>
+
+<h3>inverse_of</h3>
+
+<p><code>inverse_of</code>可以很方便的使相互关联的对象从任意方向被访问到. <code>my_post.comments</code>和<code>my_comment.post</code>. 当然, 在<code>Post</code>里指定<code>has_many :comments</code>并且在<code>Comment</code>里指定<code>belongs_to :post</code>之后, 便已经可以得到上述2个关系. 但是加上<code>inverse_of</code>之后, 会让rails确保关系里的对象乃是相同的对象.</p>
+
+<p><code>inverse_of</code>指定方法如下:</p>
+
+<pre><code class="ruby"># app/models/post.rb
+class Post &lt; ActiveRecord.Base
+ has_many :comments, inverse_of: post
+ ...
+</code></pre>
+
+<p>现在先去掉<code>inverse_of</code>, 如果你这样这样这样&hellip;</p>
+
+<pre><code class="ruby">post = Post.first
+post.update_attribute(:importance, false)
+comment = post.comments.first
+working_post = comment.post
+working_post.update_attribute(:importance, true)
+post.importance?
+=&gt; false
+</code></pre>
+
+<p>喔! 系统咋还是觉得你的blog不给力&hellip;这是因为<code>comment.post</code>执行了一次单独的DB查询, 得到的对象虽然对应DB里同一条Post记录,但却是不同的实例. 而原本那条post记录的对象还是不知道自己在DB的状态已经被改变了.</p>
+
+<p>那么让我们把<code>inverse_of</code>加回去, 重新执行刚才的代码:</p>
+
+<pre><code class="ruby">post = Post.first
+post.update_attribute(:importance, false)
+comment = post.comments.first
+working_post = comment.post
+working_post.update_attribute(:importance, true)
+post.importance?
+=&gt; true
+</code></pre>
+
+<p>好多了! 加上<code>inverse_of</code>之后, <code>comment.post</code>不再做DB查询, 而是直接使用已被加到内存里的post对象的实例. 换言之, 这时的<code>working_post</code>就是上面的<code>post</code>, 所以对<code>working_post</code>的改变会直接反应在<code>post</code>上.</p>
+]]></content>
+  </entry>
+  
+</feed>

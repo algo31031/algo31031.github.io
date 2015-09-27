@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Git | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Git拾遗]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/04/21/gitshi-yi/"/>
+    <updated>2014-04-21T15:08:52+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/04/21/gitshi-yi</id>
+    <content type="html"><![CDATA[<p>把一直以来零星的收集到的一些git相关的东西划拉到一起</p>
+
+<h3>彩色的 git 输出：</h3>
+
+<pre><code>git config color.ui true
+</code></pre>
+
+<h3>checkout指定分支的指定文件</h3>
+
+<pre><code>git checkout &lt;your_branch&gt; -- &lt;your_file&gt;
+</code></pre>
+
+<h3>pull一个remote分支</h3>
+
+<pre><code>git checkout -b &lt;new_branch&gt; origin/&lt;new_branch&gt;
+git pull
+</code></pre>
+
+<h3>删除remote分支</h3>
+
+<pre><code>git push origin --delete &lt;branchName&gt;
+</code></pre>
+
+<h3>push 之前修改commit</h3>
+
+<pre><code>git reset HEAD^
+修改代码
+git commit -am "xxxxxx"    
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

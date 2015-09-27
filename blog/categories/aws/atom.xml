@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: AWS | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[利用AWS免费账户搭建PPTP VPN]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn/"/>
+    <updated>2014-06-09T14:35:19+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn</id>
+    <content type="html"><![CDATA[<p><strong> 首先, 你要有一个信用卡&hellip;  </strong>
+或者似乎有人说可以在淘宝购买虚拟信用卡也是可行的, 但是里面余额要大于1美金</p>
+
+<p><strong> 另外有人反应说注册时候被扣掉1美金 </strong>,<br/>
+是因为首次注册时, ASW会为了验证信用卡有效性冻结1美金<br/>
+被冻结的钱在服务到期后会返还<br/>
+另外好像双币信用卡不会有这个问题</p>
+
+<ol>
+<li><h3>注册 AWS 账户</h3>
+
+<p> 进入<a href="http://aws.amazon.com/">AWS主页</a>, 按照指示完成注册.</p>
+
+<p> 需要注意注册过程会有一步 Identity Verification by Telephone,<br/>
+ 需要输入电话号码然后点击"Call Me Now", 稍等片刻 Amazon 会有电话拨过来,</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/call_me_now.png" alt="call_me_now" /></p>
+
+<p> 接到电话后在电话上输入您屏幕上的 &ldquo;Your Pin:&rdquo; 后标示的四位数字即可.</p>
+
+<p> 之后会要求选择AWS Support Plan, 当然选Basic (Free)</p>
+
+<p> 注册成功之后会进入Thank you页面, 选择启动AWS管理控制台.</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/launch_console.png" alt="launch_console" /></p>
+
+<p> 之后选择"登录AWS控制台"按钮(右上方, 比较醒目的橙色)</p>
+
+<p> 另外注册后您可能会受到从aws-verification@amazon.com发来的email,<br/>
+ 提醒你没通过验证无法使用Amazon Route 53 和 CloudFront(分别是AWS的NS和CDN服务).</p>
+
+<p> 如果不打算用(反正也都收钱的&hellip;), 直接忽略即可</p>
+
+<p> 如果想试一下这2个服务<br/>
+ 您可以提供 valid business URL 并使用此 URL 向aws-verification@amazon.com发一封确认邮件.  <br/>
+ 邮件可用以简单些, 内容如下即可(请注意使用您自己公司的site-url和email-address):</p>
+
+<blockquote><p>   site url:         <a href="http://www.e-trust.com.cn/">http://www.e-trust.com.cn/</a>  <br/>
+   email address:    han.bing@.e-trust.com.cn<br/>
+   account:          <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#97;&#108;&#103;&#111;&#51;&#x31;&#x30;&#51;&#49;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;">&#x61;&#x6c;&#x67;&#x6f;&#x33;&#49;&#48;&#x33;&#49;&#x40;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#x6d;</a></p></blockquote>
+
+<p> 同时您还需要更改您的个人信息, 在 Web Site URL: 填入您公司的首页,<br/>
+ Web Site URL: 的具体位置见下图:</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/web_site_url.png" alt="web_site_url" /></p>
+
+<p> 邮件发送之后稍等片刻, 会收到Amazon的确认信息.</p></li>
+<li><h3>启动并设置AWS EC2</h3>
+
+<ol>
+<li><p><strong> 选择region </strong>
+ 部署区域, 简易选择东京</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/select_region.png" alt="select_region" /></p></li>
+<li><p><strong> 创建下载 Key Pairs </strong></p>
+
+<p> 进入控制台后, 默认就会来到EC2 Dashbord页, 在这里选择Key Pairs
+ 创建 Key Pairs</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/key_pairs.png" alt="key_pairs" /></p>
+
+<p> 完成后会得到一个.pem文件, 把他移动到<code>~/.ssh</code>目录下<br/>
+ 并更改权限为600</p>
+
+<pre><code> mv ~/文件所在位置/algo31031.pem ~/.ssh/
+ chmod 600 ~/.ssh/algo31031.pem
+</code></pre>
+
+<p> 请妥善保管您的.pem文件, 若遗失您可以删除之前的key_pairs并创建新的<br/>
+ 如果您希望使用自己的ssh key, 也可以选择"Import Key Pair"</p></li>
+<li><p><strong> 启动EC2实例 </strong></p>
+
+<p> 回到EC2 Dashbord页, 在这里选择Launch instance</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/launch_ec2_instance.png" alt="launch_ec2_instance" /></p>
+
+<p> 选择需要的系统, 这里我们选用64位的ubuntu 14.04 PV了<br/>
+ 需要注意下如果没有free tier eligible标志的是需要收费的</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/select_ami.png" alt="select_ami" /></p>
+
+<p> 选择实例类型时候, 要选择Micro instances<br/>
+ 记住这一点: 没有Free tier eligible都是要收钱的(有这个的用超了也要收钱&hellip;)
+ 之后一路Next(Add Storage那里可以适当加点, 但是不要超过30G), 一直到Configure Security Group
+ 这里除了默认的ssh 22 端口外, 还要开放1723端口, 否则连不上VPN</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/add_security_role.png" alt="add_security_role" /></p>
+
+<p> 在launch EC2实例之前, 会有一步让你选择key pair, 用刚才创建的那个即可</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/select_key_pair.png" alt="select_key_pair" /></p>
+
+<p> 至此, 已经有了一台AWS EC2可以用来折腾了</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/launch_status.png" alt="launch_status.png" /></p></li>
+</ol>
+</li>
+<li><h3>登录EC2配置安装PPTV VPN</h3>
+
+<ol>
+<li><p><strong> 为EC2实例绑定Elastic IP </strong>
+ 创建完的EC2实例虽然有自己的公网IP, 但是每次重新启动都会变化<br/>
+ 所以需要为其绑定Elastic IP</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/add_elastic_ip.png" alt="add_elastic_ip" /></p>
+
+<p> 申请完之后, 将其与刚才创建的EC2实例关联</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/associate_ec2_instance.png" alt="associate_ec2_instance" /></p></li>
+<li><p><strong> 通过ssh登录EC2实例 </strong></p>
+
+<p> 修改<code>~/.ssh/config</code>, 在里面添加如下内容, 注意替换HostName成自己的Elastic IP<br/>
+ 并把IdentityFile改成自己机器上.pem文件的路径</p>
+
+<pre><code> Host aws_ec2
+   HostName 54.199.xxx.xxx
+   User ubuntu
+   IdentityFile /home/hanbing/.ssh/algo31031.pem
+</code></pre>
+
+<p> 打开终端, 使用<code>ssh aws_ec2</code>登录EC2实例</p></li>
+<li><p><strong> 在EC2实例下安装PPTP VPN </strong></p>
+
+<p> 具体内容可以<a href="http://www.yzhang.net/blog/2013-03-07-pptp-vpn-ec2.html">参考这篇文章</a>, 以下内容只是对原文重点部分摘录并稍作修改以适应ubuntu</p>
+
+<p> 安装pptpd</p>
+
+<p> <code>sudo apt-get install pptpd</code></p>
+
+<p> 修改<code>/etc/pptpd.conf</code>文件, 在最先面添加以下2行</p>
+
+<pre><code> localip     192.168.9.1
+ remoteip    192.168.9.11-30
+</code></pre>
+
+<p> 之后修改<code>/etc/ppp/options.pptpd</code>文件, 加上谷歌的dns</p>
+
+<pre><code> ms-dns    8.8.8.8
+ ms-dns    8.8.4.4
+</code></pre>
+
+<p> 接下来修改<code>/etc/ppp/chap-secrets</code>文件, 配置你自己VPN的用户名/密码, 格式如下:</p>
+
+<pre><code> &lt;username&gt; pptpd &lt;passwd&gt; *
+</code></pre>
+
+<p> 修改<code>/etc/sysctl.conf</code>文件, 添加以下内容(默认里面有这行, 把注释去掉也可)</p>
+
+<pre><code> net.ipv4.ip_forward=1
+</code></pre>
+
+<p> 执行<code>sudo /sbin/sysctl -p</code>重新加载配置</p>
+
+<p> 启用<code>iptables</code>的NAT configuration</p>
+
+<pre><code> sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre>
+
+<p> 为了保证每次EC2实例重启后NAT configuration能启动, 还要修改<code>/etc/rc.local</code>文件,
+ 在<code>exit 0</code>这行上面加上</p>
+
+<pre><code> iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre>
+
+<p> 最后重启pptpd服务</p>
+
+<pre><code> sudo /etc/init.d/pptpd restart
+</code></pre></li>
+</ol>
+</li>
+<li><h3>连接VPN</h3>
+
+<p> <strong> 注意 </strong> AWS免费账户每月只有<strong> 15G </strong>免费流量,  用超了要<strong> 从信用卡扣钱的 </strong></p>
+
+<ol>
+<li><p><strong> ubuntu用户 </strong></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/vpn1.png" alt="vpn1.png" /></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/vpn2.png" alt="vpn2.png" /></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/vpn3.png" alt="vpn3.png" /></p></li>
+<li><p><strong> Mac用户 </strong></p>
+
+<p> 我没有mac, 图直接从别人那里偷的&hellip;</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/pptp-vpn-mac-1.png" alt="mac_vpn1.png" /></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/pptp-vpn-mac-2.png" alt="mac_vpn2.png" /></p></li>
+</ol>
+</li>
+<li><h3>更换ip</h3>
+
+<p> 需要先将原有的elastic ip从ec2实例解除绑定, 然后释放这个ip<br/>
+ <strong> 注意 </strong> 一定要把不用的ip释放掉, 不然超过15分钟后就要扣钱的(只有绑定到运行中的ec2上才不扣钱)</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/reset_ip_1.png" alt="reset_ip" /></p>
+
+<p> 之后按照之前的流程重申请一个Elastic IP并绑定到EC2实例即可</p>
+
+<p> 更换完IP之后记得要把vpn连接信息里的地址一并替换掉</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[通过vagrant和knife-solo搭建AWS_EC2开发环境]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing/"/>
+    <updated>2014-04-13T16:45:26+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/04/13/tong-guo-vagranthe-knife-soloda-jian-aws-ec2kai-fa-huan-jing</id>
+    <content type="html"><![CDATA[<h3>安装vagrant-aws插件</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant plugin install vagrant-aws
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>配置vagrant</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir aws
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>aws
+</span><span class='line'><span class="nv">$ </span>vagrant init
+</span><span class='line'><span class="nv">$ </span>vi Vagrantfile
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>修改配置文件<code>Vagrantfile</code>, 添加下列内容:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:osapp01d</span> <span class="k">do</span> <span class="o">|</span><span class="n">osapp01d</span><span class="o">|&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  osapp01d.vm.provider :aws do |aws, override|&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">aws</span><span class="o">.</span><span class="n">access_key_id</span> <span class="o">=</span> <span class="err">您的</span><span class="n">aws</span> <span class="n">access</span> <span class="n">key</span> <span class="nb">id</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">secret_access_key</span> <span class="o">=</span> <span class="err">您的</span><span class="n">aws</span> <span class="n">secret</span> <span class="n">access</span> <span class="n">key</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">instance_type</span> <span class="o">=</span> <span class="err">您的</span><span class="no">EC2</span> <span class="n">instance</span><span class="err">类型</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">ami</span> <span class="o">=</span> <span class="s2">&quot;ami-9ffa709e&quot;</span> <span class="c1">#cent-os 6.4 64位</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="s2">&quot;ap-northeast-1&quot;</span> <span class="c1">#东京主机</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">security_groups</span> <span class="o">=</span> <span class="err">您的</span><span class="n">security</span> <span class="n">group</span> <span class="nb">id</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">subnet_id</span> <span class="o">=</span> <span class="err">您的</span><span class="n">subnet</span> <span class="nb">id</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="s1">&#39;Name&#39;</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s2">&quot;osapp01d&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">elastic_ip</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1">#为EC2 instance绑定静态IP</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span>
+</span><span class='line'><span class="n">aws</span><span class="o">.</span><span class="n">keypair_name</span> <span class="o">=</span> <span class="err">您的</span><span class="n">key</span> <span class="n">pair</span> <span class="nb">name</span>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">ssh</span><span class="o">.</span><span class="n">private_key_path</span> <span class="o">=</span> <span class="o">.</span><span class="n">pem</span><span class="err">私钥的位置</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;dummy&quot;</span>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">override</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">synced_folder</span> <span class="s2">&quot;./&quot;</span><span class="p">,</span> <span class="s2">&quot;/vagrant&quot;</span><span class="p">,</span> <span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>参数的含义和赋值请<a href="https://github.com/mitchellh/vagrant-aws">参考这里</a> <br/>
+请把相关参数替换成您的实际值</p>
+
+<p>PS:关于各linux发行版的默认user</p>
+
+<p>For Amazon Linux, the default user name is ec2-user. For RHEL5, the user name is often root but might be ec2-user. For Ubuntu, the user name is ubuntu. For SUSE Linux, the user name is root. Otherwise, check with your AMI provider.</p>
+
+<h3>创建 EC2 instance 并启动</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant up <span class="p">&amp;</span>ndash<span class="p">;</span><span class="nv">provider</span><span class="o">=</span>aws osapp01d
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>如果您使用的是gnome-terminal, 请注意要设置为<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a><br/>
+<code>Edit &gt; Profile Preferences &gt; Title and Command &gt; Run command as a login shell</code></p>
+
+<h3>登录EC2 instance, 添加vagrant用户</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant ssh osapp01d
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>以下代码在EC2 inscatnce里执行</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>groupadd admin
+</span><span class='line'><span class="nv">$ </span>useradd -g admin vagrant
+</span><span class='line'><span class="nv">$ </span>passwd vagrant
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>设置vagrant用户的密码
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>visudo
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在最末添加一行:</p>
+
+<p><code>%admin ALL=(ALL:ALL) ALL</code></p>
+
+<p>如需使用同步文件夹，需将<code>Defaults    requiretty</code>这行注释掉<br/>
+保存退出</p>
+
+<h3>向EC2 instance安装cookbooks</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir Cookbooks
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>Cookbooks
+</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#118;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#110;&amp;#x74;&amp;#64;&amp;#x78;&amp;#120;&amp;#46;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#x78;&amp;#46;&amp;#x78;&amp;#x78;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#118;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#46;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#120;&lt;/a&gt;(您的EC2 instance的public ip)</span>
+</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#x76;&amp;#97;&amp;#x67;&amp;#x72;&amp;#x61;&amp;#110;&amp;#116;&amp;#x40;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#x76;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#110;&amp;#116;&amp;#x40;&amp;#120;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#x78;&lt;/a&gt;(您的EC2 instance的public ip) nodes/osapp01d,json</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>关于文件夹同步</h3>
+
+<p>如果您希望使用同步文件夹,<br/>
+请将Vagrantfile里的<code>override.vm.synced_folder "./", "/vagrant", disabled: true</code>注释掉<br/>
+并且重启EC2 instance
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant reload osapp01d
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>请注意这一步要在<strong>EC2 instance创建</strong>完成后,<br/>
+并且您已经将<code>Defaults    requiretty</code>注释掉后才可执行. <br/>
+否则会发生问题vagrant无法正常启动, <a href="https://github.com/mitchellh/vagrant/issues/1659">详情见这里</a></p>
+]]></content>
+  </entry>
+  
+</feed>

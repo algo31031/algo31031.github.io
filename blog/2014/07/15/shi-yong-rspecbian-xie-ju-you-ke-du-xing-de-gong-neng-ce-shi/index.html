@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+
+
+<meta charset="utf-8">
+<meta http-equiv="cleartype" content="on">
+
+<title>使用RSpec编写具有可读性的功能测试(译) - 老男孩的整理箱</title>
+<meta name="author" content="banban">
+
+
+
+
+<meta name="description" content="原文出自about.futurelearn.com,感谢作者Chris Zetter Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。 &hellip;">
+
+<meta name="keywords" content="RSpec test translation ">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Twitter Cards -->
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content"">
+  
+  <meta name="twitter:title" content="使用RSpec编写具有可读性的功能测试(译)">
+  <meta name="twitter:description" content="原文出自about.futurelearn.com,感谢作者Chris Zetter Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。 &hellip;">
+  <meta name="twitter:creator" content="@hanbing403">
+
+
+<!-- Open Graph -->
+<meta property="og:local" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi">
+<meta property="og:title" content="使用RSpec编写具有可读性的功能测试(译)">
+<meta property="og:description" content="原文出自about.futurelearn.com,感谢作者Chris Zetter Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。 &hellip;">
+
+  <meta property="og:image" content="">
+
+<meta property="og:site_name" content="老男孩的整理箱">
+
+<link rel="canonical" href="http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi">
+<link href="/favicon.png" rel="icon">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/atom.xml" rel="alternate" title="老男孩的整理箱" type="application/atom+xml">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+<script>Modernizr || document.write('<script src="/javascripts/vendor/modernizr-2.6.2.custom.min.js"><\/script>') </script>
+
+
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog-banban.qiniudn.com/avatar.png" alt="banban photo" class="author-photo">
+					<h4>banban</h4>
+					<p>Hi, my name is Hanbing. I'm a web developer and newbie father, living in Dalian.</p>
+				</li>
+				
+				<li>
+					<a href="mailto:algo31031@gmail.com"><i class="fa fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="http://twitter.com/hanbing403"><i class="fa fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://plus.google.com/110631178882824005380"><i class="fa fa-google-plus"></i> Google+</a>
+				</li>
+				<li>
+					<a href="http://github.com/algo31031"><i class="fa fa-github"></i> GitHub</a>
+				</li>
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="/posts/">All Posts</a></li>
+				<li><a href="/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" rel="bookmark" title="使用RSpec编写具有可读性的功能测试(译)">使用RSpec编写具有可读性的功能测试(译)</a></h1>
+        
+        <h2>July 15, 2014</h2>
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>原文出自<a href="https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/?utm_source=rubyweekly&amp;utm_medium=email">about.futurelearn.com</a>,感谢作者<a href="https://www.futurelearn.com/profiles/1390">Chris Zetter</a></p>
+
+<p><strong>Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。</strong></p>
+
+<p>测试是建立与维护一个大型平台不可或缺的一部分。每当我们为FutureLearn这个平台增添新功能时，我们都会编写自动化的功能测试来记录这些新功能是如何运作的，并确保他们不运转时我们也能知晓。</p>
+
+<h3>令人爱恨交加的Cucumber</h3>
+
+<p>Cucumber是一款用来编写功能测试的常用工具，每当我们开启项目时它都是我们的不二选择。它可以让我们以用户的视角编写出高层级的行为驱动测试。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Feature</span><span class="p">:</span> <span class="no">Enrolment</span>
+</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Enrolling</span> <span class="k">in</span> <span class="n">a</span> <span class="n">course</span>
+</span><span class='line'>    <span class="no">Given</span> <span class="n">there</span> <span class="n">is</span> <span class="n">a</span> <span class="n">course</span>
+</span><span class='line'>    <span class="no">And</span> <span class="n">I</span> <span class="n">am</span> <span class="n">logged</span> <span class="k">in</span> <span class="n">as</span> <span class="n">a</span> <span class="n">learner</span>
+</span><span class='line'>    <span class="no">When</span> <span class="n">I</span> <span class="n">enrol</span> <span class="n">on</span> <span class="n">a</span> <span class="n">course</span>
+</span><span class='line'>    <span class="no">Then</span> <span class="n">the</span> <span class="n">course</span> <span class="n">should</span> <span class="n">appear</span> <span class="k">in</span> <span class="s1">&#39;my courses&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们乐于使用Cucumber因为它可以使根据用户故事编写测试变得简单易行，而且写完的测试通俗易懂。然而使用Cucumber也有些许不足之处。首先，我们已经在项目里使用了RSpec，再引入Cucumber意味着又要多维护一个测试框架；其次，由于两者的DSLs和测试运行器不同，在他们之间进行脑筋切换又会带来额外开销；最后，我们特别不喜欢Cucumber所使用的正则表达式，因为同Ruby的标准方法调用相比，它们使测试变得更加晦涩难懂。</p>
+
+<h3>编写更好的RSpec features</h3>
+
+<p>那么，我么该如何在不失测试可读性的前提下停用Cucumber呢？</p>
+
+<p>我们已经开始使用RSpec features来替代Cucumber，它们通常看起来会是这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">feature</span> <span class="s1">&#39;Enrolment&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s1">&#39;Enrolling in a course&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">course</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:course</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">learner</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:learner</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">login_as</span> <span class="n">learner</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">course_path</span><span class="p">(</span><span class="n">course</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s1">&#39;.join&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;Thanks for joining!&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_main_header</span><span class="p">(</span><span class="s1">&#39;My Courses&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="n">course</span><span class="o">.</span><span class="n">full_title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它们总是趋于变得很长，使得难以辨明其究竟在测试些什么。而且难以区分诸如Arrange, Act, Assert（在Cucumber里又被称为&#8217;Given&#8217;、&#8217;When&#8217;和&#8217;Then&#8217;）这些部分。我们试过在代码中这些步骤里添加注释，但它们就和通常那些程序代码里的注释一样不尽如人意：一段时间之后这些注释就变得与实际代码不同步了。</p>
+
+<p>一般来说，如果是在程序里别的地方写出这么长的方法，我们就会有所警觉，并且通常会采用提取方法的办法进行重构。何不也这么做呢？让我们依据Cucumber步骤的风格，把这些代码也提取成一个个方法吧。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">feature</span> <span class="s1">&#39;Enrolment&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s1">&#39;Enrolling in a course&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">given_there_is_a_course</span>
+</span><span class='line'>    <span class="n">and_i_am_logged_in_as_a_learner</span>
+</span><span class='line'>    <span class="n">when_i_enrol_on_a_course</span>
+</span><span class='line'>    <span class="n">then_the_course_should_appear_in_my_courses</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">given_there_is_a_course</span>
+</span><span class='line'>    <span class="vi">@course</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:course</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">and_i_am_logged_in_as_a_learner</span>
+</span><span class='line'>    <span class="vi">@learner</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:learner</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">login_as</span> <span class="vi">@learner</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">when_i_enrol_on_a_course</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">course_path</span><span class="p">(</span><span class="vi">@course</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s1">&#39;.join&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;Thanks for joining!&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">then_the_course_should_appear_in_my_courses</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_main_header</span><span class="p">(</span><span class="s1">&#39;My Courses&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="vi">@course</span><span class="o">.</span><span class="n">full_title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>我们有何发现</h3>
+
+<p>我们移除了全部的Cucumber功能测试，并把它们中大部分用新式的RSpec features加以重写。这样一来即可保证拥有Cucumber所提供的优秀的可读性，又使得测试变得更加便于编写和维护。</p>
+
+<p>我们做了一个慎重的决定，不把各个features文件里提取的方法进行复用，因为担心这么做会使得测试难于理解。我们发现在编写一个feature下的多条scenario时，会不自觉的就想要进行代码复用。</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="/categories/#RSpec" title="Pages tagged RSpec" class="tag">RSpec</a><a href="/categories/#test" title="Pages tagged test" class="tag">test</a><a href="/categories/#translation" title="Pages tagged translation" class="tag">translation</a></span>
+        <span><a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" rel="bookmark" title="使用RSpec编写具有可读性的功能测试(译)">使用RSpec编写具有可读性的功能测试(译)</a> was published on <span class="entry-date date published updated"><time datetime="2014-07-15T10:37:24+08:00">July 15, 2014</time></span></span>
+        
+        <span class="author vcard"><span class="fn"><a href="" title="About banban">banban</a></span></span>
+        
+      </footer>
+    </div><!-- /.entry-content -->
+    
+      <div class="read-more">
+        
+          <div class="read-more-header">
+            <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" class="btn">Read More</a>
+          </div><!-- /.read-more-header -->
+          <div class="read-more-content">
+            <h3><a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" title="Mac上搭建Phonegap环境">Mac上搭建Phonegap环境</a></h3>
+            <p>话说好久没有更新Blog了。八九两个月各种事情，工作也是一换再换。现在终于能够以远程的形式重新加入一家创业公司，为心理咨询的事业奋斗。公司给配了台Macbook Pro，近期要开始着力移动端的开发，简单粗暴的phonegap第一版已经发布了，我这边也需要尽快对安卓、 &hellip;&hellip; <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/"> Continue reading</a></p>
+          </div><!-- /.read-more-content -->
+        
+        <div class="read-more-list">
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/" title="Rails遗留程序里最常犯的错误(译)">Rails遗留程序里最常犯的错误(译)</a></h4>
+              <span>Published on July 23, 2014</span>
+            </div><!-- /.list-item -->
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/04/apachexia-she-zhi-adddefaultcharsetde-wen-ti/" title="apache下设置AddDefaultCharset的问题">apache下设置AddDefaultCharset的问题</a></h4>
+              <span>Published on July 04, 2014</span>
+            </div><!-- /.list-item -->
+          
+        </div><!-- /.read-more-list -->
+      </div><!-- /.read-more -->
+    
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2015 banban. Powered by <a href="http://octopress.org">Octopress</a> using the <a href="https://github.com/Z1MM32M4N/hpstr-theme/">HPSTR Theme for Octopress</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+
+	        
+<script src="http://blog-banban.qiniudn.com/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/javascripts/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/javascripts/octopress.js" type="text/javascript"></script>
+<script src="/javascripts/scripts.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'banban';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/';
+        var disqus_url = 'http://blog.banban.me/blog/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

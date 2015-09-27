@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MySQL | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL中文字段拼音排序]]></title>
+    <link href="http://blog.banban.me/blog/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu/"/>
+    <updated>2012-10-15T09:47:43+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2012/10/15/mysqlzhong-wen-zi-duan-pin-yin-pai-xu</id>
+    <content type="html"><![CDATA[<p>不想改变表定义及默认编码的情况，将字段先转换成gbk编码再排序：
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="k">table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">CONVERT</span><span class="p">(</span> <span class="n">chinese_field</span> <span class="k">USING</span> <span class="n">gbk</span> <span class="p">)</span> <span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>前提是在安装mysql时安装了gbk字符集，不然会报错：</p>
+
+<pre><code>#1115 - Unknown character set: 'gbk'
+</code></pre>
+
+<p>在编译源码时加上gbk编码即可，如果已经安装好了，重新编译再安装，重新编译安装一般不会影响mysql的已有设置，包括数据都不会受到影响。</p>
+]]></content>
+  </entry>
+  
+</feed>

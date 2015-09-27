@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cucumber | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/cucumber/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The RSpec Book笔记(八) Cucumber]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/06/09/the-rspec-bookbi-ji-ba-cucumber/"/>
+    <updated>2014-06-09T10:11:16+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/06/09/the-rspec-bookbi-ji-ba-cucumber</id>
+    <content type="html"><![CDATA[<h3>Given/When/Then</h3>
+
+<p><strong> Given </strong> 用来表示在一个scenario中我们认可为true的事物.<br/>
+通过这个声明来给出在scenario中要发生的事件的上下文语境</p>
+
+<p>given经常被误认为是先决条件, 但两者有概念上的不同:<br/>
+先决条件是指某种强制约束, 如果达不到某一条件就无法继续进行下去;<br/>
+但是given并被没有这种强制性, 为了使特定行为能满足其所需条件, given给出的条件可以被打破</p>
+
+<p>换言之, 可以有<code>Given the world is round</code>, 但绝不会有<code>Given the world is flat</code></p>
+
+<p><strong> When </strong> 用来表示scenario中的事件, 倾向于每个scenario只有一个独立事件</p>
+
+<p><strong> Then </strong> 表示期待的结果</p>
+
+<h3>Tags</h3>
+
+<p>通过类似实例变量<code>@xxx</code>的形式指定tag,可以对feature和scenario指定任意数量的tag</p>
+
+<pre><code class="cucumber">@approved @iteration_12
+Feature: patient requests appointment
+
+  @wip
+  Scenario: patient selects available time
+</code></pre>
+
+<p>scenario会继承feature的tag, 运行时通过<code>--tags</code>指定执行</p>
+
+<pre><code class="bash">cucumber --tags @wip             #执行全部有@wip的scenarios
+cucumber --tags @foo,@bar        #执行有@foo或者@bar的scenarios
+cucumber --tags @foo --tags @bar #执行同时有@foo和@bar的
+cucumber --tags ~@dev            #没有@dev的
+</code></pre>
+
+<h3>参数</h3>
+
+<p>在step definations中的正则表达式如果包含caputre group, 则会把他们作为参数传给代码块, 例如
+<code>ruby
+Given /^a hotel with "([^"]*)" rooms and "([^"] *)" bookings$/ do
+  |room_count, booking_count|
+  # blablabla
+end
+</code></p>
+
+<p>而这些step使用时候, 参数的部分也最好用引号括起来(非强制)
+<code>ruby
+Scenario: Successful booking
+  Given a hotel with "5" rooms and "0" bookings
+</code></p>
+
+<h3>World</h3>
+
+<p>所有的cucumber scenario都运行在一个被称作World的对象新的实例上下文里<br/>
+默认情况下World只是Object的实例, 在每个scenario之前被实例化<br/>
+对于同一scenario的所有step definitions, 其代码块都在相同的上下文执行</p>
+
+<p>可以使用<code>World()</code>方法自定义World, 方法接受一个或多个module
+``` ruby
+module MyHelper
+  def some_helper
+    &hellip;
+  end
+end</p>
+
+<p>World(MyHelper)
+```</p>
+
+<p>可以在features或其子目录下的任意ruby文件里配置自定义的World,<br/>
+但是推荐的做法是将其放在<code>features/support/world.rb</code>下</p>
+
+<p>除了可以在World里混入代码块之外, 还可以更改用于实例化World的class的类型,<br/>
+只需要在<code>World()</code>方法传入代码块
+``` ruby
+class MyWorld
+  def some_helper
+    &hellip;
+  end
+end</p>
+
+<p>World do
+  MyWorld.new
+end
+```</p>
+
+<h3>Calling Steps Within Step Definitions</h3>
+
+<pre><code class="ruby">When /I transfer (.*) from (.*) to (.*)/ do |amount, source, target|
+  When "I select #{source} as the source account"
+  When "I select #{target} as the target account"
+  When "I set #{amount} as the amount"
+  When "I click transfer"
+end
+</code></pre>
+
+<p>以上代码等效于:</p>
+
+<pre><code class="ruby">When /I transfer (.*) from (.*) to (.*)/ do |amount, source, target|
+  steps %Q{
+    When I select #{source} as the source account
+    And I select #{target} as the target account
+    And I set #{amount} as the amount
+    And I click transfer
+  }
+end
+</code></pre>
+
+<h3>Tagged Hooks</h3>
+
+<p>Before(&ldquo;@foo,~@bar&rdquo;, &ldquo;@zap&rdquo;) do
+  puts &ldquo;This will run before each scenario tagged with @foo or not @bar AND @zap&rdquo;
+end</p>
+
+<h3>Background</h3>
+
+<p>有时hooks非技术人员难以理解, 可以用background
+``` ruby
+Feature: invite friends
+  Background: Logged in
+    Given I am logged in as &ldquo;Aslak&rdquo;
+    And the following people exist:
+      | name   | friend? |
+      | David  | yes     |
+      | Vidkun | no      |</p>
+
+<p>  Scenario: Invite someone who is already a friend
+  Scenario: Invite someone who is not a friend
+  Scenario: Invite someone who doesn&rsquo;t have an account
+```</p>
+
+<p>background在给定的feature里每个scenario之前执行,<br/>
+如果有<code>Before</code> hooks, 则先执行<code>Before</code>, 再执行background</p>
+
+<h3>Configuration</h3>
+
+<p>可以在为cucumber添加配置文件, 放在<code>cucumber.yml</code>或<code>config/cucumber.yml下</code><br/>
+<code>yaml cucumber.yml
+wip: --tags @wip features
+</code>
+执行cucumber时
+<code>bash
+cucumber -p wip
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The RSpec Book笔记(二) 初窥cucumber与RSpec]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec/"/>
+    <updated>2014-04-29T10:38:36+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec</id>
+    <content type="html"><![CDATA[<h3>Describing Features</h3>
+
+<p>将特性(features)整理成若干用户故事(User Stories), 可以采用<code>role + action</code>的形式作为故事的标题.<br/>
+故事里不需要包含太多细节, 详细内容可以在选定好选取哪些故事用作发布以及哪次迭代时发布后, 再行考虑.</p>
+
+<blockquote><ul>
+<li><strong> Code-breaker starts game </strong> The code-breaker opens a shell, types a
+command, and sees a welcome message and a prompt to enter
+the first guess.</li>
+<li><strong> Code-breaker submits guess </strong> The code-breaker enters a guess, and
+the system replies by marking the guess according to the marking
+algorithm.</li>
+</ul>
+</blockquote>
+
+<p>关于User Stroies, 可以看下iHover大大的<a href="http://ihower.tw/blog/archives/2090">User Stories (1) 什麼是 User Story?</a></p>
+
+<p>User Story需要拥有以下特性:</p>
+
+<blockquote><ul>
+<li><strong> Have business value </strong></li>
+<li><strong> Be testable </strong></li>
+<li><strong> Be small enough to implement in one iteration </strong></li>
+</ul>
+</blockquote>
+
+<p>在项目里添加一个<code>features</code>目录,然后在<code>teatures</code>下添加<code>support</code>目录,<br/>
+在<code>support</code>目录里添加<code>env.rb</code>文件(其实*.rb便可), 这样cucumber会知道我们正在用ruby</p>
+
+<p>在里<code>features</code>面创建一个<code>codebreaker_submits_guess.feature</code>文件
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Scenario Example - codebreaker_submits_guess.feature </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Feature:</span><span class="nf"> code-breaker submits guess</span>
+</span><span class='line'><span class="nf">  As a code-breaker</span>
+</span><span class='line'><span class="nf">  I want to submit a guess</span>
+</span><span class='line'><span class="nf">  So that I can try to break the code&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">&lt;p&gt;  Scenario: all exact matches</span>
+</span><span class='line'><span class="nf">    Given the secret code is &amp;ldquo;1234&amp;rdquo;</span>
+</span><span class='line'><span class="nf">    When I guess &amp;ldquo;1234&amp;rdquo;</span>
+</span><span class='line'><span class="nf">    Then the mark should be &amp;ldquo;++++&amp;rdquo;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Scenario Outline Example - codebreaker_submits_guess.feature </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Feature:</span><span class="nf"> code-breaker submits guess</span>
+</span><span class='line'><span class="nf">  As a code-breaker</span>
+</span><span class='line'><span class="nf">  I want to submit a guess</span>
+</span><span class='line'><span class="nf">  So that I can try to break the code&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">&lt;p&gt;  Scenario Outline: submit guess</span>
+</span><span class='line'><span class="nf">    Given the secret code is &amp;ldquo;&lt;code&gt;&amp;rdquo;</span>
+</span><span class='line'><span class="nf">    When I guess &amp;ldquo;&lt;guess&gt;&amp;rdquo;</span>
+</span><span class='line'><span class="nf">    Then the mark should be &amp;ldquo;&lt;mark&gt;&amp;rdquo;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">&lt;p&gt;  Scenarios: all numbers correct</span>
+</span><span class='line'><span class="nf">    | code | guess | mark |</span>
+</span><span class='line'><span class="nf">    | 1234 | 1234  | ++++ |</span>
+</span><span class='line'><span class="nf">    | 1234 | 1243  | ++&amp;ndash; |</span>
+</span><span class='line'><span class="nf">    | 1234 | 1423  | +&amp;mdash; |</span>
+</span><span class='line'><span class="nf">    | 1234 | 4321  | &amp;mdash;- |</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Automating Features with Cucumber</h3>
+
+<p>在<code>features</code>目录下创建<code>step_definitions</code>目录, 然后再里面添加一个<code>codebreaker_steps.rb</code>文件</p>
+
+<p><strong> Step Definition Methods </strong></p>
+
+<blockquote><ul>
+<li><strong> Given() </strong> 给出背景条件(context)　　</li>
+<li><strong> When() </strong> 执行动作　　</li>
+<li><strong> Then() </strong> 校验结果　　</li>
+<li><strong> And()与But() </strong> 与上一个Given(),When(),或Then()意义相同, 只为使整个描述看起来更近似自然语言.</li>
+</ul>
+</blockquote>
+
+<h3>Describing Code with RSpec</h3>
+
+<p>项目下创建<code>spec/codebreaker/</code>, 然后在里面添加<code>game_spec.rb</code><br/>
+原则是每个source文件要对应一个spec文件<br/>
+``` ruby game_spec.rb
+require &lsquo;spec_helper&rsquo;</p>
+
+<p>module Codebreaker
+  describe Game do
+    describe &ldquo;#start&rdquo; do
+      it &ldquo;sends a welcome message&rdquo;
+      it &ldquo;prompts for the first guess&rdquo;
+    end
+  end
+end
+```</p>
+
+<p>在<code>spec/codebreaker/</code>下添加一个<code>spec_helper.rb</code>
+<code>ruby spec_helper.rb`
+require 'codebreaker'
+</code></p>
+
+<p>it()方法如果不传入代码块, 会被当做pending的方法</p>
+
+<p>可以用<code>double("xxx")</code>方法得到一个<a href="http://en.wikipedia.org/wiki/Test_double">test double(测试替身)</a><br/>
+<code>double("xxx").as_null_object</code>会让替身只关心指定给它的被期待的消息, 而忽略其他消息</p>
+
+<pre><code class="ruby game_spec.rb">require 'spec_helper'
+
+module Codebreaker
+  describe Game do
+    describe "#start" do
+      it "sends a welcome message" do
+        output = double('output').as_null_object
+        game = Game.new(output)
+
+        output.should_receive(:puts).with('Welcome to Codebreaker!')
+
+        game.start
+      end
+
+      it "prompts for the first guess" do
+        output = double('output').as_null_object
+        game = Game.new(output)
+
+        output.should_receive(:puts).with('Enter guess:')
+
+        game.start
+      end
+    end
+  end
+end
+</code></pre>
+
+<p><strong> before(:each) {} </strong><br/>
+传入block里的内容在每个example的顶部执行<br/>
+可用这个方法创建实例变量并赋值
+<code>ruby
+before(:each) do
+  @output = double('output').as_null_object
+  @game = Game.new(@output)
+end
+</code></p>
+
+<p><strong> let(:method) {} </strong><br/>
+传入的symbol作为方法名, 传入的block被当做方法体
+<code>ruby
+let(:output) { double('output').as_null_object }
+let(:game) { Game.new(output) }
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The RSpec Book笔记(一) 概述]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/04/28/the-rspec-bookbi-ji-%5B%3F%5D/"/>
+    <updated>2014-04-28T10:58:54+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/04/28/the-rspec-bookbi-ji-[?]</id>
+    <content type="html"><![CDATA[<p>其实这个坑经开了有些日子, 测试一直都是自己弱项.<br/>
+最初在云清扬时就很少写, 后来开始搞爱豆网人力有限加之是摸索中需求不断变化的初创, 索性一行测试代码都没有.<br/>
+现在在做对日外包, 日方那里直接要求的就是完全肉测然后上测试式样书, 更是用不着写测试.<br/>
+适逢DHH大神前不久的<a href="http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html">TDD is dead. Long live testing.</a>, 引发关于测试的各种大讨论</p>
+
+<p>但是无论大神观点如何, 毕竟自己只是一枚小小的程序猿, 而TDD作为一种很成熟开发方式, 在很多情况下依然会是行之有效的.<br/>
+我一直信奉"存在即合理"这种观点.</p>
+
+<p>碰巧这段时间开发进度不是很忙, 又快赶上5.1的三天假期, 应该可以把手头的<The RSpec Book>啃掉.<br/>
+然后把chat_demo改以书中所倡导的BDD的方式改善下, 通过实践来加深理解.</p>
+
+<h1>Part I Getting Started with RSpec and Cucumber</h1>
+
+<h3>什么是TDD</h3>
+
+<p>TDD(Test-Driven Development)这个词并不陌生, 曾经开发亲情网时整个team也煞有介事的有过一小段时间的BDD尝试.  <br/>
+但是归根结底, TDD其重点应该落在Development上, 是一种包含需求分析,设计,测试,编码于一体的开发方法, 而并不仅仅是一种写Test的手段.</p>
+
+<p>TDD要求我们在开发时先写出一个简单的测试, 这时运行测试一定是无法通过的, 因为还没开始编码; 然后编写最低限度的代码, 使测试通过.<br/>
+一旦测试通过后, 需要重新审视我们的设计并重构代码去除冗余. 此时我们手头的代码, 毫无疑问地太过简单而无法处理全部需求.<br/>
+相对于直接添加代码, 我们此时该做的是在测试里增加新的特性让测试失败, 然后再编写最低限度通过测试的代码, 回顾设计, 重构&hellip;<br/>
+如此反复, 直到我们完成整个功能.</p>
+
+<p>整个这个循环往复的过程, 又被称为红绿重构(red/green/refactor).</p>
+
+<p>有些时候, 我们即是开发者又是测试者. 如果遇到这种情况, 把test与TDD的情境区分开依然是有帮助的: 作为TDDer时, 把注意力集中在红绿重构,设计,规范要求上; 而作为tester时, 则需要尽可能考诸如虑如何设置边界条件,如何发掘隐藏的bug等等.</p>
+
+<h3>那么BDD又是什么</h3>
+
+<p>我们测试一个对象内部结构的问题在于: 我们只是测试了这个对象是什么,而没有关心它可以做些什么. 而后者无疑远比前者更为重要.</p>
+
+<p>BDD(Behaviour-Driven Development)则把目光着眼于行为(做什么)而非结构(是什么).<br/>
+它将程序以更近似自然语言的方式, 描述为一个个场景(scenario): <strong> Given </strong> some context, <strong> When </strong> some event occurs,
+<strong> Then </strong> I expect some outcome. 这样做可以大幅降低沟通成本.</p>
+
+<p>通过Given, When, Then三位一体的方式, 可以很容易的描述出程序的行为以及对象的行为. 并且这种描述, 分析人员,测试人员,卡发人员都能很好地理解.</p>
+
+<h3>BDD需要些什么</h3>
+
+<pre><code class="ruby RSpec">rspec [options] [files or directories]
+</code></pre>
+
+<pre><code class="ruby cucumber">cucumber [options] [ [FILE|DIR|URL][:LINE[:LINE]*] ]+
+</code></pre>
+
+<p>在rails项目里添加RSpec和cucumber</p>
+
+<pre><code class="ruby 添加进Gemfile  ">group :development, :test do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'cucumber'
+  gem 'cucumber-rails'
+  gem 'database_cleaner'
+  gem 'webrat'
+  gem 'selenium-client'
+end
+</code></pre>
+
+<p>运行<code>script/rails generate rspec:install</code><br/>
+会在项目跟目录下生成 <code>spec/spec_helper.rb</code> 与 <code>.rspec</code> <br/>
+<code>.rspec</code>文件为RSpec的配置文件, 可以放在项目根目录下, 或放在主目录/home/xxx/下</p>
+
+<pre><code class="bash .rspec">--color 
+--format doc
+--backtrace
+</code></pre>
+
+<h1>Part II Behaviour-Driven Development</h1>
+
+<h3>The Principles of BDD</h3>
+
+<blockquote><p><strong> Enough is enough </strong> 过犹不及, 计划/分析/设计仅仅足够开始即可<br/>
+<strong> Deliver stakeholder value </strong> 不做不产生价值的事
+<strong> It’s all behavior </strong> RSpec描述程序行为, cucumber描述用户行为</p></blockquote>
+
+<h3>What’s in a Story?</h3>
+
+<p><strong> A title </strong><br/>
+我们可以通过title知道我们在讨论哪个故事</p>
+
+<p><strong> A narrative </strong><br/>
+可以采用三段式的故事描述:</p>
+
+<blockquote><p>as a [stakeholder],<br/>
+I want [feature]<br/>
+so that [benefit].</p></blockquote>
+
+<p>或者:</p>
+
+<blockquote><p>in order to [benefit],　　
+a [stakeholder]<br/>
+wants to [feature].</p></blockquote>
+
+<p>更突出行为的目的角度看, 后者更佳</p>
+
+<p><strong> Acceptance criteria </strong><br/>
+据此评判我们何时算是干完了<br/>
+acceptance criteria包含一系列由独立steps组成的scenarios</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用cucumber配合pickle]]></title>
+    <link href="http://blog.banban.me/blog/blog/2011/01/27/shi-yong-cucumberpei-he-pickle/"/>
+    <updated>2011-01-27T13:58:00+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2011/01/27/shi-yong-cucumberpei-he-pickle</id>
+    <content type="html"><![CDATA[<p>建立项目</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rails -d mysql order <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>添加脚手架</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate scaffold books title:string
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>创建数据库，建表</p>
+
+<p>修改<code>BooksController#index</code></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>BooksController#index </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@books</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="ss">:all</span><span class="p">,</span><span class="ss">:order</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">title</span> <span class="no">DESC</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在项目下加载cucumber与capybara</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate cucumber <span class="p">&amp;</span>ndash<span class="p">;</span>capybara
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>添加pickle(path可选，加上之后会在paths.rb里面增加)</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ruby script/generate pickle path  &lt;br/&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在相应books_steps.rb文件里加入</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>books_steps.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Then</span> <span class="sr">/^我应该(?:在&quot;([^&amp;ldquo;]&lt;em&gt;)&quot;中)?依次看到:$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">selector</span><span class="p">,</span> <span class="n">table</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">pattern</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">raw</span><span class="o">.</span><span class="n">flatten</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="no">Regexp</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="ss">:quote</span><span class="p">))</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="o">.</span><span class="n">&lt;</span><span class="sr">/em&gt;?&amp;rsquo;)</span>
+</span><span class='line'><span class="sr">  regexp = Regexp.compile(pattern, Regexp::MULTILINE)</span>
+</span><span class='line'><span class="sr">  with_scope(selector) do</span>
+</span><span class='line'><span class="sr">    page.should have_xpath(&amp;lsquo;/</span><span class="o">/*&amp;</span><span class="n">rsquo</span><span class="p">;,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="n">regexp</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在feature中加入</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Scenario:</span><span class="nf"> books in order</span>
+</span><span class='line'><span class="k">Given </span><span class="nf">the following books exist</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> title</span><span class="k">   |</span><span class="s"> id</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">  |</span><span class="s"> 1</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">  |</span><span class="s"> 2</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">   |</span><span class="s"> 3</span><span class="k">  |</span><span class="nf"></span>
+</span><span class='line'><span class="k">When </span><span class="nf">I go to books</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I should see in that order:</span>
+</span><span class='line'><span class="k">  |</span><span class="s"> ccc</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> bbb</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">  |</span><span class="s"> aaa</span><span class="k">    |</span><span class="nf"></span>
+</span><span class='line'><span class="k">And </span><span class="nf">I should see &amp;ldquo;aaa&amp;rdquo;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在paths.rb中加入</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>path.rb </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">when</span> <span class="sr">/books/</span>
+</span><span class='line'>  <span class="n">books_path</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>运行
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake cucumber:all
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>等着看黄瓜变绿～～</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+
+
+<meta charset="utf-8">
+<meta http-equiv="cleartype" content="on">
+
+<title>利用AWS免费账户搭建PPTP VPN - 老男孩的整理箱</title>
+<meta name="author" content="banban">
+
+
+
+
+<meta name="description" content="首先, 你要有一个信用卡&hellip; 或者似乎有人说可以在淘宝购买虚拟信用卡也是可行的, 但是里面余额要大于1美金 另外有人反应说注册时候被扣掉1美金 ,
+是因为首次注册时, ASW会为了验证信用卡有效性冻结1美金
+被冻结的钱在服务到期后会返还
+另外好像双币信用卡不会有这个问题 注册 AWS &hellip;">
+
+<meta name="keywords" content="AWS ">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Twitter Cards -->
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content"">
+  
+  <meta name="twitter:title" content="利用AWS免费账户搭建PPTP VPN">
+  <meta name="twitter:description" content="首先, 你要有一个信用卡&hellip; 或者似乎有人说可以在淘宝购买虚拟信用卡也是可行的, 但是里面余额要大于1美金 另外有人反应说注册时候被扣掉1美金 ,
+是因为首次注册时, ASW会为了验证信用卡有效性冻结1美金
+被冻结的钱在服务到期后会返还
+另外好像双币信用卡不会有这个问题 注册 AWS &hellip;">
+  <meta name="twitter:creator" content="@hanbing403">
+
+
+<!-- Open Graph -->
+<meta property="og:local" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://blog.banban.me/blog/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn">
+<meta property="og:title" content="利用AWS免费账户搭建PPTP VPN">
+<meta property="og:description" content="首先, 你要有一个信用卡&hellip; 或者似乎有人说可以在淘宝购买虚拟信用卡也是可行的, 但是里面余额要大于1美金 另外有人反应说注册时候被扣掉1美金 ,
+是因为首次注册时, ASW会为了验证信用卡有效性冻结1美金
+被冻结的钱在服务到期后会返还
+另外好像双币信用卡不会有这个问题 注册 AWS &hellip;">
+
+  <meta property="og:image" content="">
+
+<meta property="og:site_name" content="老男孩的整理箱">
+
+<link rel="canonical" href="http://blog.banban.me/blog/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn">
+<link href="/favicon.png" rel="icon">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/atom.xml" rel="alternate" title="老男孩的整理箱" type="application/atom+xml">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+<script>Modernizr || document.write('<script src="/javascripts/vendor/modernizr-2.6.2.custom.min.js"><\/script>') </script>
+
+
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog-banban.qiniudn.com/avatar.png" alt="banban photo" class="author-photo">
+					<h4>banban</h4>
+					<p>Hi, my name is Hanbing. I'm a web developer and newbie father, living in Dalian.</p>
+				</li>
+				
+				<li>
+					<a href="mailto:algo31031@gmail.com"><i class="fa fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="http://twitter.com/hanbing403"><i class="fa fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://plus.google.com/110631178882824005380"><i class="fa fa-google-plus"></i> Google+</a>
+				</li>
+				<li>
+					<a href="http://github.com/algo31031"><i class="fa fa-github"></i> GitHub</a>
+				</li>
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="/posts/">All Posts</a></li>
+				<li><a href="/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn/" rel="bookmark" title="利用AWS免费账户搭建PPTP VPN">利用AWS免费账户搭建PPTP VPN</a></h1>
+        
+        <h2>June 09, 2014</h2>
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p><strong> 首先, 你要有一个信用卡&hellip;  </strong>
+或者似乎有人说可以在淘宝购买虚拟信用卡也是可行的, 但是里面余额要大于1美金</p>
+
+<p><strong> 另外有人反应说注册时候被扣掉1美金 </strong>,<br/>
+是因为首次注册时, ASW会为了验证信用卡有效性冻结1美金<br/>
+被冻结的钱在服务到期后会返还<br/>
+另外好像双币信用卡不会有这个问题</p>
+
+<ol>
+<li><h3>注册 AWS 账户</h3>
+
+<p> 进入<a href="http://aws.amazon.com/">AWS主页</a>, 按照指示完成注册.</p>
+
+<p> 需要注意注册过程会有一步 Identity Verification by Telephone,<br/>
+ 需要输入电话号码然后点击&#8221;Call Me Now&#8221;, 稍等片刻 Amazon 会有电话拨过来,</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/call_me_now.png" alt="call_me_now" /></p>
+
+<p> 接到电话后在电话上输入您屏幕上的 &ldquo;Your Pin:&rdquo; 后标示的四位数字即可.</p>
+
+<p> 之后会要求选择AWS Support Plan, 当然选Basic (Free)</p>
+
+<p> 注册成功之后会进入Thank you页面, 选择启动AWS管理控制台.</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/launch_console.png" alt="launch_console" /></p>
+
+<p> 之后选择&#8221;登录AWS控制台&#8221;按钮(右上方, 比较醒目的橙色)</p>
+
+<p> 另外注册后您可能会受到从aws-verification@amazon.com发来的email,<br/>
+ 提醒你没通过验证无法使用Amazon Route 53 和 CloudFront(分别是AWS的NS和CDN服务).</p>
+
+<p> 如果不打算用(反正也都收钱的&hellip;), 直接忽略即可</p>
+
+<p> 如果想试一下这2个服务<br/>
+ 您可以提供 valid business URL 并使用此 URL 向aws-verification@amazon.com发一封确认邮件.  <br/>
+ 邮件可用以简单些, 内容如下即可(请注意使用您自己公司的site-url和email-address):</p>
+
+<blockquote><p>   site url:         <a href="http://www.e-trust.com.cn/">http://www.e-trust.com.cn/</a>  <br/>
+   email address:    han.bing@.e-trust.com.cn<br/>
+   account:          <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#x61;&#x6c;&#x67;&#x6f;&#51;&#49;&#x30;&#x33;&#49;&#x40;&#103;&#109;&#97;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;">&#97;&#108;&#103;&#x6f;&#x33;&#49;&#x30;&#x33;&#49;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;</a></p></blockquote>
+
+<p> 同时您还需要更改您的个人信息, 在 Web Site URL: 填入您公司的首页,<br/>
+ Web Site URL: 的具体位置见下图:</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/web_site_url.png" alt="web_site_url" /></p>
+
+<p> 邮件发送之后稍等片刻, 会收到Amazon的确认信息.</p></li>
+<li><h3>启动并设置AWS EC2</h3>
+
+<ol>
+<li><p><strong> 选择region </strong>
+ 部署区域, 简易选择东京</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/select_region.png" alt="select_region" /></p></li>
+<li><p><strong> 创建下载 Key Pairs </strong></p>
+
+<p> 进入控制台后, 默认就会来到EC2 Dashbord页, 在这里选择Key Pairs
+ 创建 Key Pairs</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/key_pairs.png" alt="key_pairs" /></p>
+
+<p> 完成后会得到一个.pem文件, 把他移动到<code>~/.ssh</code>目录下<br/>
+ 并更改权限为600</p>
+
+<pre><code> mv ~/文件所在位置/algo31031.pem ~/.ssh/
+ chmod 600 ~/.ssh/algo31031.pem
+</code></pre>
+
+<p> 请妥善保管您的.pem文件, 若遗失您可以删除之前的key_pairs并创建新的<br/>
+ 如果您希望使用自己的ssh key, 也可以选择&#8221;Import Key Pair&#8221;</p></li>
+<li><p><strong> 启动EC2实例 </strong></p>
+
+<p> 回到EC2 Dashbord页, 在这里选择Launch instance</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/launch_ec2_instance.png" alt="launch_ec2_instance" /></p>
+
+<p> 选择需要的系统, 这里我们选用64位的ubuntu 14.04 PV了<br/>
+ 需要注意下如果没有free tier eligible标志的是需要收费的</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/select_ami.png" alt="select_ami" /></p>
+
+<p> 选择实例类型时候, 要选择Micro instances<br/>
+ 记住这一点: 没有Free tier eligible都是要收钱的(有这个的用超了也要收钱&hellip;)
+ 之后一路Next(Add Storage那里可以适当加点, 但是不要超过30G), 一直到Configure Security Group
+ 这里除了默认的ssh 22 端口外, 还要开放1723端口, 否则连不上VPN</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/add_security_role.png" alt="add_security_role" /></p>
+
+<p> 在launch EC2实例之前, 会有一步让你选择key pair, 用刚才创建的那个即可</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/select_key_pair.png" alt="select_key_pair" /></p>
+
+<p> 至此, 已经有了一台AWS EC2可以用来折腾了</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/launch_status.png" alt="launch_status.png" /></p></li>
+</ol>
+</li>
+<li><h3>登录EC2配置安装PPTV VPN</h3>
+
+<ol>
+<li><p><strong> 为EC2实例绑定Elastic IP </strong>
+ 创建完的EC2实例虽然有自己的公网IP, 但是每次重新启动都会变化<br/>
+ 所以需要为其绑定Elastic IP</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/add_elastic_ip.png" alt="add_elastic_ip" /></p>
+
+<p> 申请完之后, 将其与刚才创建的EC2实例关联</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/associate_ec2_instance.png" alt="associate_ec2_instance" /></p></li>
+<li><p><strong> 通过ssh登录EC2实例 </strong></p>
+
+<p> 修改<code>~/.ssh/config</code>, 在里面添加如下内容, 注意替换HostName成自己的Elastic IP<br/>
+ 并把IdentityFile改成自己机器上.pem文件的路径</p>
+
+<pre><code> Host aws_ec2
+   HostName 54.199.xxx.xxx
+   User ubuntu
+   IdentityFile /home/hanbing/.ssh/algo31031.pem
+</code></pre>
+
+<p> 打开终端, 使用<code>ssh aws_ec2</code>登录EC2实例</p></li>
+<li><p><strong> 在EC2实例下安装PPTP VPN </strong></p>
+
+<p> 具体内容可以<a href="http://www.yzhang.net/blog/2013-03-07-pptp-vpn-ec2.html">参考这篇文章</a>, 以下内容只是对原文重点部分摘录并稍作修改以适应ubuntu</p>
+
+<p> 安装pptpd</p>
+
+<p> <code>sudo apt-get install pptpd</code></p>
+
+<p> 修改<code>/etc/pptpd.conf</code>文件, 在最先面添加以下2行</p>
+
+<pre><code> localip     192.168.9.1
+ remoteip    192.168.9.11-30
+</code></pre>
+
+<p> 之后修改<code>/etc/ppp/options.pptpd</code>文件, 加上谷歌的dns</p>
+
+<pre><code> ms-dns    8.8.8.8
+ ms-dns    8.8.4.4
+</code></pre>
+
+<p> 接下来修改<code>/etc/ppp/chap-secrets</code>文件, 配置你自己VPN的用户名/密码, 格式如下:</p>
+
+<pre><code> &lt;username&gt; pptpd &lt;passwd&gt; *
+</code></pre>
+
+<p> 修改<code>/etc/sysctl.conf</code>文件, 添加以下内容(默认里面有这行, 把注释去掉也可)</p>
+
+<pre><code> net.ipv4.ip_forward=1
+</code></pre>
+
+<p> 执行<code>sudo /sbin/sysctl -p</code>重新加载配置</p>
+
+<p> 启用<code>iptables</code>的NAT configuration</p>
+
+<pre><code> sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre>
+
+<p> 为了保证每次EC2实例重启后NAT configuration能启动, 还要修改<code>/etc/rc.local</code>文件,
+ 在<code>exit 0</code>这行上面加上</p>
+
+<pre><code> iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre>
+
+<p> 最后重启pptpd服务</p>
+
+<pre><code> sudo /etc/init.d/pptpd restart
+</code></pre></li>
+</ol>
+</li>
+<li><h3>连接VPN</h3>
+
+<p> <strong> 注意 </strong> AWS免费账户每月只有<strong> 15G </strong>免费流量,  用超了要<strong> 从信用卡扣钱的 </strong></p>
+
+<ol>
+<li><p><strong> ubuntu用户 </strong></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/vpn1.png" alt="vpn1.png" /></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/vpn2.png" alt="vpn2.png" /></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/vpn3.png" alt="vpn3.png" /></p></li>
+<li><p><strong> Mac用户 </strong></p>
+
+<p> 我没有mac, 图直接从别人那里偷的&hellip;</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/pptp-vpn-mac-1.png" alt="mac_vpn1.png" /></p>
+
+<p> <img src="http://blog-banban.qiniudn.com/pptp-vpn-mac-2.png" alt="mac_vpn2.png" /></p></li>
+</ol>
+</li>
+<li><h3>更换ip</h3>
+
+<p> 需要先将原有的elastic ip从ec2实例解除绑定, 然后释放这个ip<br/>
+ <strong> 注意 </strong> 一定要把不用的ip释放掉, 不然超过15分钟后就要扣钱的(只有绑定到运行中的ec2上才不扣钱)</p>
+
+<p> <img src="http://blog-banban.qiniudn.com/reset_ip_1.png" alt="reset_ip" /></p>
+
+<p> 之后按照之前的流程重申请一个Elastic IP并绑定到EC2实例即可</p>
+
+<p> 更换完IP之后记得要把vpn连接信息里的地址一并替换掉</p></li>
+</ol>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="/categories/#AWS" title="Pages tagged AWS" class="tag">AWS</a></span>
+        <span><a href="/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn/" rel="bookmark" title="利用AWS免费账户搭建PPTP VPN">利用AWS免费账户搭建PPTP VPN</a> was published on <span class="entry-date date published updated"><time datetime="2014-06-09T14:35:19+08:00">June 09, 2014</time></span></span>
+        
+        <span class="author vcard"><span class="fn"><a href="" title="About banban">banban</a></span></span>
+        
+      </footer>
+    </div><!-- /.entry-content -->
+    
+      <div class="read-more">
+        
+          <div class="read-more-header">
+            <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" class="btn">Read More</a>
+          </div><!-- /.read-more-header -->
+          <div class="read-more-content">
+            <h3><a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" title="Mac上搭建Phonegap环境">Mac上搭建Phonegap环境</a></h3>
+            <p>话说好久没有更新Blog了。八九两个月各种事情，工作也是一换再换。现在终于能够以远程的形式重新加入一家创业公司，为心理咨询的事业奋斗。公司给配了台Macbook Pro，近期要开始着力移动端的开发，简单粗暴的phonegap第一版已经发布了，我这边也需要尽快对安卓、 &hellip;&hellip; <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/"> Continue reading</a></p>
+          </div><!-- /.read-more-content -->
+        
+        <div class="read-more-list">
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/" title="Rails遗留程序里最常犯的错误(译)">Rails遗留程序里最常犯的错误(译)</a></h4>
+              <span>Published on July 23, 2014</span>
+            </div><!-- /.list-item -->
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" title="使用RSpec编写具有可读性的功能测试(译)">使用RSpec编写具有可读性的功能测试(译)</a></h4>
+              <span>Published on July 15, 2014</span>
+            </div><!-- /.list-item -->
+          
+        </div><!-- /.read-more-list -->
+      </div><!-- /.read-more -->
+    
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2015 banban. Powered by <a href="http://octopress.org">Octopress</a> using the <a href="https://github.com/Z1MM32M4N/hpstr-theme/">HPSTR Theme for Octopress</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+
+	        
+<script src="http://blog-banban.qiniudn.com/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/javascripts/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/javascripts/octopress.js" type="text/javascript"></script>
+<script src="/javascripts/scripts.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'banban';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.banban.me/blog/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn/';
+        var disqus_url = 'http://blog.banban.me/blog/blog/2014/06/09/li-yong-awsmian-fei-zhang-hu-da-jian-vpn/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

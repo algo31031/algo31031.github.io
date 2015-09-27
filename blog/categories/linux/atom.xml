@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[设置swap分区]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/03/21/she-zhi-swapfen-qu/"/>
+    <updated>2014-03-21T14:46:08+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/03/21/she-zhi-swapfen-qu</id>
+    <content type="html"><![CDATA[<p><strong> 首先吐槽下, AWS EC2 t1.micro 不要随便开swap, 不然EBS会有海量IOs然后账单飞涨 </strong></p>
+
+<p>创建swap文件件
+    $ sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+<code>bs=1M</code>表示采用1M大小的block size<br/>
+<code>count=1024</code>表示需要1024个block</p>
+
+<p>将文件格式化为swap文件格式
+    $ sudo mkswap /var/swap.1</p>
+
+<p>挂载swap分区
+    $ sudo swapon /var/swap.1</p>
+
+<p>在/etc/fstab里添加<code>/var/swap.1 swap swap defaults 0 0</code>, 使swap开机之后能自动挂载:</p>
+
+<p>可以用<code>$ sudo mount -a</code>测试一下fstab文件是否有问题, 一旦改错可能会导致无法启动</p>
+
+<p>若无问题,重启</p>
+
+<p>若要关闭swap
+    $ sudo swapoff /var/swap.1</p>
+
+<p>若以后不再使用这个swap， 可以直接把这个文件删掉， 然后把/etc/fstab里的内容注释掉</p>
+
+<p><a href="http://www.the-tech-tutorial.com/?p=1408">参考</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RHEL和CentOS里关闭iptables]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/03/17/rhelhe-centosli-guan-bi-iptables/"/>
+    <updated>2014-03-17T15:04:18+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/03/17/rhelhe-centosli-guan-bi-iptables</id>
+    <content type="html"><![CDATA[<p>查看iptables状态：
+    $ sudo /etc/rc.d/init.d/iptables status</p>
+
+<p>iptables开机自动启动：
+    $ sudo chkconfig iptables on
+    $ sudo chkconfig iptables off</p>
+
+<p>iptables关闭服务：
+    $ sudo /etc/rc.d/init.d/iptables start
+    $ sudo /etc/rc.d/init.d/iptables stop</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下添加用户并设置权限]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/03/16/linuxxia-tian-jia-yong-hu-bing-she-zhi-quan-xian/"/>
+    <updated>2014-03-16T14:37:26+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/03/16/linuxxia-tian-jia-yong-hu-bing-she-zhi-quan-xian</id>
+    <content type="html"><![CDATA[<p>创建group(admin)
+    $ sudo groupadd admin</p>
+
+<p>向指定group(admin)添加user(vagrant)
+    $ sudo useradd -g admin vagrant
+设置user密码
+    $ sudo passwd vagrant</p>
+
+<p>更改user的group
+    $ sudo usermod -G 组名 用户名</p>
+
+<p>修改sudoers
+    $ sudo visudo</p>
+
+<p>会打开<code>/etc/sudoers</code>, 在里面添加:
+    vagrant  ALL=(ALL:ALL)  NOPASSWD: ALL
+    # 向vagrant用户添加权限, <code>NOPASSWD</code>确保vagrant执行任何命令时不需要输入密码
+    %admin ALL=(ALL:ALL) ALL
+    # 向admin组添加权限</p>
+
+<p>四个ALL分别的含义:</p>
+
+<blockquote><p>  The 1st &ldquo;ALL&rdquo; indicates that this rule applies to all hosts.<br/>
+  The 2nd &ldquo;ALL&rdquo; indicates that the demo user can run commands as all users.<br/>
+  Th3 3rd &ldquo;ALL&rdquo; indicates that the demo user can run commands as all groups.<br/>
+  The 4th &ldquo;ALL&rdquo; indicates these rules apply to all commands.</p></blockquote>
+
+<p>参考文章:
+<a href="http://linux.vbird.org/linux_basic/0410accountmanager.php#users_adduser">http://linux.vbird.org/linux_basic/0410accountmanager.php#users_adduser</a>
+<a href="https://www.digitalocean.com/community/articles/how-to-edit-the-sudoers-file-on-ubuntu-and-centos">https://www.digitalocean.com/community/articles/how-to-edit-the-sudoers-file-on-ubuntu-and-centos</a></p>
+]]></content>
+  </entry>
+  
+</feed>

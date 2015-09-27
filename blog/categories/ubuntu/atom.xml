@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ubuntu | 老男孩的整理箱]]></title>
+  <link href="http://blog.banban.me/blog/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://blog.banban.me/blog/"/>
+  <updated>2015-09-27T16:13:41+08:00</updated>
+  <id>http://blog.banban.me/blog/</id>
+  <author>
+    <name><![CDATA[banban]]></name>
+    <email><![CDATA[algo31031@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用vagrant和knife-solo配合Vitrualbox搭建测试环境]]></title>
+    <link href="http://blog.banban.me/blog/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing/"/>
+    <updated>2014-04-12T19:21:22+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2014/04/12/shi-yong-vagranthe-knife-solozai-ubuntu-13-dot-10xia-da-jian-ce-shi-huan-jing</id>
+    <content type="html"><![CDATA[<h3>下载安装 Virtualbox</h3>
+
+<p>这里可以直接用ubuntu软件中心提供的版本  <br/>
+其他系统可以再下面找<br/>
+<a href="https://www.virtualbox.org/wiki/Downloads">下载Virtualbox</a></p>
+
+<h3>下载安装 vagrant</h3>
+
+<p><a href="https://www.vagrantup.com/downloads.html">点击进入下下载列表</a><br/>
+注意低版本的vagrant提供gem安装方式, 目前已不支持, 请不要采取此种方式, 详见<a href="http://mitchellh.com/abandoning-rubygems">此处</a></p>
+
+<h3>下载安装 vagrant 的 centos box</h3>
+
+<p><a href="http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box">点击下载box</a><br/>
+安装box  <br/>
+    $ vagrant box add centos-6.4 /home/hanbing/Downloads/CentOS-6.4-x86_64-v20130731.box<br/>
+可以在下面找到其他操作系统的box<br/>
+<a href="http://www.vagrantbox.es/">vagrantbox</a></p>
+
+<h3>配置vagrant</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> ~/
+</span><span class='line'><span class="nv">$ </span>mkdir vagrant
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>vagrant
+</span><span class='line'><span class="nv">$ </span>vagrant init
+</span><span class='line'><span class="nv">$ </span>vi Vagrantfile
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>把下面内容添加到 <code>Vagrantfile</code></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">centos</span><span class="o">-</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">33</span><span class="o">.</span><span class="mi">10</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">oshost</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>设置共享文件夹(若不配置,默认把host的Vagrantfile所在目录共享到guest的/vagrant),<br/>
+第一个参数是host machine的待共享文件夹, 可以用相对路径. <br/>
+第二个参数是gues tmachine的共享文件夹, 必须为绝对路径, 若不存在会自动创建一个.  <br/>
+其他支持的options可以参看<a href="http://docs.vagrantup.com/v2/synced-folders/basic_usage.html">这里</a><br/>
+<code>config.vm.synced_folder "/home/hanbing", "/vagrant"</code></p>
+
+<p>有时默认的共享文件夹会有性能问题, 需要加参数nfs: true<br/>
+若要使用NFS文件夹, host machine需要安装了<code>nfsd</code><br/>
+另外注意在Windows下不支持NFS, 所以Windows会自动忽略nfs参数<br/>
+<code>config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true</code></p>
+
+<p>配置好后可以通过<code>vagrant up</code>启动vm<br/>
+<strong>Vagrant常用命令</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>vagrant up 开机
+</span><span class='line'><span class="nv">$ </span>vagrant ssh 登⼊&lt;br/&gt;
+</span><span class='line'><span class="nv">$ </span>vagrant <span class="nb">suspend</span> 暂停&lt;br/&gt;
+</span><span class='line'><span class="nv">$ </span>vagrant halt 关机
+</span><span class='line'><span class="nv">$ </span>vagrant destroy 刪除
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>插曲 启动时报错</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>hanbing@hanbing-System-Product-Name:~/vagrant<span class="nv">$ </span>vagrant up
+</span><span class='line'>Bringing machine <span class="p">&amp;</span>lsquo<span class="p">;</span>default<span class="p">&amp;</span>rsquo<span class="p">;</span> up with <span class="p">&amp;</span>lsquo<span class="p">;</span>virtualbox<span class="p">&amp;</span>rsquo<span class="p">;</span> provider<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>forwarded ports<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>network interfaces<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Preparing network interfaces based on configuration<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Adapter 1: nat
+</span><span class='line'>    default: Adapter 2: <span class="nv">hostonly</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Forwarding ports<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: <span class="nv">22</span> <span class="o">=</span>&gt; <span class="m">2222</span> <span class="o">(</span>adapter 1<span class="o">)</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Booting VM<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Waiting <span class="k">for</span> machine to boot. This may take a few minutes<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: SSH address: 127.0.0.1:2222
+</span><span class='line'>    default: SSH username: vagrant
+</span><span class='line'>    default: SSH auth method: private key
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>原本以为ssh的问题, 后来发现是centOS无法启动,直接用VirtualBox启动时有如下提示:</p>
+
+<blockquote><p>  VT-x/AMD-V 硬件加速已被启用, 但当前处于无效状态. 您虚拟电脑内的操作系统将无法检测到64位的处理器，因此也将无法启动.</p>
+
+<p>  请确认在您电脑的BIOS中已启用 VT-x/AMD-V 支持.</p></blockquote>
+
+<p>解决办法:<br/>
+(1)进入BIOS设置,把Virtualization设为为Enabled(一般会在高级设置里)<br/>
+(2)虚拟机设置 > 系统 > 硬件加速 > 启用VT-x/AMD-V<br/>
+(3)重新执行 <code>$ vargant up</code><br/>
+正常了^_^</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Bringing machine <span class="p">&amp;</span>lsquo<span class="p">;</span>default<span class="p">&amp;</span>rsquo<span class="p">;</span> up with <span class="p">&amp;</span>lsquo<span class="p">;</span>virtualbox<span class="p">&amp;</span>rsquo<span class="p">;</span> provider<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Clearing any previously <span class="nb">set </span>network interfaces<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Preparing network interfaces based on configuration<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: Adapter 1: nat
+</span><span class='line'>    default: Adapter 2: <span class="nv">hostonly</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Forwarding ports<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: <span class="nv">22</span> <span class="o">=</span>&gt; <span class="m">2222</span> <span class="o">(</span>adapter 1<span class="o">)</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Booting VM<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Waiting <span class="k">for</span> machine to boot. This may take a few minutes<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: SSH address: 127.0.0.1:2222
+</span><span class='line'>    default: SSH username: vagrant
+</span><span class='line'>    default: SSH auth method: private key
+</span><span class='line'>    default: Error: Connection timout. Retrying<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Machine booted and ready!
+</span><span class='line'><span class="o">==</span>&gt; default: Checking <span class="k">for</span> guest additions in VM<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Configuring and enabling network interfaces<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'><span class="o">==</span>&gt; default: Mounting shared folders<span class="p">&amp;</span>hellip<span class="p">;</span>
+</span><span class='line'>    default: /vagrant <span class="o">=</span>&gt; /home/hanbing/vagrant
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>PS:</strong>2013版Mac air下不存在这个问题</p>
+
+<h3>开始安装各个cookbook</h3>
+
+<p>执行<code>$ vagrant ssh-config --host oshost</code><br/>
+会出现类似下面内容:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Host oshost
+</span><span class='line'>  HostName 127.0.0.1
+</span><span class='line'>  User vagrant
+</span><span class='line'>  Port
+</span><span class='line'>  UserKnownHostsFile /dev/null
+</span><span class='line'>  StrictHostKeyChecking no
+</span><span class='line'>  PasswordAuthentication no
+</span><span class='line'>  IdentityFile /home/hanbing/.vagrant.d/insecure_private_key
+</span><span class='line'>  IdentitiesOnly yes
+</span><span class='line'>  LogLevel FATAL
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>将其加入<code>~/.ssh/config</code>内, 以后使用<code>$ ssh oshost</code>可以直接连入guest machine<br/>
+    $ vagrant ssh-config &ndash;host oshost >> ~/.ssh/config</p>
+
+<p>除此以外，使用<code>vagrant ssh [主机名]</code>也可连入guest machine<br/>
+    $ vagrant ssh oshost</p>
+
+<p><strong>创建kitchen, 下载cookbooks</strong>
+    $ mkdir Cookbooks
+    $ cd Cookbooks`</p>
+
+<p>安装gem
+    $ gem install librarian-chef
+    $ gem install knife-solo</p>
+
+<p>在当前目录生成一个kitchen　　
+    $ knife solo init .</p>
+
+<p>在kitchen里生成Cheffile
+    $ librarian-chef init</p>
+
+<p>编辑Cheffile添加需要的cookbooks<br/>
+下载Cheffile里要求的cookbooks到./cookbooks目录
+    $ librarian-chef install</p>
+
+<p>之后执行以下操作开始装机过程
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>knife solo prepare oshost
+</span><span class='line'><span class="nv">$ </span>knife solo cook oshost
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>knifo-solo命令</strong>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>knife solo init 目录                               新建一个符合chef结构的目录<span class="o">(</span>kitchen<span class="o">)</span>用以创建和储存recipes&lt;br/&gt;
+</span><span class='line'><span class="nv">$ </span>knife solo prepare user@host                      在给定的host安装chef
+</span><span class='line'><span class="nv">$ </span>knife solo cook user@host <span class="o">[</span>nodes/&lt;hostname&gt;.json<span class="o">]</span> 将kitchen上传到指定的host并执行chef-solo
+</span><span class='line'><span class="nv">$ </span>knife solo bootstrap user@host                    perpare+cook
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>配置多台 vm</h3>
+
+<p>修改<code>Vagrantfile</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">define</span> <span class="ss">:oshost</span> <span class="k">do</span> <span class="o">|</span><span class="n">oshost</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">centos</span><span class="o">-</span><span class="mi">6</span><span class="o">.</span><span class="mi">4</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:private_network</span><span class="p">,</span> <span class="ss">ip</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="mi">192</span><span class="o">.</span><span class="mi">168</span><span class="o">.</span><span class="mi">33</span><span class="o">.</span><span class="mi">10</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">oshost</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">oshost</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">virtualbox</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="k">do</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">oshost</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">end</span>      <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  config.vm.define :osdep01d do |osdep01d|</span>
+</span><span class='line'><span class="sr">    osdep01d.vm.box = &amp;ldquo;centos-6.4&amp;rdquo;</span>
+</span><span class='line'><span class="sr">    osdep01d.vm.network :private_network, ip: &amp;ldquo;192.168.33.11&amp;rdquo;</span>
+</span><span class='line'><span class="sr">    osdep01d.vm.host_name = &amp;ldquo;osdep01d&amp;rdquo;</span>
+</span><span class='line'><span class="sr">    osdep01d.vm.provider &amp;ldquo;virtualbox&amp;rdquo; do |v|</span>
+</span><span class='line'><span class="sr">      v.name = &amp;ldquo;osdep01d&amp;rdquo;</span>
+</span><span class='line'><span class="sr">    end      &lt;br/</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>启动vm<br/>
+    $ vagrant up osdep01d</p>
+
+<p>添加ssh host<br/>
+    $ vagrant ssh-config &ndash;host osdep01d >> ~/.ssh/config</p>
+
+<p>向<code>osdep01d</code>安装cookbooks<br/>
+    $ knife solo bootstrap osdep01d</p>
+
+<h3>参考文章</h3>
+
+<p><a href="https://fak3r.com/2013/08/30/howto-get-started-with-chef-librarian-chef-and-vagrant/">HOWTO get started with chef, librarian-chef and vagrant</a><br/>
+<a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">[教學]使用Vagrant練習環境佈署</a><br/>
+<a href="http://gogojimmy.net/2013/06/01/Chef-Solo-Basic-with-Vagrant/">[Rails佈署實戰教學]使用Chef-Solo一鍵安裝機器</a><br/>
+<a href="http://tumblr.nrako.com/post/22320729770/vagrant-chef-librarian">Vagrant Provisioning, Chef solo and Librarian-chef</a></p>
+
+<h3>相关资源</h3>
+
+<p><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a><br/>
+<a href="http://www.vagrantbox.es/">vagrantbox</a><br/>
+<a href="http://community.opscode.com/cookbooks">cookbooks</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ubuntu下ROR环境搭建]]></title>
+    <link href="http://blog.banban.me/blog/blog/2013/10/21/ubuntu13-dot-10xia-rorhuan-jing-da-jian/"/>
+    <updated>2013-10-21T14:09:24+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2013/10/21/ubuntu13-dot-10xia-rorhuan-jing-da-jian</id>
+    <content type="html"><![CDATA[<p>13.10/13.04下应该都可以</p>
+
+<p>13.10可以先安装新立得软件软件包管理器 (13.04之后版本不默认自带这个了, 还挺有用的)
+    $ sudo apt-get install synaptic</p>
+
+<h3>安装rvm</h3>
+
+<p>先安装需要的工具
+    $ sudo apt-get &ndash;no-install-recommends install bash curl git patch bzip2 vim</p>
+
+<p>安装rvm, 关于rvm的具体信息可以<a href="https://rvm.io/">在这里看</a>
+    $ curl -L <a href="https://get.rvm.io">https://get.rvm.io</a> | bash -s stable
+    $ source /home/hanbing/.rvm/scripts/rvm</p>
+
+<p>此时运行<code>rvm -v</code>应该能看到版本信息</p>
+
+<p>修改<code>.bashrc</code>文件
+把以下内容加到最下面一行，保存，退出
+    [[ -s &ldquo;/home/hanbing/.rvm/scripts/rvm&rdquo; ]] &amp;&amp; source &ldquo;/home/hanbing/.rvm/scripts/rvm&rdquo;  # This loads RVM into a shell session.
+打开终端，找到“编辑”，“配置文件首选项”，打开“标题和命令”选项卡，把“以登录shell方式运行命令”选中</p>
+
+<p>最后记得在<code>~/.gemrc</code>下添加下面一行
+    gem: &ndash;no-ri &ndash;no-rdoc
+这会在每次安装Gem时忽略ri和rdoc, 不然既浪费大量时间又消耗硬盘空间</p>
+
+<h3>通过rvm安装 ruby , rails</h3>
+
+<p>同样，先安装需要的工具
+    $ rvm requirements<br/>
+这会检查你当前环境下还缺少那些rvm需要的包, 然后全部安装</p>
+
+<p>安装Ruby 1.9.3
+    $ rvm install 1.9.3</p>
+
+<p>使用ruby 1.9.3,并设置为默认的Ruby
+    $ rvm use 1.9.3 &ndash;default</p>
+
+<p>安装Rails
+    $ gem install rails -v 3.2.13
+若安装成功，运行<code>ruby -v</code>与<code>rails -v</code>,能看到相应版本信息</p>
+
+<h3>安装mysql</h3>
+
+<pre><code>$ sudo apt-get install mysql-server mysql-common mysql-client libmysqlclient-dev
+</code></pre>
+
+<p>  安装过程中需要自定义<code>root</code>用户的密码并确认</p>
+
+<h3>安装Sublime Text2</h3>
+
+<pre><code>$ sudo add-apt-repository ppa:webupd8team/sublime-text-2  
+$ sudo apt-get update  
+$ sudo apt-get install sublime-text
+</code></pre>
+
+<p><a href="https://sublime.wbond.net/installation#Manual">下载安装Package Control</a></p>
+
+<p>一些必备的package:</p>
+
+<blockquote><pre><code>Sublimerge           # 文件比对工具
+SideBarEnhancements  # 侧边栏增强
+Alignment            # 默认快捷键`ctrl+alt+a`
+Rubocop              # coding style检查工具, 需要先`gem install rubocop` 
+</code></pre></blockquote>
+
+<p>若要进行BDD, 可以安装下列package:</p>
+
+<blockquote><pre><code>Behat  
+Sublime-Behat-Snippet  
+Cucumber  
+Gherkin[Cucumber] Formatter
+</code></pre></blockquote>
+
+<p>关于sublime text2下的中文输入, 可以参照上一篇</p>
+
+<h3>服务器环境搭建</h3>
+
+<p>安装imageMagicksudo
+    $ sudo apt-get install imagemagick libmagickwand-dev</p>
+
+<p>安装ffmpeg<a href="http://ffmpeg.org/trac/ffmpeg/wiki/UbuntuCompilationGuide">参考这里</a></p>
+
+<p>安装nginx(带flv/mp4/rtmp/rtmp-push-stream模块)  <br/>
+下载nginx源代码 1.3.10 至<code>/home/hanbing/nginx-1.3.10</code><br/>
+下载nginx-rtmp模块源代码 至 <code>/home/hanbing/gao.nginx-rtmp-module</code><br/>
+下载pcre 8.31至<code>/home/hanbing/pcre-8.31</code>
+    $ rvmsudo passenger-install-nginx-module
+按Enter确定&mdash;->选择2，自定义安装&mdash;->指定nginx源码位置：<code>/home/hanbing/nginx-1.3.10</code> &mdash;->默认安装位置不变，按回车继续&mdash;->  复制粘贴下面的配置：
+    &ndash;with-http_flv_module &ndash;with-http_mp4_module &ndash;add-module=/home/hanbing/nginx-push-stream-module &ndash;add-module=/home/hanbing/gao.nginx-rtmp-module &ndash;with-pcre=/home/hanbing/pcre-8.31
+按回车键继续&mdash;->回车键确认配置正确，开始编译（若不正确输入no,回车，重新加配置）&mdash;->等编译&mdash;->回车over</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu下使用SublimeText2输入中文完美解决办法]]></title>
+    <link href="http://blog.banban.me/blog/blog/2013/04/28/ubuntuxia-shi-yong-sublimetext2shu-ru-zhong-wen-wan-mei-jie-jue-ban-fa/"/>
+    <updated>2013-04-28T13:43:15+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2013/04/28/ubuntuxia-shi-yong-sublimetext2shu-ru-zhong-wen-wan-mei-jie-jue-ban-fa</id>
+    <content type="html"><![CDATA[<p>卸载ibus，安装fcitx以及fcitx下的输入法
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get remove ibus
+</span><span class='line'><span class="nv">$ </span>sudo add-apt-repository ppa:fcitx-team/nightly
+</span><span class='line'><span class="nv">$ </span>sudo apt-get update
+</span><span class='line'><span class="nv">$ </span>sudo apt-get install fcitx fcitx-bin fcitx-config-common fcitx-config-gtk fcitx-data fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt4 fcitx-googlepinyin fcitx-libs fcitx-module-dbus fcitx-module-x11 fcitx-modules fcitx-pinyin fcitx-table fcitx-table-wubi fcitx-ui-classic
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>将以下代码保存为<code>sublime_imfix.c</code>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">sublime-imfix.c</span>
+</span><span class='line'><span class="cm">Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.</span>
+</span><span class='line'><span class="cm">By Cjacker Huang &amp;lt;jianzhong.huang at i-soft.com.cn&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">&lt;p&gt;gcc -shared -o libsublime-imfix.so sublime_imfix.c  &lt;code&gt;pkg-config --libs --cflags gtk+-2.0&lt;/code&gt; -fPIC</span>
+</span><span class='line'><span class="cm">LD_PRELOAD=./libsublime-imfix.so sublime_text</span>
+</span><span class='line'><span class="cm">*/</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">gtk</span><span class="o">/</span><span class="n">gtk</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">gdk</span><span class="o">/</span><span class="n">gdkx</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">typedef</span> <span class="n">GdkSegment</span> <span class="n">GdkRegionBox</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">struct</span> <span class="n">_GdkRegion</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kt">long</span> <span class="n">size</span><span class="p">;</span>
+</span><span class='line'>  <span class="kt">long</span> <span class="n">numRects</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">GdkRegionBox</span> <span class="o">*</span><span class="n">rects</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">GdkRegionBox</span> <span class="n">extents</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">GtkIMContext</span> <span class="o">*</span><span class="n">local_context</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span>
+</span><span class='line'><span class="n">gdk_region_get_clipbox</span> <span class="p">(</span><span class="k">const</span> <span class="n">GdkRegion</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">region</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">GdkRectangle</span>    <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">rectangle</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">g_return_if_fail</span> <span class="p">(</span><span class="n">region</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">g_return_if_fail</span> <span class="p">(</span><span class="n">rectangle</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">x1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">y1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">x2</span> <span class="o">-</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">x1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">height</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">y2</span> <span class="o">-</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">y1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">GdkRectangle</span> <span class="n">rect</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">//The caret width is 2;</span>
+</span><span class='line'>  <span class="c1">//Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">GTK_IS_IM_CONTEXT</span><span class="p">(</span><span class="n">local_context</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">gtk_im_context_set_cursor_location</span><span class="p">(</span><span class="n">local_context</span><span class="p">,</span> <span class="n">rectangle</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">//this is needed, for example, if you input something in file dialog and return back the edit area</span>
+</span><span class='line'><span class="c1">//context will lost, so here we set it again.&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">static</span> <span class="n">GdkFilterReturn</span> <span class="n">event_filter</span> <span class="p">(</span><span class="n">GdkXEvent</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">xevent</span><span class="p">,</span> <span class="n">GdkEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">event</span><span class="p">,</span> <span class="n">gpointer</span> <span class="n">im_context</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">XEvent</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">xev</span> <span class="o">=</span> <span class="p">(</span><span class="n">XEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">xevent</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">xev</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">==</span> <span class="n">KeyRelease</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">GTK_IS_IM_CONTEXT</span><span class="p">(</span><span class="n">im_context</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>       <span class="n">GdkWindow</span> <span class="o">*</span> <span class="n">win</span> <span class="o">=</span> <span class="n">g_object_get_data</span><span class="p">(</span><span class="n">G_OBJECT</span><span class="p">(</span><span class="n">im_context</span><span class="p">),</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">window</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+</span><span class='line'>       <span class="k">if</span><span class="p">(</span><span class="n">GDK_IS_WINDOW</span><span class="p">(</span><span class="n">win</span><span class="p">))</span>
+</span><span class='line'>         <span class="n">gtk_im_context_set_client_window</span><span class="p">(</span><span class="n">im_context</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">GDK_FILTER_CONTINUE</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">void</span> <span class="n">gtk_im_context_set_client_window</span> <span class="p">(</span><span class="n">GtkIMContext</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">context</span><span class="p">,</span>
+</span><span class='line'>          <span class="n">GdkWindow</span>    <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">window</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">GtkIMContextClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">g_return_if_fail</span> <span class="p">(</span><span class="n">GTK_IS_IM_CONTEXT</span> <span class="p">(</span><span class="n">context</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">klass</span> <span class="o">=</span> <span class="n">GTK_IM_CONTEXT_GET_CLASS</span> <span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">klass</span><span class="o">-&gt;</span><span class="n">set_client_window</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">klass</span><span class="o">-&gt;</span><span class="n">set_client_window</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">window</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">GDK_IS_WINDOW</span> <span class="p">(</span><span class="n">window</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">g_object_set_data</span><span class="p">(</span><span class="n">G_OBJECT</span><span class="p">(</span><span class="n">context</span><span class="p">),</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">window</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="n">gdk_window_get_width</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="n">gdk_window_get_height</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">width</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">height</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">gtk_im_context_focus_in</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">local_context</span> <span class="o">=</span> <span class="n">context</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">gdk_window_add_filter</span> <span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">event_filter</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>安装需要的库
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install build-essential libgtk2.0-dev
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>编译成共享库
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gcc -shared -o libsublime-imfix.so sublime_imfix.c &lt;code&gt;pkg-config --libs --cflags gtk+-2.0&lt;/code&gt; -fPIC
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>运行<code>$ LD_PRELOAD=./libsublime-imfix.so sublime_text</code>即可启动(libsublime-imfix.so为编译生成的文件，sublime_text为执行文件的绝对路径)</p>
+
+<p>为方便使用，将<code>libsublime-imfix.so</code>放到<code>/usr/lib/</code>下
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo cp ./libsublime-imfix.so /usr/lib/
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>创建<code>SublimeText2.desktop</code>,放到<code>/usr/share/applications/</code>下
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Desktop Entry]
+</span><span class='line'>Type=Application
+</span><span class='line'>Name=SublimeText2
+</span><span class='line'>Comment=SublimeText2
+</span><span class='line'>Icon=/home/hanbing/Sublime Text 2/Icon/256x256/sublime_text.png
+</span><span class='line'>Exec=bash -c &ldquo;LD_PRELOAD=/usr/lib/libsublime-imfix.so /home/hanbing/Sublime\ Text\ 2/sublime_text&rdquo;
+</span><span class='line'>Terminal=false</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu 12.04下安装 RMagick 报错Can't Install RMagick 2.12.2. Can't Find Magick-config]]></title>
+    <link href="http://blog.banban.me/blog/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config/"/>
+    <updated>2012-12-26T13:28:41+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2012/12/26/ubuntu-12-dot-04xia-an-zhuang-rmagick-bao-cuo-cant-install-rmagick-2-dot-12-dot-2-cant-find-magick-config</id>
+    <content type="html"><![CDATA[<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>报错信息 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>checking <span class="k">for</span> Magick-config<span class="p">&amp;</span>hellip<span class="p">;</span> no
+</span><span class='line'>Can<span class="p">&amp;</span>rsquo<span class="p">;</span>t install RMagick 2.12.2. Can<span class="p">&amp;</span>rsquo<span class="p">;</span>t find Magick-config in /home/hanbing/.rvm/gems/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/gems/ruby-1.9.3-p125@global/bin:/home/hanbing/.rvm/rubies/ruby-1.9.3-p125/bin:/home/hanbing/.rvm/bin::/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/hanbing/.rvm/bin
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>ImageMagick正确安装后还需要安装相应的dev包：</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagickwand-dev
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[安装rmagick出错]]></title>
+    <link href="http://blog.banban.me/blog/blog/2012/04/06/an-zhuang-rmagickchu-cuo/"/>
+    <updated>2012-04-06T11:46:21+08:00</updated>
+    <id>http://blog.banban.me/blog/blog/2012/04/06/an-zhuang-rmagickchu-cuo</id>
+    <content type="html"><![CDATA[<p>报错信息</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while&hellip;
+</span><span class='line'>ERROR:  Error installing rmagick:
+</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>解决办法</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

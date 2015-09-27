@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+
+
+<meta charset="utf-8">
+<meta http-equiv="cleartype" content="on">
+
+<title>The RSpec Book笔记(二) 初窥cucumber与RSpec - 老男孩的整理箱</title>
+<meta name="author" content="banban">
+
+
+
+
+<meta name="description" content="Describing Features 将特性(features)整理成若干用户故事(User Stories), 可以采用role + action的形式作为故事的标题.
+故事里不需要包含太多细节, 详细内容可以在选定好选取哪些故事用作发布以及哪次迭代时发布后, 再行考虑. Code- &hellip;">
+
+<meta name="keywords" content="RSpec cucumber test ">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Twitter Cards -->
+
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content"">
+  
+  <meta name="twitter:title" content="The RSpec Book笔记(二) 初窥cucumber与RSpec ">
+  <meta name="twitter:description" content="Describing Features 将特性(features)整理成若干用户故事(User Stories), 可以采用role + action的形式作为故事的标题.
+故事里不需要包含太多细节, 详细内容可以在选定好选取哪些故事用作发布以及哪次迭代时发布后, 再行考虑. Code- &hellip;">
+  <meta name="twitter:creator" content="@hanbing403">
+
+
+<!-- Open Graph -->
+<meta property="og:local" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:url" content="http://blog.banban.me/blog/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec">
+<meta property="og:title" content="The RSpec Book笔记(二) 初窥cucumber与RSpec ">
+<meta property="og:description" content="Describing Features 将特性(features)整理成若干用户故事(User Stories), 可以采用role + action的形式作为故事的标题.
+故事里不需要包含太多细节, 详细内容可以在选定好选取哪些故事用作发布以及哪次迭代时发布后, 再行考虑. Code- &hellip;">
+
+  <meta property="og:image" content="">
+
+<meta property="og:site_name" content="老男孩的整理箱">
+
+<link rel="canonical" href="http://blog.banban.me/blog/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec">
+<link href="/favicon.png" rel="icon">
+<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/atom.xml" rel="alternate" title="老男孩的整理箱" type="application/atom+xml">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+<script>Modernizr || document.write('<script src="/javascripts/vendor/modernizr-2.6.2.custom.min.js"><\/script>') </script>
+
+
+
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="http://blog-banban.qiniudn.com/avatar.png" alt="banban photo" class="author-photo">
+					<h4>banban</h4>
+					<p>Hi, my name is Hanbing. I'm a web developer and newbie father, living in Dalian.</p>
+				</li>
+				
+				<li>
+					<a href="mailto:algo31031@gmail.com"><i class="fa fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="http://twitter.com/hanbing403"><i class="fa fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="http://plus.google.com/110631178882824005380"><i class="fa fa-google-plus"></i> Google+</a>
+				</li>
+				<li>
+					<a href="http://github.com/algo31031"><i class="fa fa-github"></i> GitHub</a>
+				</li>
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="/posts/">All Posts</a></li>
+				<li><a href="/categories/">All Categories</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec/" rel="bookmark" title="The RSpec Book笔记(二) 初窥cucumber与RSpec ">The RSpec Book笔记(二) 初窥cucumber与RSpec </a></h1>
+        
+        <h2>April 29, 2014</h2>
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <h3>Describing Features</h3>
+
+<p>将特性(features)整理成若干用户故事(User Stories), 可以采用<code>role + action</code>的形式作为故事的标题.<br/>
+故事里不需要包含太多细节, 详细内容可以在选定好选取哪些故事用作发布以及哪次迭代时发布后, 再行考虑.</p>
+
+<blockquote><ul>
+<li><strong> Code-breaker starts game </strong> The code-breaker opens a shell, types a
+command, and sees a welcome message and a prompt to enter
+the first guess.</li>
+<li><strong> Code-breaker submits guess </strong> The code-breaker enters a guess, and
+the system replies by marking the guess according to the marking
+algorithm.</li>
+</ul>
+</blockquote>
+
+<p>关于User Stroies, 可以看下iHover大大的<a href="http://ihower.tw/blog/archives/2090">User Stories (1) 什麼是 User Story?</a></p>
+
+<p>User Story需要拥有以下特性:</p>
+
+<blockquote><ul>
+<li><strong> Have business value </strong></li>
+<li><strong> Be testable </strong></li>
+<li><strong> Be small enough to implement in one iteration </strong></li>
+</ul>
+</blockquote>
+
+<p>在项目里添加一个<code>features</code>目录,然后在<code>teatures</code>下添加<code>support</code>目录,<br/>
+在<code>support</code>目录里添加<code>env.rb</code>文件(其实*.rb便可), 这样cucumber会知道我们正在用ruby</p>
+
+<p>在里<code>features</code>面创建一个<code>codebreaker_submits_guess.feature</code>文件</p>
+
+<figure class='code'><figcaption><span>Scenario Example - codebreaker_submits_guess.feature </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Feature:</span><span class="nf"> code-breaker submits guess</span>
+</span><span class='line'><span class="nf">  As a code-breaker</span>
+</span><span class='line'><span class="nf">  I want to submit a guess</span>
+</span><span class='line'><span class="nf">  So that I can try to break the code</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> all exact matches</span>
+</span><span class='line'><span class="k">    Given </span><span class="nf">the secret code is &quot;</span><span class="s">1234</span><span class="nf">&quot;</span>
+</span><span class='line'><span class="nf">    </span><span class="k">When </span><span class="nf">I guess &quot;</span><span class="s">1234</span><span class="nf">&quot;</span>
+</span><span class='line'><span class="nf">    </span><span class="k">Then </span><span class="nf">the mark should be &quot;</span><span class="s">++++</span><span class="nf">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Scenario Outline Example - codebreaker_submits_guess.feature </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="k">Feature:</span><span class="nf"> code-breaker submits guess</span>
+</span><span class='line'><span class="nf">  As a code-breaker</span>
+</span><span class='line'><span class="nf">  I want to submit a guess</span>
+</span><span class='line'><span class="nf">  So that I can try to break the code</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">  </span><span class="k">Scenario Outline:</span><span class="nf"> submit guess</span>
+</span><span class='line'><span class="k">    Given </span><span class="nf">the secret code is &quot;</span><span class="nv">&lt;code&gt;</span><span class="nf">&quot;</span>
+</span><span class='line'><span class="nf">    </span><span class="k">When </span><span class="nf">I guess &quot;</span><span class="nv">&lt;guess&gt;</span><span class="nf">&quot;</span>
+</span><span class='line'><span class="nf">    </span><span class="k">Then </span><span class="nf">the mark should be &quot;</span><span class="nv">&lt;mark&gt;</span><span class="nf">&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">  </span><span class="k">Scenarios:</span><span class="nf"> all numbers correct</span><span class="k"></span>
+</span><span class='line'><span class="k">    |</span><span class="nv"> code</span><span class="k"> |</span><span class="nv"> guess</span><span class="k"> |</span><span class="nv"> mark</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">    |</span><span class="s"> 1234</span><span class="k"> |</span><span class="s"> 1234</span><span class="k">  |</span><span class="s"> ++++</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">    |</span><span class="s"> 1234</span><span class="k"> |</span><span class="s"> 1243</span><span class="k">  |</span><span class="s"> ++--</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">    |</span><span class="s"> 1234</span><span class="k"> |</span><span class="s"> 1423</span><span class="k">  |</span><span class="s"> +---</span><span class="k"> |</span><span class="nf"></span>
+</span><span class='line'><span class="k">    |</span><span class="s"> 1234</span><span class="k"> |</span><span class="s"> 4321</span><span class="k">  |</span><span class="s"> ----</span><span class="k"> | </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Automating Features with Cucumber</h3>
+
+<p>在<code>features</code>目录下创建<code>step_definitions</code>目录, 然后再里面添加一个<code>codebreaker_steps.rb</code>文件</p>
+
+<p><strong> Step Definition Methods </strong></p>
+
+<blockquote><ul>
+<li><strong> Given() </strong> 给出背景条件(context)　　</li>
+<li><strong> When() </strong> 执行动作　　</li>
+<li><strong> Then() </strong> 校验结果　　</li>
+<li><strong> And()与But() </strong> 与上一个Given(),When(),或Then()意义相同, 只为使整个描述看起来更近似自然语言.</li>
+</ul>
+</blockquote>
+
+<h3>Describing Code with RSpec</h3>
+
+<p>项目下创建<code>spec/codebreaker/</code>, 然后在里面添加<code>game_spec.rb</code><br/>
+原则是每个source文件要对应一个spec文件</p>
+
+<figure class='code'><figcaption><span>game_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Codebreaker</span>
+</span><span class='line'>  <span class="n">describe</span> <span class="no">Game</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">describe</span> <span class="s2">&quot;#start&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">it</span> <span class="s2">&quot;sends a welcome message&quot;</span>
+</span><span class='line'>      <span class="n">it</span> <span class="s2">&quot;prompts for the first guess&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在<code>spec/codebreaker/</code>下添加一个<code>spec_helper.rb</code></p>
+
+<figure class='code'><figcaption><span>spec_helper.rb`</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;codebreaker&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>it()方法如果不传入代码块, 会被当做pending的方法</p>
+
+<p>可以用<code>double("xxx")</code>方法得到一个<a href="http://en.wikipedia.org/wiki/Test_double">test double(测试替身)</a><br/>
+<code>double("xxx").as_null_object</code>会让替身只关心指定给它的被期待的消息, 而忽略其他消息</p>
+
+<figure class='code'><figcaption><span>game_spec.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Codebreaker</span>
+</span><span class='line'>  <span class="n">describe</span> <span class="no">Game</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">describe</span> <span class="s2">&quot;#start&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">it</span> <span class="s2">&quot;sends a welcome message&quot;</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">output</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_null_object</span>
+</span><span class='line'>        <span class="n">game</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">output</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:puts</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="s1">&#39;Welcome to Codebreaker!&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">game</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">it</span> <span class="s2">&quot;prompts for the first guess&quot;</span> <span class="k">do</span>
+</span><span class='line'>        <span class="n">output</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_null_object</span>
+</span><span class='line'>        <span class="n">game</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">output</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:puts</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="s1">&#39;Enter guess:&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">game</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> before(:each) {} </strong><br/>
+传入block里的内容在每个example的顶部执行<br/>
+可用这个方法创建实例变量并赋值</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@output</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_null_object</span>
+</span><span class='line'>  <span class="vi">@game</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="vi">@output</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> let(:method) {} </strong><br/>
+传入的symbol作为方法名, 传入的block被当做方法体</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span><span class="p">(</span><span class="ss">:output</span><span class="p">)</span> <span class="p">{</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_null_object</span> <span class="p">}</span>
+</span><span class='line'><span class="n">let</span><span class="p">(</span><span class="ss">:game</span><span class="p">)</span> <span class="p">{</span> <span class="no">Game</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="/categories/#RSpec" title="Pages tagged RSpec" class="tag">RSpec</a><a href="/categories/#cucumber" title="Pages tagged cucumber" class="tag">cucumber</a><a href="/categories/#test" title="Pages tagged test" class="tag">test</a></span>
+        <span><a href="/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec/" rel="bookmark" title="The RSpec Book笔记(二) 初窥cucumber与RSpec ">The RSpec Book笔记(二) 初窥cucumber与RSpec </a> was published on <span class="entry-date date published updated"><time datetime="2014-04-29T10:38:36+08:00">April 29, 2014</time></span></span>
+        
+        <span class="author vcard"><span class="fn"><a href="" title="About banban">banban</a></span></span>
+        
+      </footer>
+    </div><!-- /.entry-content -->
+    
+      <div class="read-more">
+        
+          <div class="read-more-header">
+            <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" class="btn">Read More</a>
+          </div><!-- /.read-more-header -->
+          <div class="read-more-content">
+            <h3><a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" title="Mac上搭建Phonegap环境">Mac上搭建Phonegap环境</a></h3>
+            <p>话说好久没有更新Blog了。八九两个月各种事情，工作也是一换再换。现在终于能够以远程的形式重新加入一家创业公司，为心理咨询的事业奋斗。公司给配了台Macbook Pro，近期要开始着力移动端的开发，简单粗暴的phonegap第一版已经发布了，我这边也需要尽快对安卓、 &hellip;&hellip; <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/"> Continue reading</a></p>
+          </div><!-- /.read-more-content -->
+        
+        <div class="read-more-list">
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/" title="Rails遗留程序里最常犯的错误(译)">Rails遗留程序里最常犯的错误(译)</a></h4>
+              <span>Published on July 23, 2014</span>
+            </div><!-- /.list-item -->
+          
+            <div class="list-item">
+              <h4><a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" title="使用RSpec编写具有可读性的功能测试(译)">使用RSpec编写具有可读性的功能测试(译)</a></h4>
+              <span>Published on July 15, 2014</span>
+            </div><!-- /.list-item -->
+          
+        </div><!-- /.read-more-list -->
+      </div><!-- /.read-more -->
+    
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2015 banban. Powered by <a href="http://octopress.org">Octopress</a> using the <a href="https://github.com/Z1MM32M4N/hpstr-theme/">HPSTR Theme for Octopress</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+
+	        
+<script src="http://blog-banban.qiniudn.com/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/javascripts/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/javascripts/octopress.js" type="text/javascript"></script>
+<script src="/javascripts/scripts.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'banban';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.banban.me/blog/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec/';
+        var disqus_url = 'http://blog.banban.me/blog/blog/2014/04/29/the-rspec-bookbi-ji-er-chu-kui-cucumberyu-rspec/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>
