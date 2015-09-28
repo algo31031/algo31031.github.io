@@ -133,6 +133,64 @@
 <header>
   <div class="entry-meta">
     <span class="entry-date date published updated">
+      <time datetime="2012-04-06T11:46:21+08:00">
+        <a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/">April 06, 2012</a>
+      </time>
+    </span>
+    <span class="author vcard">
+      <span class="fn">
+        <a href="" title="About banban">banban</a>
+      </span>
+    </span>
+    
+      &nbsp; &bull; &nbsp;<span class="entry-comments">
+        <a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/#disqus_thread">Comment</a>
+      </span>
+    
+  </div><!-- /.entry-meta -->
+  
+    <h1 class="entry-title">
+      <a href="/blog/2012/04/06/an-zhuang-rmagickchu-cuo/" rel="bookmark" title="安装rmagick出错" itemprop="url">安装rmagick出错</a>
+    </h1>
+  
+</header>
+
+<div class="entry-content">
+  <p>报错信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Building native extensions.  This could take a while...
+</span><span class='line'>ERROR:  Error installing rmagick:
+</span><span class='line'>ERROR: Failed to build gem native extension.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决办法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install libmagick9-dev
+</span></code></pre></td></tr></table></div></figure>
+
+
+  
+  
+</div><!-- /.entry-content -->
+
+
+
+
+
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  
+
+
+
+<header>
+  <div class="entry-meta">
+    <span class="entry-date date published updated">
       <time datetime="2012-03-26T17:27:06+08:00">
         <a href="/blog/2012/03/26/database-dot-ymlli-passwordru-guo-quan-bu-wei-shu-zi-xu-yao-jia/">March 26, 2012</a>
       </time>
@@ -226,56 +284,6 @@
 <h3>如果使用Bundler</h3>
 
 <p>修改你的 Gemfile 将 <code>http://rubygems.org</code> 改为 <code>http://ruby.taobao.org/</code></p>
-
-  
-  
-</div><!-- /.entry-content -->
-
-
-
-
-
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  
-
-
-
-<header>
-  <div class="entry-meta">
-    <span class="entry-date date published updated">
-      <time datetime="2012-03-26T10:47:59+08:00">
-        <a href="/blog/2012/03/26/rvm-is-not-a-function/">March 26, 2012</a>
-      </time>
-    </span>
-    <span class="author vcard">
-      <span class="fn">
-        <a href="" title="About banban">banban</a>
-      </span>
-    </span>
-    
-      &nbsp; &bull; &nbsp;<span class="entry-comments">
-        <a href="/blog/2012/03/26/rvm-is-not-a-function/#disqus_thread">Comment</a>
-      </span>
-    
-  </div><!-- /.entry-meta -->
-  
-    <h1 class="entry-title">
-      <a href="/blog/2012/03/26/rvm-is-not-a-function/" rel="bookmark" title="RVM Is Not a Function" itemprop="url">RVM Is Not a Function</a>
-    </h1>
-  
-</header>
-
-<div class="entry-content">
-  <p>在主文件夹<code>.bashrc</code>中加入一行</p>
-
-<pre><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm"
-</code></pre>
-
-<p>如果终端设置成<a href="http://worldofgnome.org/understanding-run-command-as-a-login-shell-option-in-gnome-terminal/">以登录shell方式运行命令(Run command as login shell)</a>，则修改<code>.bash_profile</code></p>
-
-<p>重启终端</p>
 
   
   

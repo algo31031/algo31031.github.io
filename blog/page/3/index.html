@@ -133,6 +133,148 @@
 <header>
   <div class="entry-meta">
     <span class="entry-date date published updated">
+      <time datetime="2014-06-25T16:14:10+08:00">
+        <a href="/blog/2014/06/25/ajaxgun-dong-fen-ye/">June 25, 2014</a>
+      </time>
+    </span>
+    <span class="author vcard">
+      <span class="fn">
+        <a href="" title="About banban">banban</a>
+      </span>
+    </span>
+    
+      &nbsp; &bull; &nbsp;<span class="entry-comments">
+        <a href="/blog/2014/06/25/ajaxgun-dong-fen-ye/#disqus_thread">Comment</a>
+      </span>
+    
+  </div><!-- /.entry-meta -->
+  
+    <h1 class="entry-title">
+      <a href="/blog/2014/06/25/ajaxgun-dong-fen-ye/" rel="bookmark" title="Ajax滚动分页" itemprop="url">Ajax滚动分页</a>
+    </h1>
+  
+</header>
+
+<div class="entry-content">
+  <p>还是记录一下吧, 不然时间一久又会像之前一样把细节忘掉</p>
+
+<h3>需求</h3>
+
+<p>聊天记录只显示最近50条, 若要查看历史记录, 可将记录向上滚动. 至顶部后自动加载上50条.</p>
+
+<h3>技术要点</h3>
+
+<p>页面加载完之后, 设置容器scrollTop将其定位到最底部</p>
+
+<p>监测div的scroll事件, 判断容器滚动条到顶部时(<code>$("container").scrollTop == 0</code>), 发ajax请求.<br/>
+进行中的风车gif图, 可在ajax onCreate和onSuccess里控制显示/隐藏.</p>
+
+<p>controller按照常规分页查询处理即可.</p>
+
+<p>response时, 要分别保存新纪录插入容器前后, 容器的scrollHeight值, 存入局部变量,<br/>
+待新记录在容器里render完后, 修改容器的scrollTop值为2次scrollHeight之差,
+从而使容器滚动位置在页面看来保持不变</p>
+
+<h3>代码片段</h3>
+
+<p>rails2.3项目, js框架使用的prototype&hellip;</p>
+
+<figure class='code'><figcaption><span>view层js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">document.observe(&quot;dom:loaded&quot;, function() {</span>
+</span><span class='line'><span class="x">  $(&quot;chat_list&quot;).scrollTop = $(&quot;chat_list&quot;).scrollHeight;    </span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  $(&quot;chat_list&quot;).observe(&quot;scroll&quot;, function(){</span>
+</span><span class='line'><span class="x">    if(this.scrollTop == 0) {</span>
+</span><span class='line'><span class="x">      var page = $(&quot;page&quot;).value;</span>
+</span><span class='line'><span class="x">      new Ajax.Request(&#39;/mypage/chat_team/load_history_logs/</span><span class="cp">&lt;%=</span> <span class="vi">@chat_team</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&#39;, </span>
+</span><span class='line'><span class="x">        { method: &#39;get&#39;, </span>
+</span><span class='line'><span class="x">          parameters: { page: page },</span>
+</span><span class='line'><span class="x">          onCreate: function(){</span>
+</span><span class='line'><span class="x">            $(&quot;wait&quot;).show();</span>
+</span><span class='line'><span class="x">          },</span>
+</span><span class='line'><span class="x">          onSuccess: function(){</span>
+</span><span class='line'><span class="x">            $(&quot;wait&quot;).hide();</span>
+</span><span class='line'><span class="x">          }</span>
+</span><span class='line'><span class="x">        }</span>
+</span><span class='line'><span class="x">      );      </span>
+</span><span class='line'><span class="x">    }</span>
+</span><span class='line'><span class="x">  });    </span>
+</span><span class='line'><span class="x">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>controller</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">load_history_logs</span>
+</span><span class='line'>  <span class="vi">@page</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">].</span><span class="n">to_i</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="vi">@chat_logs</span> <span class="o">=</span> <span class="vi">@chat_team</span><span class="o">.</span><span class="n">chat_logs</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span>
+</span><span class='line'>                    <span class="ss">:all</span><span class="p">,</span>
+</span><span class='line'>                    <span class="ss">:page</span> <span class="o">=&gt;</span> <span class="vi">@page</span><span class="p">,</span>
+</span><span class='line'>                    <span class="ss">:per_page</span> <span class="o">=&gt;</span> <span class="no">ChatLog</span><span class="o">::</span><span class="no">RECENT_LOGS_SIZE</span><span class="p">,</span>
+</span><span class='line'>                    <span class="ss">:order</span> <span class="o">=&gt;</span> <span class="s2">&quot;created_at DESC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">render</span> <span class="ss">:update</span> <span class="k">do</span> <span class="o">|</span><span class="n">page</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">page</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;$(&#39;page&#39;).value = </span><span class="si">#{</span><span class="vi">@page</span><span class="si">}</span><span class="s2">;&quot;</span>
+</span><span class='line'>    <span class="n">page</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;var oldHeight = $(&#39;chat_list&#39;).scrollHeight;&quot;</span>
+</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">insert_html</span><span class="p">(</span><span class="ss">:top</span><span class="p">,</span> <span class="s2">&quot;chat_list&quot;</span><span class="p">,</span> <span class="n">render</span><span class="p">(</span><span class="ss">:partial</span> <span class="o">=&gt;</span> <span class="s2">&quot;/mypage/chat_team/chat_log&quot;</span><span class="p">,</span> <span class="ss">:collection</span> <span class="o">=&gt;</span> <span class="vi">@chat_logs</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">page</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;var newHeight = $(&#39;chat_list&#39;).scrollHeight;&quot;</span>
+</span><span class='line'>    <span class="n">page</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;$(&#39;chat_list&#39;).scrollTop = newHeight - oldHeight;&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+  
+  
+</div><!-- /.entry-content -->
+
+
+
+
+
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  
+
+
+
+<header>
+  <div class="entry-meta">
+    <span class="entry-date date published updated">
       <time datetime="2014-06-19T16:20:03+08:00">
         <a href="/blog/2014/06/19/everyday-rails-rspec/">June 19, 2014</a>
       </time>
@@ -411,7 +553,7 @@ The RSpec Book前半部分偏理论性的东西很多, 啃得很生硬<br/>
 
 <blockquote><p>   site url:         <a href="http://www.e-trust.com.cn/">http://www.e-trust.com.cn/</a>  <br/>
    email address:    han.bing@.e-trust.com.cn<br/>
-   account:          <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#58;&#x61;&#x6c;&#x67;&#x6f;&#51;&#49;&#x30;&#x33;&#49;&#x40;&#103;&#109;&#97;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;">&#97;&#108;&#103;&#x6f;&#x33;&#49;&#x30;&#x33;&#49;&#64;&#103;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;</a></p></blockquote>
+   account:          <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#97;&#108;&#x67;&#111;&#x33;&#x31;&#48;&#x33;&#49;&#64;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#99;&#x6f;&#109;">&#x61;&#x6c;&#103;&#111;&#51;&#x31;&#x30;&#51;&#x31;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#x63;&#111;&#109;</a></p></blockquote>
 
 <p> 同时您还需要更改您的个人信息, 在 Web Site URL: 填入您公司的首页,<br/>
  Web Site URL: 的具体位置见下图:</p>
@@ -574,260 +716,6 @@ The RSpec Book前半部分偏理论性的东西很多, 啃得很生硬<br/>
 
 <p> 更换完IP之后记得要把vpn连接信息里的地址一并替换掉</p></li>
 </ol>
-
-
-  
-  
-</div><!-- /.entry-content -->
-
-
-
-
-
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  
-
-
-
-<header>
-  <div class="entry-meta">
-    <span class="entry-date date published updated">
-      <time datetime="2014-06-09T10:11:16+08:00">
-        <a href="/blog/2014/06/09/the-rspec-bookbi-ji-ba-cucumber/">June 09, 2014</a>
-      </time>
-    </span>
-    <span class="author vcard">
-      <span class="fn">
-        <a href="" title="About banban">banban</a>
-      </span>
-    </span>
-    
-      &nbsp; &bull; &nbsp;<span class="entry-comments">
-        <a href="/blog/2014/06/09/the-rspec-bookbi-ji-ba-cucumber/#disqus_thread">Comment</a>
-      </span>
-    
-  </div><!-- /.entry-meta -->
-  
-    <h1 class="entry-title">
-      <a href="/blog/2014/06/09/the-rspec-bookbi-ji-ba-cucumber/" rel="bookmark" title="The RSpec Book笔记(八) Cucumber" itemprop="url">The RSpec Book笔记(八) Cucumber</a>
-    </h1>
-  
-</header>
-
-<div class="entry-content">
-  <h3>Given/When/Then</h3>
-
-<p><strong> Given </strong> 用来表示在一个scenario中我们认可为true的事物.<br/>
-通过这个声明来给出在scenario中要发生的事件的上下文语境</p>
-
-<p>given经常被误认为是先决条件, 但两者有概念上的不同:<br/>
-先决条件是指某种强制约束, 如果达不到某一条件就无法继续进行下去;<br/>
-但是given并被没有这种强制性, 为了使特定行为能满足其所需条件, given给出的条件可以被打破</p>
-
-<p>换言之, 可以有<code>Given the world is round</code>, 但绝不会有<code>Given the world is flat</code></p>
-
-<p><strong> When </strong> 用来表示scenario中的事件, 倾向于每个scenario只有一个独立事件</p>
-
-<p><strong> Then </strong> 表示期待的结果</p>
-
-<h3>Tags</h3>
-
-<p>通过类似实例变量<code>@xxx</code>的形式指定tag,可以对feature和scenario指定任意数量的tag</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='cucumber'><span class='line'><span class="nt">@approved</span><span class="nf"> </span><span class="nt">@iteration_12</span><span class="nf"></span>
-</span><span class='line'><span class="k">Feature:</span><span class="nf"> patient requests appointment</span>
-</span><span class='line'>
-</span><span class='line'><span class="nf">  @wip</span>
-</span><span class='line'><span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> patient selects available time</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>scenario会继承feature的tag, 运行时通过<code>--tags</code>指定执行</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cucumber --tags @wip             <span class="c">#执行全部有@wip的scenarios</span>
-</span><span class='line'>cucumber --tags @foo,@bar        <span class="c">#执行有@foo或者@bar的scenarios</span>
-</span><span class='line'>cucumber --tags @foo --tags @bar <span class="c">#执行同时有@foo和@bar的</span>
-</span><span class='line'>cucumber --tags ~@dev            <span class="c">#没有@dev的</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参数</h3>
-
-<p>在step definations中的正则表达式如果包含caputre group, 则会把他们作为参数传给代码块, 例如</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Given</span> <span class="sr">/^a hotel with &quot;([^&quot;]*)&quot; rooms and &quot;([^&quot;] *)&quot; bookings$/</span> <span class="k">do</span>
-</span><span class='line'>  <span class="o">|</span><span class="n">room_count</span><span class="p">,</span> <span class="n">booking_count</span><span class="o">|</span>
-</span><span class='line'>  <span class="c1"># blablabla</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>而这些step使用时候, 参数的部分也最好用引号括起来(非强制)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Scenario</span><span class="p">:</span> <span class="no">Successful</span> <span class="n">booking</span>
-</span><span class='line'>  <span class="no">Given</span> <span class="n">a</span> <span class="n">hotel</span> <span class="n">with</span> <span class="s2">&quot;5&quot;</span> <span class="n">rooms</span> <span class="ow">and</span> <span class="s2">&quot;0&quot;</span> <span class="n">bookings</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>World</h3>
-
-<p>所有的cucumber scenario都运行在一个被称作World的对象新的实例上下文里<br/>
-默认情况下World只是Object的实例, 在每个scenario之前被实例化<br/>
-对于同一scenario的所有step definitions, 其代码块都在相同的上下文执行</p>
-
-<p>可以使用<code>World()</code>方法自定义World, 方法接受一个或多个module</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">MyHelper</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">some_helper</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">World</span><span class="p">(</span><span class="no">MyHelper</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以在features或其子目录下的任意ruby文件里配置自定义的World,<br/>
-但是推荐的做法是将其放在<code>features/support/world.rb</code>下</p>
-
-<p>除了可以在World里混入代码块之外, 还可以更改用于实例化World的class的类型,<br/>
-只需要在<code>World()</code>方法传入代码块</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyWorld</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">some_helper</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">World</span> <span class="k">do</span>
-</span><span class='line'>  <span class="no">MyWorld</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Calling Steps Within Step Definitions</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">When</span> <span class="sr">/I transfer (.*) from (.*) to (.*)/</span> <span class="k">do</span> <span class="o">|</span><span class="n">amount</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="o">|</span>
-</span><span class='line'>  <span class="no">When</span> <span class="s2">&quot;I select </span><span class="si">#{</span><span class="n">source</span><span class="si">}</span><span class="s2"> as the source account&quot;</span>
-</span><span class='line'>  <span class="no">When</span> <span class="s2">&quot;I select </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2"> as the target account&quot;</span>
-</span><span class='line'>  <span class="no">When</span> <span class="s2">&quot;I set </span><span class="si">#{</span><span class="n">amount</span><span class="si">}</span><span class="s2"> as the amount&quot;</span>
-</span><span class='line'>  <span class="no">When</span> <span class="s2">&quot;I click transfer&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上代码等效于:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">When</span> <span class="sr">/I transfer (.*) from (.*) to (.*)/</span> <span class="k">do</span> <span class="o">|</span><span class="n">amount</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">steps</span> <span class="sx">%Q{</span>
-</span><span class='line'><span class="sx">    When I select </span><span class="si">#{</span><span class="n">source</span><span class="si">}</span><span class="sx"> as the source account</span>
-</span><span class='line'><span class="sx">    And I select </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="sx"> as the target account</span>
-</span><span class='line'><span class="sx">    And I set </span><span class="si">#{</span><span class="n">amount</span><span class="si">}</span><span class="sx"> as the amount</span>
-</span><span class='line'><span class="sx">    And I click transfer</span>
-</span><span class='line'><span class="sx">  }</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Tagged Hooks</h3>
-
-<p>Before(&ldquo;@foo,~@bar&rdquo;, &ldquo;@zap&rdquo;) do
-  puts &ldquo;This will run before each scenario tagged with @foo or not @bar AND @zap&rdquo;
-end</p>
-
-<h3>Background</h3>
-
-<p>有时hooks非技术人员难以理解, 可以用background</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Feature</span><span class="p">:</span> <span class="n">invite</span> <span class="n">friends</span>
-</span><span class='line'>  <span class="ss">Background</span><span class="p">:</span> <span class="no">Logged</span> <span class="k">in</span>
-</span><span class='line'>    <span class="no">Given</span> <span class="n">I</span> <span class="n">am</span> <span class="n">logged</span> <span class="k">in</span> <span class="n">as</span> <span class="s2">&quot;Aslak&quot;</span>
-</span><span class='line'>    <span class="no">And</span> <span class="n">the</span> <span class="n">following</span> <span class="n">people</span> <span class="ss">exist</span><span class="p">:</span>
-</span><span class='line'>      <span class="o">|</span> <span class="nb">name</span>   <span class="o">|</span> <span class="n">friend?</span> <span class="o">|</span>
-</span><span class='line'>      <span class="o">|</span> <span class="no">David</span>  <span class="o">|</span> <span class="n">yes</span>     <span class="o">|</span>
-</span><span class='line'>      <span class="o">|</span> <span class="no">Vidkun</span> <span class="o">|</span> <span class="n">no</span>      <span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Invite</span> <span class="n">someone</span> <span class="n">who</span> <span class="n">is</span> <span class="n">already</span> <span class="n">a</span> <span class="n">friend</span>
-</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Invite</span> <span class="n">someone</span> <span class="n">who</span> <span class="n">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">friend</span>
-</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Invite</span> <span class="n">someone</span> <span class="n">who</span> <span class="n">doesn</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">have</span> <span class="n">an</span> <span class="n">account</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>background在给定的feature里每个scenario之前执行,<br/>
-如果有<code>Before</code> hooks, 则先执行<code>Before</code>, 再执行background</p>
-
-<h3>Configuration</h3>
-
-<p>可以在为cucumber添加配置文件, 放在<code>cucumber.yml</code>或<code>config/cucumber.yml下</code></p>
-
-<figure class='code'><figcaption><span>cucumber.yml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">wip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">--tags @wip features</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>执行cucumber时</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cucumber -p wip
-</span></code></pre></td></tr></table></div></figure>
 
 
   

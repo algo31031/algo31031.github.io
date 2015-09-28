@@ -133,6 +133,77 @@
 <header>
   <div class="entry-meta">
     <span class="entry-date date published updated">
+      <time datetime="2015-09-28T09:20:19+08:00">
+        <a href="/blog/2015/09/28/customize-filter-for-activeadmin/">September 28, 2015</a>
+      </time>
+    </span>
+    <span class="author vcard">
+      <span class="fn">
+        <a href="" title="About banban">banban</a>
+      </span>
+    </span>
+    
+      &nbsp; &bull; &nbsp;<span class="entry-comments">
+        <a href="/blog/2015/09/28/customize-filter-for-activeadmin/#disqus_thread">Comment</a>
+      </span>
+    
+  </div><!-- /.entry-meta -->
+  
+    <h1 class="entry-title">
+      <a href="/blog/2015/09/28/customize-filter-for-activeadmin/" rel="bookmark" title="在ActiveAdmin下自定义filter" itemprop="url">在ActiveAdmin下自定义filter</a>
+    </h1>
+  
+</header>
+
+<div class="entry-content">
+  <p>rails4之后，之前的<code>model</code>里加入<code>search_methods :filter_name</code>的做法已经失效，需修改为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">PromoCode</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>    <span class="n">scope</span> <span class="ss">:by_tag_ids</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="p">{</span> <span class="n">with_tags</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ransackable_scopes</span><span class="p">(</span><span class="n">auth_object</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>      <span class="o">[</span><span class="ss">:by_tag_ids</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">PromoCode</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">filter</span> <span class="ss">:by_tag_ids</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">label</span><span class="p">:</span> <span class="s1">&#39;标签ID&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+  
+  
+</div><!-- /.entry-content -->
+
+
+
+
+
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  
+
+
+
+<header>
+  <div class="entry-meta">
+    <span class="entry-date date published updated">
       <time datetime="2014-10-02T11:36:33+08:00">
         <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/">October 02, 2014</a>
       </time>
@@ -1382,186 +1453,6 @@
 
 
 <p>更多关于Sandi Metz的规则请移步至<a href="http://robots.thoughtbot.com/">thoughtbot</a>,参阅<a href="http://robots.thoughtbot.com/sandi-metz-rules-for-developers">Sandi Metz&#8217; Rules For Developers</a>这篇博文。</p>
-
-  
-  
-</div><!-- /.entry-content -->
-
-
-
-
-
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  
-
-
-
-<header>
-  <div class="entry-meta">
-    <span class="entry-date date published updated">
-      <time datetime="2014-07-15T10:37:24+08:00">
-        <a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/">July 15, 2014</a>
-      </time>
-    </span>
-    <span class="author vcard">
-      <span class="fn">
-        <a href="" title="About banban">banban</a>
-      </span>
-    </span>
-    
-      &nbsp; &bull; &nbsp;<span class="entry-comments">
-        <a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/#disqus_thread">Comment</a>
-      </span>
-    
-  </div><!-- /.entry-meta -->
-  
-    <h1 class="entry-title">
-      <a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" rel="bookmark" title="使用RSpec编写具有可读性的功能测试(译)" itemprop="url">使用RSpec编写具有可读性的功能测试(译)</a>
-    </h1>
-  
-</header>
-
-<div class="entry-content">
-  <p>原文出自<a href="https://about.futurelearn.com/blog/how-we-write-readable-feature-tests-with-rspec/?utm_source=rubyweekly&amp;utm_medium=email">about.futurelearn.com</a>,感谢作者<a href="https://www.futurelearn.com/profiles/1390">Chris Zetter</a></p>
-
-<p><strong>Chris Zetter是FutureLearn产品组的一名开发者，他为我们讲述了自己的小组为了使功能测试兼具可维护性与可读性，在把Cucumber替换为RSpec之后是如何来编写测试的。</strong></p>
-
-<p>测试是建立与维护一个大型平台不可或缺的一部分。每当我们为FutureLearn这个平台增添新功能时，我们都会编写自动化的功能测试来记录这些新功能是如何运作的，并确保他们不运转时我们也能知晓。</p>
-
-<h3>令人爱恨交加的Cucumber</h3>
-
-<p>Cucumber是一款用来编写功能测试的常用工具，每当我们开启项目时它都是我们的不二选择。它可以让我们以用户的视角编写出高层级的行为驱动测试。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Feature</span><span class="p">:</span> <span class="no">Enrolment</span>
-</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Enrolling</span> <span class="k">in</span> <span class="n">a</span> <span class="n">course</span>
-</span><span class='line'>    <span class="no">Given</span> <span class="n">there</span> <span class="n">is</span> <span class="n">a</span> <span class="n">course</span>
-</span><span class='line'>    <span class="no">And</span> <span class="n">I</span> <span class="n">am</span> <span class="n">logged</span> <span class="k">in</span> <span class="n">as</span> <span class="n">a</span> <span class="n">learner</span>
-</span><span class='line'>    <span class="no">When</span> <span class="n">I</span> <span class="n">enrol</span> <span class="n">on</span> <span class="n">a</span> <span class="n">course</span>
-</span><span class='line'>    <span class="no">Then</span> <span class="n">the</span> <span class="n">course</span> <span class="n">should</span> <span class="n">appear</span> <span class="k">in</span> <span class="s1">&#39;my courses&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们乐于使用Cucumber因为它可以使根据用户故事编写测试变得简单易行，而且写完的测试通俗易懂。然而使用Cucumber也有些许不足之处。首先，我们已经在项目里使用了RSpec，再引入Cucumber意味着又要多维护一个测试框架；其次，由于两者的DSLs和测试运行器不同，在他们之间进行脑筋切换又会带来额外开销；最后，我们特别不喜欢Cucumber所使用的正则表达式，因为同Ruby的标准方法调用相比，它们使测试变得更加晦涩难懂。</p>
-
-<h3>编写更好的RSpec features</h3>
-
-<p>那么，我么该如何在不失测试可读性的前提下停用Cucumber呢？</p>
-
-<p>我们已经开始使用RSpec features来替代Cucumber，它们通常看起来会是这样：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">feature</span> <span class="s1">&#39;Enrolment&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">scenario</span> <span class="s1">&#39;Enrolling in a course&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">course</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:course</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">learner</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:learner</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">login_as</span> <span class="n">learner</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">visit</span> <span class="n">course_path</span><span class="p">(</span><span class="n">course</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s1">&#39;.join&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;Thanks for joining!&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_main_header</span><span class="p">(</span><span class="s1">&#39;My Courses&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="n">course</span><span class="o">.</span><span class="n">full_title</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>它们总是趋于变得很长，使得难以辨明其究竟在测试些什么。而且难以区分诸如Arrange, Act, Assert（在Cucumber里又被称为&#8217;Given&#8217;、&#8217;When&#8217;和&#8217;Then&#8217;）这些部分。我们试过在代码中这些步骤里添加注释，但它们就和通常那些程序代码里的注释一样不尽如人意：一段时间之后这些注释就变得与实际代码不同步了。</p>
-
-<p>一般来说，如果是在程序里别的地方写出这么长的方法，我们就会有所警觉，并且通常会采用提取方法的办法进行重构。何不也这么做呢？让我们依据Cucumber步骤的风格，把这些代码也提取成一个个方法吧。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">feature</span> <span class="s1">&#39;Enrolment&#39;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">scenario</span> <span class="s1">&#39;Enrolling in a course&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">given_there_is_a_course</span>
-</span><span class='line'>    <span class="n">and_i_am_logged_in_as_a_learner</span>
-</span><span class='line'>    <span class="n">when_i_enrol_on_a_course</span>
-</span><span class='line'>    <span class="n">then_the_course_should_appear_in_my_courses</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">given_there_is_a_course</span>
-</span><span class='line'>    <span class="vi">@course</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:course</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">and_i_am_logged_in_as_a_learner</span>
-</span><span class='line'>    <span class="vi">@learner</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:learner</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">login_as</span> <span class="vi">@learner</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">when_i_enrol_on_a_course</span>
-</span><span class='line'>    <span class="n">visit</span> <span class="n">course_path</span><span class="p">(</span><span class="vi">@course</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">find</span><span class="p">(</span><span class="s1">&#39;.join&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s1">&#39;Thanks for joining!&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">then_the_course_should_appear_in_my_courses</span>
-</span><span class='line'>    <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_main_header</span><span class="p">(</span><span class="s1">&#39;My Courses&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="vi">@course</span><span class="o">.</span><span class="n">full_title</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>我们有何发现</h3>
-
-<p>我们移除了全部的Cucumber功能测试，并把它们中大部分用新式的RSpec features加以重写。这样一来即可保证拥有Cucumber所提供的优秀的可读性，又使得测试变得更加便于编写和维护。</p>
-
-<p>我们做了一个慎重的决定，不把各个features文件里提取的方法进行复用，因为担心这么做会使得测试难于理解。我们发现在编写一个feature下的多条scenario时，会不自觉的就想要进行代码复用。</p>
 
   
   

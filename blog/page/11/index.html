@@ -133,6 +133,58 @@
 <header>
   <div class="entry-meta">
     <span class="entry-date date published updated">
+      <time datetime="2014-03-17T15:04:18+08:00">
+        <a href="/blog/2014/03/17/rhelhe-centosli-guan-bi-iptables/">March 17, 2014</a>
+      </time>
+    </span>
+    <span class="author vcard">
+      <span class="fn">
+        <a href="" title="About banban">banban</a>
+      </span>
+    </span>
+    
+      &nbsp; &bull; &nbsp;<span class="entry-comments">
+        <a href="/blog/2014/03/17/rhelhe-centosli-guan-bi-iptables/#disqus_thread">Comment</a>
+      </span>
+    
+  </div><!-- /.entry-meta -->
+  
+    <h1 class="entry-title">
+      <a href="/blog/2014/03/17/rhelhe-centosli-guan-bi-iptables/" rel="bookmark" title="RHEL和CentOS里关闭iptables" itemprop="url">RHEL和CentOS里关闭iptables</a>
+    </h1>
+  
+</header>
+
+<div class="entry-content">
+  <p>查看iptables状态：
+    $ sudo /etc/rc.d/init.d/iptables status</p>
+
+<p>iptables开机自动启动：
+    $ sudo chkconfig iptables on
+    $ sudo chkconfig iptables off</p>
+
+<p>iptables关闭服务：
+    $ sudo /etc/rc.d/init.d/iptables start
+    $ sudo /etc/rc.d/init.d/iptables stop</p>
+
+  
+  
+</div><!-- /.entry-content -->
+
+
+
+
+
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  
+
+
+
+<header>
+  <div class="entry-meta">
+    <span class="entry-date date published updated">
       <time datetime="2014-03-16T14:37:26+08:00">
         <a href="/blog/2014/03/16/linuxxia-tian-jia-yong-hu-bing-she-zhi-quan-xian/">March 16, 2014</a>
       </time>
@@ -318,266 +370,6 @@ Gherkin[Cucumber] Formatter
 按Enter确定&mdash;->选择2，自定义安装&mdash;->指定nginx源码位置：<code>/home/hanbing/nginx-1.3.10</code> &mdash;->默认安装位置不变，按回车继续&mdash;->  复制粘贴下面的配置：
     &ndash;with-http_flv_module &ndash;with-http_mp4_module &ndash;add-module=/home/hanbing/nginx-push-stream-module &ndash;add-module=/home/hanbing/gao.nginx-rtmp-module &ndash;with-pcre=/home/hanbing/pcre-8.31
 按回车键继续&mdash;->回车键确认配置正确，开始编译（若不正确输入no,回车，重新加配置）&mdash;->等编译&mdash;->回车over</p>
-
-  
-  
-</div><!-- /.entry-content -->
-
-
-
-
-
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  
-
-
-
-<header>
-  <div class="entry-meta">
-    <span class="entry-date date published updated">
-      <time datetime="2013-04-28T13:43:15+08:00">
-        <a href="/blog/2013/04/28/ubuntuxia-shi-yong-sublimetext2shu-ru-zhong-wen-wan-mei-jie-jue-ban-fa/">April 28, 2013</a>
-      </time>
-    </span>
-    <span class="author vcard">
-      <span class="fn">
-        <a href="" title="About banban">banban</a>
-      </span>
-    </span>
-    
-      &nbsp; &bull; &nbsp;<span class="entry-comments">
-        <a href="/blog/2013/04/28/ubuntuxia-shi-yong-sublimetext2shu-ru-zhong-wen-wan-mei-jie-jue-ban-fa/#disqus_thread">Comment</a>
-      </span>
-    
-  </div><!-- /.entry-meta -->
-  
-    <h1 class="entry-title">
-      <a href="/blog/2013/04/28/ubuntuxia-shi-yong-sublimetext2shu-ru-zhong-wen-wan-mei-jie-jue-ban-fa/" rel="bookmark" title="Ubuntu下使用SublimeText2输入中文完美解决办法" itemprop="url">Ubuntu下使用SublimeText2输入中文完美解决办法</a>
-    </h1>
-  
-</header>
-
-<div class="entry-content">
-  <p>卸载ibus，安装fcitx以及fcitx下的输入法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get remove ibus
-</span><span class='line'><span class="nv">$ </span>sudo add-apt-repository ppa:fcitx-team/nightly
-</span><span class='line'><span class="nv">$ </span>sudo apt-get update
-</span><span class='line'><span class="nv">$ </span>sudo apt-get install fcitx fcitx-bin fcitx-config-common fcitx-config-gtk fcitx-data fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt4 fcitx-googlepinyin fcitx-libs fcitx-module-dbus fcitx-module-x11 fcitx-modules fcitx-pinyin fcitx-table fcitx-table-wubi fcitx-ui-classic
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将以下代码保存为<code>sublime_imfix.c</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*</span>
-</span><span class='line'><span class="cm">sublime-imfix.c</span>
-</span><span class='line'><span class="cm">Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.</span>
-</span><span class='line'><span class="cm">By Cjacker Huang &lt;jianzhong.huang at i-soft.com.cn&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">gcc -shared -o libsublime-imfix.so sublime_imfix.c  `pkg-config --libs --cflags gtk+-2.0` -fPIC</span>
-</span><span class='line'><span class="cm">LD_PRELOAD=./libsublime-imfix.so sublime_text</span>
-</span><span class='line'><span class="cm">*/</span>
-</span><span class='line'><span class="cp">#include &lt;gtk/gtk.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;gdk/gdkx.h&gt;</span>
-</span><span class='line'><span class="k">typedef</span> <span class="n">GdkSegment</span> <span class="n">GdkRegionBox</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">struct</span> <span class="n">_GdkRegion</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">long</span> <span class="n">size</span><span class="p">;</span>
-</span><span class='line'>  <span class="kt">long</span> <span class="n">numRects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">GdkRegionBox</span> <span class="o">*</span><span class="n">rects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">GdkRegionBox</span> <span class="n">extents</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">GtkIMContext</span> <span class="o">*</span><span class="n">local_context</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">void</span>
-</span><span class='line'><span class="nf">gdk_region_get_clipbox</span> <span class="p">(</span><span class="k">const</span> <span class="n">GdkRegion</span> <span class="o">*</span><span class="n">region</span><span class="p">,</span>
-</span><span class='line'>            <span class="n">GdkRectangle</span>    <span class="o">*</span><span class="n">rectangle</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">g_return_if_fail</span> <span class="p">(</span><span class="n">region</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">g_return_if_fail</span> <span class="p">(</span><span class="n">rectangle</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">x</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">x1</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">y</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">y1</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">x2</span> <span class="o">-</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">x1</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">height</span> <span class="o">=</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">y2</span> <span class="o">-</span> <span class="n">region</span><span class="o">-&gt;</span><span class="n">extents</span><span class="p">.</span><span class="n">y1</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">GdkRectangle</span> <span class="n">rect</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">y</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">rect</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">height</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">//The caret width is 2; </span>
-</span><span class='line'>  <span class="c1">//Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">rectangle</span><span class="o">-&gt;</span><span class="n">width</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">GTK_IS_IM_CONTEXT</span><span class="p">(</span><span class="n">local_context</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">gtk_im_context_set_cursor_location</span><span class="p">(</span><span class="n">local_context</span><span class="p">,</span> <span class="n">rectangle</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//this is needed, for example, if you input something in file dialog and return back the edit area</span>
-</span><span class='line'><span class="c1">//context will lost, so here we set it again.</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">static</span> <span class="n">GdkFilterReturn</span> <span class="nf">event_filter</span> <span class="p">(</span><span class="n">GdkXEvent</span> <span class="o">*</span><span class="n">xevent</span><span class="p">,</span> <span class="n">GdkEvent</span> <span class="o">*</span><span class="n">event</span><span class="p">,</span> <span class="n">gpointer</span> <span class="n">im_context</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">XEvent</span> <span class="o">*</span><span class="n">xev</span> <span class="o">=</span> <span class="p">(</span><span class="n">XEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">xevent</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">xev</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">==</span> <span class="n">KeyRelease</span> <span class="o">&amp;&amp;</span> <span class="n">GTK_IS_IM_CONTEXT</span><span class="p">(</span><span class="n">im_context</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>       <span class="n">GdkWindow</span> <span class="o">*</span> <span class="n">win</span> <span class="o">=</span> <span class="n">g_object_get_data</span><span class="p">(</span><span class="n">G_OBJECT</span><span class="p">(</span><span class="n">im_context</span><span class="p">),</span><span class="s">&quot;window&quot;</span><span class="p">);</span>
-</span><span class='line'>       <span class="k">if</span><span class="p">(</span><span class="n">GDK_IS_WINDOW</span><span class="p">(</span><span class="n">win</span><span class="p">))</span>
-</span><span class='line'>         <span class="n">gtk_im_context_set_client_window</span><span class="p">(</span><span class="n">im_context</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">GDK_FILTER_CONTINUE</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">void</span> <span class="nf">gtk_im_context_set_client_window</span> <span class="p">(</span><span class="n">GtkIMContext</span> <span class="o">*</span><span class="n">context</span><span class="p">,</span>
-</span><span class='line'>          <span class="n">GdkWindow</span>    <span class="o">*</span><span class="n">window</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">GtkIMContextClass</span> <span class="o">*</span><span class="n">klass</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">g_return_if_fail</span> <span class="p">(</span><span class="n">GTK_IS_IM_CONTEXT</span> <span class="p">(</span><span class="n">context</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">klass</span> <span class="o">=</span> <span class="n">GTK_IM_CONTEXT_GET_CLASS</span> <span class="p">(</span><span class="n">context</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">klass</span><span class="o">-&gt;</span><span class="n">set_client_window</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">klass</span><span class="o">-&gt;</span><span class="n">set_client_window</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">window</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">GDK_IS_WINDOW</span> <span class="p">(</span><span class="n">window</span><span class="p">))</span>
-</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">g_object_set_data</span><span class="p">(</span><span class="n">G_OBJECT</span><span class="p">(</span><span class="n">context</span><span class="p">),</span><span class="s">&quot;window&quot;</span><span class="p">,</span><span class="n">window</span><span class="p">);</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="n">gdk_window_get_width</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
-</span><span class='line'>  <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="n">gdk_window_get_height</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">width</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">height</span> <span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">gtk_im_context_focus_in</span><span class="p">(</span><span class="n">context</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">local_context</span> <span class="o">=</span> <span class="n">context</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">gdk_window_add_filter</span> <span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">event_filter</span><span class="p">,</span> <span class="n">context</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>安装需要的库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install build-essential libgtk2.0-dev
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编译成共享库</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gcc -shared -o libsublime-imfix.so sublime_imfix.c <span class="sb">`</span>pkg-config --libs --cflags gtk+-2.0<span class="sb">`</span> -fPIC
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>运行<code>$ LD_PRELOAD=./libsublime-imfix.so sublime_text</code>即可启动(libsublime-imfix.so为编译生成的文件，sublime_text为执行文件的绝对路径)</p>
-
-<p>为方便使用，将<code>libsublime-imfix.so</code>放到<code>/usr/lib/</code>下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo cp ./libsublime-imfix.so /usr/lib/
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>创建<code>SublimeText2.desktop</code>,放到<code>/usr/share/applications/</code>下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Desktop Entry]
-</span><span class='line'>Type=Application
-</span><span class='line'>Name=SublimeText2
-</span><span class='line'>Comment=SublimeText2
-</span><span class='line'>Icon=/home/hanbing/Sublime Text 2/Icon/256x256/sublime_text.png
-</span><span class='line'>Exec=bash -c "LD_PRELOAD=/usr/lib/libsublime-imfix.so /home/hanbing/Sublime\ Text\ 2/sublime_text"
-</span><span class='line'>Terminal=false</span></code></pre></td></tr></table></div></figure>
-
-
-
 
   
   

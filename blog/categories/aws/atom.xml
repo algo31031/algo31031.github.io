@@ -4,7 +4,7 @@
   <title><![CDATA[Category: AWS | 老男孩的整理箱]]></title>
   <link href="http://blog.banban.me/blog/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://blog.banban.me/blog/"/>
-  <updated>2015-09-27T16:13:41+08:00</updated>
+  <updated>2015-09-28T09:31:23+08:00</updated>
   <id>http://blog.banban.me/blog/</id>
   <author>
     <name><![CDATA[banban]]></name>
@@ -57,7 +57,7 @@
 
 <blockquote><p>   site url:         <a href="http://www.e-trust.com.cn/">http://www.e-trust.com.cn/</a>  <br/>
    email address:    han.bing@.e-trust.com.cn<br/>
-   account:          <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#97;&#108;&#103;&#111;&#51;&#x31;&#x30;&#51;&#49;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;">&#x61;&#x6c;&#x67;&#x6f;&#x33;&#49;&#48;&#x33;&#49;&#x40;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#x6d;</a></p></blockquote>
+   account:          <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#97;&#108;&#x67;&#111;&#51;&#49;&#x30;&#x33;&#x31;&#x40;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#109;">&#97;&#108;&#x67;&#111;&#x33;&#x31;&#x30;&#51;&#49;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a></p></blockquote>
 
 <p> 同时您还需要更改您的个人信息, 在 Web Site URL: 填入您公司的首页,<br/>
  Web Site URL: 的具体位置见下图:</p>
@@ -361,8 +361,8 @@
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir Cookbooks
 </span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>Cookbooks
-</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#118;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#110;&amp;#x74;&amp;#64;&amp;#x78;&amp;#120;&amp;#46;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#x78;&amp;#46;&amp;#x78;&amp;#x78;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#118;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#x40;&amp;#x78;&amp;#x78;&amp;#46;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#120;&lt;/a&gt;(您的EC2 instance的public ip)</span>
-</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#x76;&amp;#97;&amp;#x67;&amp;#x72;&amp;#x61;&amp;#110;&amp;#116;&amp;#x40;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#x76;&amp;#x61;&amp;#x67;&amp;#114;&amp;#97;&amp;#110;&amp;#116;&amp;#x40;&amp;#120;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#x78;&amp;#x78;&lt;/a&gt;(您的EC2 instance的public ip) nodes/osapp01d,json</span>
+</span><span class='line'><span class="nv">$ </span>knife solo prepare &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#58;&amp;#118;&amp;#x61;&amp;#103;&amp;#114;&amp;#x61;&amp;#110;&amp;#x74;&amp;#64;&amp;#120;&amp;#120;&amp;#46;&amp;#120;&amp;#120;&amp;#46;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#x76;&amp;#97;&amp;#x67;&amp;#114;&amp;#97;&amp;#110;&amp;#116;&amp;#x40;&amp;#x78;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#46;&amp;#120;&amp;#120;&lt;/a&gt;(您的EC2 instance的public ip)</span>
+</span><span class='line'><span class="nv">$ </span>knife solo cook &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#x76;&amp;#x61;&amp;#103;&amp;#114;&amp;#x61;&amp;#x6e;&amp;#116;&amp;#x40;&amp;#120;&amp;#120;&amp;#x2e;&amp;#120;&amp;#x78;&amp;#46;&amp;#x78;&amp;#120;&amp;#46;&amp;#120;&amp;#x78;&quot;</span>&gt;<span class="p">&amp;</span><span class="c">#118;&amp;#x61;&amp;#103;&amp;#114;&amp;#97;&amp;#x6e;&amp;#x74;&amp;#64;&amp;#120;&amp;#x78;&amp;#x2e;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&amp;#46;&amp;#x78;&amp;#120;&lt;/a&gt;(您的EC2 instance的public ip) nodes/osapp01d,json</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>关于文件夹同步</h3>

@@ -133,6 +133,360 @@
 <header>
   <div class="entry-meta">
     <span class="entry-date date published updated">
+      <time datetime="2014-05-19T16:04:29+08:00">
+        <a href="/blog/2014/05/19/the-rspec-bookbi-ji-liu-rspec-mocks/">May 19, 2014</a>
+      </time>
+    </span>
+    <span class="author vcard">
+      <span class="fn">
+        <a href="" title="About banban">banban</a>
+      </span>
+    </span>
+    
+      &nbsp; &bull; &nbsp;<span class="entry-comments">
+        <a href="/blog/2014/05/19/the-rspec-bookbi-ji-liu-rspec-mocks/#disqus_thread">Comment</a>
+      </span>
+    
+  </div><!-- /.entry-meta -->
+  
+    <h1 class="entry-title">
+      <a href="/blog/2014/05/19/the-rspec-bookbi-ji-liu-rspec-mocks/" rel="bookmark" title="The RSpec Book笔记(六) RSpec::Mocks" itemprop="url">The RSpec Book笔记(六) RSpec::Mocks</a>
+    </h1>
+  
+</header>
+
+<div class="entry-content">
+  <h2>Chapter 14 RSpec::Mocks</h2>
+
+<h3>Test Doubles, Method Stubs, Message Expectations</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">thingamajig_double</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;thing-a-ma-jig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">stub_thingamajig</span> <span class="o">=</span> <span class="n">stub</span><span class="p">(</span><span class="s1">&#39;thing-a-ma-jig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">mock_thingamajig</span> <span class="o">=</span> <span class="n">mock</span><span class="p">(</span><span class="s1">&#39;thing-a-ma-jig&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>double()</code>,<code>stub()</code>,<code>mock()</code>都会返回一个<code>RSpec::Mocks::Mock</code>的实例<br/>
+可以在这个实例上生成method stubs和message expectations</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Statement</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;logs a message on generate()&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">customer</span> <span class="o">=</span> <span class="n">stub</span><span class="p">(</span><span class="s1">&#39;customer&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">customer</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;Aslak&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">logger</span> <span class="o">=</span> <span class="n">mock</span><span class="p">(</span><span class="s1">&#39;logger&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">statement</span> <span class="o">=</span> <span class="no">Statement</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">customer</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:log</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="sr">/Statement generated for Aslak/</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">statement</span><span class="o">.</span><span class="n">generate</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这段代码中, <code>stub('customer')</code>和m<code>mock('logger')</code>分别生成了2个test double</p>
+
+<p><code>customer.stub(:name)</code>为customer double添加了一个method stub(打桩方法), :name为方法名
+<code>and_return('Aslak')</code>表示:name的返回值为Aslak</p>
+
+<p><code>logger.should_receive(:log)</code>为logger double设置了一个对于message <code>name()</code> 的expectation<br/>
+后面的<code>generate()</code>方法里, 如果<code>logger</code>对<code>log()</code>的调用失败, 则整个example会fail<br/>
+否则会判断<code>logger.should_receive(:log)</code>后面的条件是否满足(此处为<code>with(xxx)</code>,即<code>log()</code>调用是否带参数xxx)</p>
+
+<p><strong> partial stubbing, partial mocking </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">WidgetsController</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">describe</span> <span class="s2">&quot;PUT update with valid attributes&quot;</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;finds the widget&quot;</span>
+</span><span class='line'>      <span class="n">widget</span> <span class="o">=</span> <span class="no">Widget</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>      <span class="n">widget</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:update_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">Widget</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:find</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="s2">&quot;37&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">put</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="mi">37</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;updates the widget&#39;s attributes&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">widget</span> <span class="o">=</span> <span class="no">Widget</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>      <span class="no">Widget</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:find</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">widget</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:update_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">put</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="mi">37</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;redirects to the list of widgets&quot;</span>
+</span><span class='line'>      <span class="n">widget</span> <span class="o">=</span> <span class="no">Widget</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>      <span class="no">Widget</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:find</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">widget</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:update_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">put</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="mi">37</span>
+</span><span class='line'>      <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">redirect_to</span><span class="p">(</span><span class="n">widgets_path</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>更多关于Method Stubs</h3>
+
+<p><strong> One-Line Shortcut </strong></p>
+
+<p><code>double()</code>,<code>stub()</code>,<code>mock()</code>第一个参数非必填但是强烈建议有, 因为其会作为失败时的消息<br/>
+此外还可以接受一个hash作为第二参数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">customer</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;customer&#39;</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Bryan&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等效于</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">customer</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;customer&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">customer</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;Bryan&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> Implementation Injection </strong></p>
+
+<p>如果一个stub method需要使用多次而且根据条件不同会有不同返回值, 可以用如下方法<br/>
+多用于<code>before()</code>里</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ages</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;ages&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">ages</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:age_for</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">what</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s1">&#39;drinking&#39;</span>
+</span><span class='line'>    <span class="mi">21</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">what</span> <span class="o">==</span> <span class="s1">&#39;voting&#39;</span>
+</span><span class='line'>    <span class="mi">18</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> 方法链 </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span> <span class="o">=</span> <span class="n">double</span><span class="p">()</span>
+</span><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">stub_chain</span><span class="p">(</span><span class="ss">:recent</span><span class="p">,</span> <span class="ss">:published</span><span class="p">,</span> <span class="ss">:authored_by</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>更多关于Message Expectations</h3>
+
+<p><strong> 执行次数 </strong></p>
+
+<p><code>should_receive(:xxx)</code>要求<code>xxx()</code>被调用且只调用一次, 如果希望调用若干次, 可采用下列方式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">mock_account</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">exactly</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">times</span>
+</span><span class='line'><span class="n">network_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:open_connection</span><span class="p">)</span><span class="o">.</span><span class="n">at_most</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">times</span>
+</span><span class='line'><span class="n">network_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:open_connection</span><span class="p">)</span><span class="o">.</span><span class="n">at_least</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">times</span>
+</span><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">once</span>
+</span><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:deposit</span><span class="p">)</span><span class="o">.</span><span class="n">twice</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果期待方法不被调用,要使用<code>should_not_receive</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">network_double</span><span class="o">.</span><span class="n">should_not_receive</span><span class="p">(</span><span class="ss">:open_connection</span><span class="p">)</span>
+</span><span class='line'><span class="n">network_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:open_connection</span><span class="p">)</span><span class="o">.</span><span class="n">never</span>              <span class="c1">#不推荐</span>
+</span><span class='line'><span class="n">network_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:open_connection</span><span class="p">)</span><span class="o">.</span><span class="n">exactly</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">times</span>   <span class="c1">#不推荐</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> 指定期待的参数, <code>with()</code> </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">### 指定一个参数, 且值为50</span>
+</span><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</span><span class='line'><span class="c1">### 可以指定任意个参数</span>
+</span><span class='line'><span class="n">checking_account</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:transfer</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">savings_account</span><span class="p">)</span>
+</span><span class='line'><span class="c1">### 第一个参数为给定值, 第二个参数为Fixnum型任意值</span>
+</span><span class='line'><span class="n">source_account</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:transfer</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">target_account</span><span class="p">,</span> <span class="n">instance_of</span><span class="p">(</span><span class="no">Fixnum</span><span class="p">))</span>
+</span><span class='line'><span class="c1">### 第一个参数可以为任意类型任意值</span>
+</span><span class='line'><span class="n">source_account</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:transfer</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">anything</span><span class="p">(),</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'><span class="c1">### 任意类型任意数量参数</span>
+</span><span class='line'><span class="n">source_account</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:transfer</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">any_args</span><span class="p">())</span>
+</span><span class='line'><span class="c1">### 不传参数</span>
+</span><span class='line'><span class="n">collaborator</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:message</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">no_args</span><span class="p">())</span>
+</span><span class='line'><span class="c1">### 参数为包含/不包含给定key/value的Hash</span>
+</span><span class='line'><span class="n">with</span><span class="p">(</span><span class="n">hash_including</span><span class="p">(</span><span class="s1">&#39;Electric&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;Gas&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;234&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="n">with</span><span class="p">(</span><span class="n">hash_not_including</span><span class="p">(</span><span class="s1">&#39;Electric&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;Gas&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;234&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="c1">### 正则表达式</span>
+</span><span class='line'><span class="n">mock_atm</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:login</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="sr">/.* User/</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> 自定义的Argument Matchers </strong></p>
+
+<p>自定义一个类, 然后重写<code>==(actual)</code>方法即可<br/>
+也可以添加一个<code>description()</code>方法以提供失败时输出的信息</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">GreaterThanMatcher</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@expected</span> <span class="o">=</span> <span class="n">expected</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">description</span>
+</span><span class='line'>    <span class="s2">&quot;a number greater than </span><span class="si">#{</span><span class="vi">@expected</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">==</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">actual</span> <span class="o">&gt;</span> <span class="vi">@expected</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">greater_than</span><span class="p">(</span><span class="n">floor</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">GreaterThanMatcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">floor</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">calculator</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:add</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">greater_than</span><span class="p">(</span><span class="mi">37</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> Throwing or Raising </strong></p>
+
+<p><code>and_raise()</code>可以不传参/一个参数(异常类或异常类实例)<br/>
+<code>and_throw()</code>传symbol</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">and_raise</span>
+</span><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">and_raise</span><span class="p">(</span><span class="no">InsufficientFunds</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">the_exception</span> <span class="o">=</span> <span class="no">InsufficientFunds</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:reason</span> <span class="o">=&gt;</span> <span class="ss">:on_hold</span><span class="p">)</span>
+</span><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">and_raise</span><span class="p">(</span><span class="n">the_exception</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">account_double</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:withdraw</span><span class="p">)</span><span class="o">.</span><span class="n">and_throw</span><span class="p">(</span><span class="ss">:insufficient_funds</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong> 按序执行 </strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">database</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:count</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="s1">&#39;Roster&#39;</span><span class="p">,</span> <span class="ss">:course_id</span> <span class="o">=&gt;</span> <span class="mi">37</span><span class="p">)</span><span class="o">.</span><span class="n">ordered</span>
+</span><span class='line'><span class="n">database</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:add</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="n">student</span><span class="p">)</span><span class="o">.</span><span class="n">ordered</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>只要<code>count()</code>在<code>add()</code>之前执行就会pass</p>
+
+  
+  
+</div><!-- /.entry-content -->
+
+
+
+
+
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  
+
+
+
+<header>
+  <div class="entry-meta">
+    <span class="entry-date date published updated">
       <time datetime="2014-05-15T15:17:39+08:00">
         <a href="/blog/2014/05/15/the-rspec-bookbi-ji-wu-rspec-expectations/">May 15, 2014</a>
       </time>
@@ -731,365 +1085,6 @@ actual和expected如果不等, 则会直接报<code>ExpectationNotMetError</code
 
 
 
-
-  
-  
-</div><!-- /.entry-content -->
-
-
-
-
-
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  
-
-
-
-<header>
-  <div class="entry-meta">
-    <span class="entry-date date published updated">
-      <time datetime="2014-05-14T10:55:35+08:00">
-        <a href="/blog/2014/05/14/the-rspec-bookbi-ji-si-rspecxiang-jie-2/">May 14, 2014</a>
-      </time>
-    </span>
-    <span class="author vcard">
-      <span class="fn">
-        <a href="" title="About banban">banban</a>
-      </span>
-    </span>
-    
-      &nbsp; &bull; &nbsp;<span class="entry-comments">
-        <a href="/blog/2014/05/14/the-rspec-bookbi-ji-si-rspecxiang-jie-2/#disqus_thread">Comment</a>
-      </span>
-    
-  </div><!-- /.entry-meta -->
-  
-    <h1 class="entry-title">
-      <a href="/blog/2014/05/14/the-rspec-bookbi-ji-si-rspecxiang-jie-2/" rel="bookmark" title="The RSpec Book笔记(四) Code Examples(2)" itemprop="url">The RSpec Book笔记(四) Code Examples(2)</a>
-    </h1>
-  
-</header>
-
-<div class="entry-content">
-  <h3>12.4 Helper Methods</h3>
-
-<p>我们可以在example group中定义helper方法，这样定义的helper方法可以在example group中的每个code example里使用。</p>
-
-<p>例如:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Thing</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should do something when ok&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">thing</span> <span class="o">=</span> <span class="no">Thing</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="s1">&#39;ok&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">do_fancy_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:move</span> <span class="o">=&gt;</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="ss">:obstacles</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should do something else when not so good&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">thing</span> <span class="o">=</span> <span class="no">Thing</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="s1">&#39;not so good&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">do_fancy_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:move</span> <span class="o">=&gt;</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="ss">:obstacles</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>可以把<code>thing = Thing.new</code>和<code>thing.set_status('ok')</code>部分提取出来,改成:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Thing</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">create_thing</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">thing</span> <span class="o">=</span> <span class="no">Thing</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:status</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">thing</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should do something when ok&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">thing</span> <span class="o">=</span> <span class="n">create_thing</span><span class="p">(</span><span class="ss">:status</span> <span class="o">=&gt;</span> <span class="s1">&#39;ok&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">do_fancy_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:move</span> <span class="o">=&gt;</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="ss">:obstacles</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should do something else when not so good&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">thing</span> <span class="o">=</span> <span class="n">create_thing</span><span class="p">(</span><span class="ss">:status</span> <span class="o">=&gt;</span> <span class="s1">&#39;not so good&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">thing</span><span class="o">.</span><span class="n">do_fancy_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:move</span> <span class="o">=&gt;</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="ss">:obstacles</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>还可以进一步提取为(但是个人感觉这么做意义不大, 纯属是为了使其更符合英语语法结构):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Thing</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">given_thing_with</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">yield</span> <span class="no">Thing</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">thing</span><span class="o">|</span>
-</span><span class='line'>      <span class="n">thing</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">options</span><span class="o">[</span><span class="ss">:status</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should do something when ok&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">given_thing_with</span><span class="p">(</span><span class="ss">:status</span> <span class="o">=&gt;</span> <span class="s1">&#39;ok&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">thing</span><span class="o">|</span>
-</span><span class='line'>      <span class="n">thing</span><span class="o">.</span><span class="n">do_fancy_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:move</span> <span class="o">=&gt;</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="ss">:obstacles</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should do something else when not so good&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">given_thing_with</span><span class="p">(</span><span class="ss">:status</span> <span class="o">=&gt;</span> <span class="s1">&#39;not so good&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">thing</span><span class="o">|</span>
-</span><span class='line'>      <span class="n">thing</span><span class="o">.</span><span class="n">do_fancy_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:move</span> <span class="o">=&gt;</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="ss">:obstacles</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p><strong> 共享Helper Methods </strong></p>
-
-<p>为了能够在example groups之间共享Helper Methods, 我们可以将Helper Methods定义在module里<br/>
-并在需要使用这些方法的时候, 在example groups里面include相应的module.</p>
-
-<p>例如:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">UserExampleHelpers</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">create_valid_user</span>
-</span><span class='line'>    <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:email</span> <span class="o">=&gt;</span> <span class="s1">&#39;email@example.com&#39;</span><span class="p">,</span> <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s1">&#39;shhhhh&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">create_invalid_user</span>
-</span><span class='line'>    <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s1">&#39;shhhhh&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">describe</span> <span class="no">User</span> <span class="k">do</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">UserExampleHelpers</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;does something when it is valid&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="n">create_valid_user</span>
-</span><span class='line'>    <span class="c1"># do stuff</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;does something when it is not valid&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="n">create_invalid_user</span>
-</span><span class='line'>    <span class="c1"># do stuff</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果某个module中的helper methods, 在所有的example group里都用得上<br/>
-还可以把这个module通过配置全局加载</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">include</span><span class="p">(</span><span class="no">UserExampleHelpers</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>12.5 Shared Examples</h3>
-
-<p>有时我们想要某个class的多个不同实例表现出相同的行为<br/>
-这是我么可以采用shared example group将其行为描述出来<br/>
-然后在需要的地方include这个example group</p>
-
-<p>这里我们会用到2个方法:</p>
-
-<p><strong> shared_examples_for </strong>  用来用来声明shared example group</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">shared_examples_for</span> <span class="s2">&quot;any pizza&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;tastes really good&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@pizza</span><span class="o">.</span><span class="n">should</span> <span class="n">taste_really_good</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong> it_behaves_like </strong> 用来include声明过的shared example group</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;New York style thin crust pizza&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@pizza</span> <span class="o">=</span> <span class="no">Pizza</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:region</span> <span class="o">=&gt;</span> <span class="s1">&#39;New York&#39;</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s1">&#39;thin crust&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it_behaves_like</span> <span class="s2">&quot;any pizza&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;has a really great sauce&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@pizza</span><span class="o">.</span><span class="n">should</span> <span class="n">have_a_really_great_sauce</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">describe</span> <span class="s2">&quot;Chicago style stuffed pizza&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@pizza</span> <span class="o">=</span> <span class="no">Pizza</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:region</span> <span class="o">=&gt;</span> <span class="s1">&#39;Chicago&#39;</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s1">&#39;stuffed&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it_behaves_like</span> <span class="s2">&quot;any pizza&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;has a ton of cheese&quot;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="vi">@pizza</span><span class="o">.</span><span class="n">should</span> <span class="n">have_a_ton_of_cheese</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>it_hehaves_like</code>方法会生成一个名为behaves like xxx的嵌套group(nested example group)<br/>
-传入<code>it_hehaves_like</code>的代码块会在这个嵌套group里执行</p>
-
-<p>于是, 上述代码运行时会得到以下输出内容:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">New</span> <span class="no">York</span> <span class="n">style</span> <span class="n">thin</span> <span class="n">crust</span> <span class="n">pizza</span>
-</span><span class='line'>  <span class="n">has</span> <span class="n">a</span> <span class="n">really</span> <span class="n">great</span> <span class="n">sauce</span>
-</span><span class='line'>  <span class="n">behaves</span> <span class="n">like</span> <span class="n">any</span> <span class="n">pizza</span>
-</span><span class='line'>    <span class="n">tastes</span> <span class="n">really</span> <span class="n">good</span>
-</span><span class='line'>    <span class="n">is</span> <span class="n">available</span> <span class="n">by</span> <span class="n">the</span> <span class="n">slice</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Chicago</span> <span class="n">style</span> <span class="n">stuffed</span> <span class="n">pizza</span>
-</span><span class='line'>  <span class="n">has</span> <span class="n">a</span> <span class="n">ton</span> <span class="n">of</span> <span class="n">cheese</span>
-</span><span class='line'>  <span class="n">behaves</span> <span class="n">like</span> <span class="n">any</span> <span class="n">pizza</span>
-</span><span class='line'>    <span class="n">tastes</span> <span class="n">really</span> <span class="n">good</span>
-</span><span class='line'>    <span class="n">is</span> <span class="n">available</span> <span class="n">by</span> <span class="n">the</span> <span class="n">slice</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>12.6 Nested Example Groups</h3>
-
-<p>inner group可以看做是outer group的一个子类<br/>
-所以在outer group里声明的任何helper method, before/after<br/>
-在inner group里都依然可用</p>
-
-<p>nested example group里的代码执行顺序:</p>
-
-<blockquote><ol>
-<li> Outer before</li>
-<li> Inner before</li>
-<li> Example</li>
-<li> Inner after</li>
-<li> Outer after</li>
-</ol>
-</blockquote>
 
   
   

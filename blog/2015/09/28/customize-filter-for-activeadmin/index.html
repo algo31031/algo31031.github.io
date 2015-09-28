@@ -10,36 +10,21 @@
 <meta charset="utf-8">
 <meta http-equiv="cleartype" content="on">
 
-<title>为class Method添加alias_method - 老男孩的整理箱</title>
+<title>在ActiveAdmin下自定义filter - 老男孩的整理箱</title>
 <meta name="author" content="banban">
 
 
 
 
-<meta name="description" content="1
+<meta name="description" content="rails4之后，之前的model里加入search_methods :filter_name的做法已经失效，需修改为： 1
 2
 3
 4
 5
 6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; self &hellip;">
+7 class PromoCode &lt; ActiveRecord::Base scope :by_tag_ids, -&gt;(ids) { &hellip;">
 
-<meta name="keywords" content="ruby ">
+<meta name="keywords" content="rails ">
 
 
 <!-- http://t.co/dKP3o1e -->
@@ -53,65 +38,35 @@ class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:image" content"">
   
-  <meta name="twitter:title" content="为class method添加alias_method">
-  <meta name="twitter:description" content="1
+  <meta name="twitter:title" content="在ActiveAdmin下自定义filter">
+  <meta name="twitter:description" content="rails4之后，之前的model里加入search_methods :filter_name的做法已经失效，需修改为： 1
 2
 3
 4
 5
 6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; self &hellip;">
+7 class PromoCode &lt; ActiveRecord::Base scope :by_tag_ids, -&gt;(ids) { &hellip;">
   <meta name="twitter:creator" content="@hanbing403">
 
 
 <!-- Open Graph -->
 <meta property="og:local" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:url" content="http://blog.banban.me/blog/blog/2014/05/13/wei-class-methodtian-jia-alias-method">
-<meta property="og:title" content="为class method添加alias_method">
-<meta property="og:description" content="1
+<meta property="og:url" content="http://blog.banban.me/blog/blog/2015/09/28/customize-filter-for-activeadmin">
+<meta property="og:title" content="在ActiveAdmin下自定义filter">
+<meta property="og:description" content="rails4之后，之前的model里加入search_methods :filter_name的做法已经失效，需修改为： 1
 2
 3
 4
 5
 6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; self &hellip;">
+7 class PromoCode &lt; ActiveRecord::Base scope :by_tag_ids, -&gt;(ids) { &hellip;">
 
   <meta property="og:image" content="">
 
 <meta property="og:site_name" content="老男孩的整理箱">
 
-<link rel="canonical" href="http://blog.banban.me/blog/blog/2014/05/13/wei-class-methodtian-jia-alias-method">
+<link rel="canonical" href="http://blog.banban.me/blog/blog/2015/09/28/customize-filter-for-activeadmin">
 <link href="/favicon.png" rel="icon">
 <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -178,60 +133,45 @@ class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; 
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="/blog/2014/05/13/wei-class-methodtian-jia-alias-method/" rel="bookmark" title="为class method添加alias_method">为class method添加alias_method</a></h1>
+          <h1 class="entry-title"><a href="/blog/2015/09/28/customize-filter-for-activeadmin/" rel="bookmark" title="在ActiveAdmin下自定义filter">在ActiveAdmin下自定义filter</a></h1>
         
-        <h2>May 13, 2014</h2>
+        <h2>September 28, 2015</h2>
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+      <p>rails4之后，之前的<code>model</code>里加入<code>search_methods :filter_name</code>的做法已经失效，需修改为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ChatTeamTopic</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">acts_as_paranoid</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">PromoCode</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>    <span class="n">scope</span> <span class="ss">:by_tag_ids</span><span class="p">,</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="p">{</span> <span class="n">with_tags</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
-</span><span class='line'>    <span class="n">alias_method</span> <span class="ss">:orig_delete_all</span><span class="p">,</span> <span class="ss">:delete_all</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">delete_all</span><span class="p">(</span><span class="n">conditions</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">clear_notifications</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span> <span class="k">if</span> <span class="n">conditions</span><span class="o">.</span><span class="n">present?</span>
-</span><span class='line'>      <span class="n">orig_delete_all</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">clear_notifications</span><span class="p">(</span><span class="n">conditions</span><span class="p">)</span>
-</span><span class='line'>      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ransackable_scopes</span><span class="p">(</span><span class="n">auth_object</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>      <span class="o">[</span><span class="ss">:by_tag_ids</span><span class="o">]</span>
 </span><span class='line'>    <span class="k">end</span>
 </span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">PromoCode</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">filter</span> <span class="ss">:by_tag_ids</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">label</span><span class="p">:</span> <span class="s1">&#39;标签ID&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="/categories/#ruby" title="Pages tagged ruby" class="tag">ruby</a></span>
-        <span><a href="/blog/2014/05/13/wei-class-methodtian-jia-alias-method/" rel="bookmark" title="为class method添加alias_method">为class method添加alias_method</a> was published on <span class="entry-date date published updated"><time datetime="2014-05-13T16:21:15+08:00">May 13, 2014</time></span></span>
+        <span class="entry-tags"><a href="/categories/#rails" title="Pages tagged rails" class="tag">rails</a></span>
+        <span><a href="/blog/2015/09/28/customize-filter-for-activeadmin/" rel="bookmark" title="在ActiveAdmin下自定义filter">在ActiveAdmin下自定义filter</a> was published on <span class="entry-date date published updated"><time datetime="2015-09-28T09:20:19+08:00">September 28, 2015</time></span></span>
         
         <span class="author vcard"><span class="fn"><a href="" title="About banban">banban</a></span></span>
         
@@ -241,23 +181,23 @@ class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; 
       <div class="read-more">
         
           <div class="read-more-header">
-            <a href="/blog/2015/09/28/customize-filter-for-activeadmin/" class="btn">Read More</a>
+            <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" class="btn">Read More</a>
           </div><!-- /.read-more-header -->
           <div class="read-more-content">
-            <h3><a href="/blog/2015/09/28/customize-filter-for-activeadmin/" title="在ActiveAdmin下自定义filter">在ActiveAdmin下自定义filter</a></h3>
-            <p>rails4之后，之前的`model`里加入`search_methods :filter_name`的做法已经失效，需修改为：``` ruby  class PromoCode (ids) { with_tags(ids) }    def self. &hellip;&hellip; <a href="/blog/2015/09/28/customize-filter-for-activeadmin/"> Continue reading</a></p>
+            <h3><a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" title="Mac上搭建Phonegap环境">Mac上搭建Phonegap环境</a></h3>
+            <p>话说好久没有更新Blog了。八九两个月各种事情，工作也是一换再换。现在终于能够以远程的形式重新加入一家创业公司，为心理咨询的事业奋斗。公司给配了台Macbook Pro，近期要开始着力移动端的开发，简单粗暴的phonegap第一版已经发布了，我这边也需要尽快对安卓、 &hellip;&hellip; <a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/"> Continue reading</a></p>
           </div><!-- /.read-more-content -->
         
         <div class="read-more-list">
           
             <div class="list-item">
-              <h4><a href="/blog/2014/10/02/macshang-da-jian-phonegaphuan-jing/" title="Mac上搭建Phonegap环境">Mac上搭建Phonegap环境</a></h4>
-              <span>Published on October 02, 2014</span>
+              <h4><a href="/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/" title="Rails遗留程序里最常犯的错误(译)">Rails遗留程序里最常犯的错误(译)</a></h4>
+              <span>Published on July 23, 2014</span>
             </div><!-- /.list-item -->
           
             <div class="list-item">
-              <h4><a href="/blog/2014/07/23/railsyi-liu-cheng-xu-li-zui-chang-fan-de-cuo-wu/" title="Rails遗留程序里最常犯的错误(译)">Rails遗留程序里最常犯的错误(译)</a></h4>
-              <span>Published on July 23, 2014</span>
+              <h4><a href="/blog/2014/07/15/shi-yong-rspecbian-xie-ju-you-ke-du-xing-de-gong-neng-ce-shi/" title="使用RSpec编写具有可读性的功能测试(译)">使用RSpec编写具有可读性的功能测试(译)</a></h4>
+              <span>Published on July 15, 2014</span>
             </div><!-- /.list-item -->
           
         </div><!-- /.read-more-list -->
@@ -289,8 +229,8 @@ class ChatTeamTopic &lt; ActiveRecord::Base acts_as_paranoid ... class &lt;&lt; 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.banban.me/blog/blog/2014/05/13/wei-class-methodtian-jia-alias-method/';
-        var disqus_url = 'http://blog.banban.me/blog/blog/2014/05/13/wei-class-methodtian-jia-alias-method/';
+        var disqus_identifier = 'http://blog.banban.me/blog/blog/2015/09/28/customize-filter-for-activeadmin/';
+        var disqus_url = 'http://blog.banban.me/blog/blog/2015/09/28/customize-filter-for-activeadmin/';
         var disqus_script = 'embed.js';
       
     (function () {
